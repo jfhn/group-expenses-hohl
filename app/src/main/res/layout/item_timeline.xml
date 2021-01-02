@@ -4,64 +4,96 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp">
+    android:orientation="vertical">
 
-    <com.github.vipulasri.timelineview.TimelineView
-        android:id="@+id/timeline"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:marker="@drawable/marker"
-        app:markerSize="20dp"
-        app:lineWidth="3dp"
-        app:startLineColor="@color/grey"
-        app:endLineColor="@color/grey"
-        app:lineStyle="dash"/>
-
-    <com.google.android.material.card.MaterialCardView
+    <RelativeLayout
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_gravity="center_vertical"
-        app:cardBackgroundColor="@color/expenses_card_background"
-        app:contentPadding="15dp"
-        android:onClick="onClick">
+        android:visibility="gone">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/current_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Fr. 18.12.2020 (heute)"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/current_date"
+            android:background="@color/black"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <com.github.vipulasri.timelineview.TimelineView
+            android:id="@+id/timeline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:marker="@drawable/marker"
+            app:markerSize="20dp"
+            app:lineWidth="3dp"
+            app:startLineColor="@color/grey"
+            app:endLineColor="@color/grey"
+            app:lineStyle="dash"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/expense_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_gravity="center_vertical"
+            app:cardBackgroundColor="@color/expenses_card_background"
+            app:contentPadding="15dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/text_timeline_date"
-                android:textSize="12sp"
-                tools:text="DATE"/>
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:id="@+id/text_timeline_name"
-                android:textColor="@android:color/black"
-                tools:text="NAME"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_timeline_date"
+                    android:textSize="12sp"
+                    tools:text="DATE"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:id="@+id/text_timeline_cost"
-                android:textColor="@android:color/black"
-                tools:text="COST"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/text_timeline_name"
+                    android:textColor="@android:color/black"
+                    tools:text="NAME"/>
 
-        </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/text_timeline_cost"
+                    android:textColor="@android:color/black"
+                    tools:text="COST"/>
 
-    </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
 
 </LinearLayout>

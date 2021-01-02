@@ -1,6 +1,6 @@
 package de.thm.ap.groupexpenses.timeline
 
-class TimelineModel(
+class ExpensesTimelineModel(
     var date: String,
     var name: String,
     private var cost: Double
