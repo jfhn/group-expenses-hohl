@@ -20,6 +20,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text="Fr. 18.12.2020 (heute)"/>
+        <!-- TODO -->
 
         <View
             android:layout_width="match_parent"
@@ -58,7 +59,8 @@
             android:layout_marginEnd="5dp"
             android:layout_gravity="center_vertical"
             app:cardBackgroundColor="@color/expenses_card_background"
-            app:contentPadding="15dp">
+            app:contentPadding="15dp"
+            android:onClick="onSelectExpense">
 
             <LinearLayout
                 android:layout_width="match_parent"

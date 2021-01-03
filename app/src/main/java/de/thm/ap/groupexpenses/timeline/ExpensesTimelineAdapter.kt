@@ -10,11 +10,16 @@ import de.thm.ap.groupexpenses.R
 class ExpensesTimelineAdapter(expensesTimelineModels: List<ExpensesTimelineModel>)
     : RecyclerView.Adapter<ExpensesTimelineViewHolder>() {
 
-    private val expensesTimelineModels: MutableList<ExpensesTimelineModel> = mutableListOf()
+    private val models: MutableList<ExpensesTimelineModel> = mutableListOf()
+    private val modelViewHolderMap:
+            MutableMap<ExpensesTimelineModel, ExpensesTimelineViewHolder> = mutableMapOf()
+
+    var dividerPosition: Int = -1
+        private set
 
     init {
         // TODO find latest expense for displaying divider, sort timelineModels by date -> tbi
-        this.expensesTimelineModels.addAll(expensesTimelineModels)
+        this.models.addAll(expensesTimelineModels)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpensesTimelineViewHolder {
@@ -23,21 +28,23 @@ class ExpensesTimelineAdapter(expensesTimelineModels: List<ExpensesTimelineModel
         return ExpensesTimelineViewHolder(view, viewType)
     }
 
-    override fun onBindViewHolder(holderExpenses: ExpensesTimelineViewHolder, position: Int) {
-        val timelineModel = this.expensesTimelineModels[position]
+    override fun onBindViewHolder(viewHolder: ExpensesTimelineViewHolder, position: Int) {
+        val model = this.models[position]
 
-        holderExpenses.bind(timelineModel, position)
+        this.modelViewHolderMap[model] = viewHolder
 
-        holderExpenses.date.text = timelineModel.date//.formatDateTime("")
-        holderExpenses.name.text = timelineModel.name
-        holderExpenses.cost.text = timelineModel.getCost()
+        viewHolder.date.text = model.date//.formatDateTime("")
+        viewHolder.name.text = model.name
+        viewHolder.cost.text = model.getCost()
 
-        if (holderExpenses.date.text == "Fr. 18.12.2020") { // TODO
-            holderExpenses.setVisibility(VISIBLE)
+        if (viewHolder.date.text == "Fr. 18.12.2020") { // TODO
+            viewHolder.divider.visibility = VISIBLE
+
+            this.dividerPosition = viewHolder.layoutPosition
         }
     }
 
-    override fun getItemCount(): Int = this.expensesTimelineModels.size
+    override fun getItemCount(): Int = this.models.size
 
     override fun getItemViewType(position: Int): Int {
         return TimelineView.getTimeLineViewType(position, this.itemCount)

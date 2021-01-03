@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.item_timeline.view.*
 class ExpensesTimelineViewHolder(itemView: View, viewType: Int) : RecyclerView.ViewHolder(itemView) {
 
     private val timeline = itemView.timeline!!
-    private val divider  = itemView.divider!!
+    val divider  = itemView.divider!!
 
     val date = itemView.text_timeline_date!!
     val name = itemView.text_timeline_name!!
@@ -15,15 +15,5 @@ class ExpensesTimelineViewHolder(itemView: View, viewType: Int) : RecyclerView.V
 
     init {
         timeline.initLine(viewType)
-    }
-
-    fun bind(timelineModel: ExpensesTimelineModel, position: Int) {
-        itemView.setOnClickListener {
-            TODO("start intent with the specified timeline model's id")
-        }
-    }
-
-    fun setVisibility(visibility: Int) {
-        divider.visibility = visibility
     }
 }
