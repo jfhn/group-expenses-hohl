@@ -8,16 +8,17 @@
     <item
         android:id="@+id/action_jump_to_current_date"
         android:icon="@drawable/ic_baseline_today_24"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:title="@string/jump_to_current_date"/>
+    <item
+        android:id="@+id/action_stats"
+        android:icon="@drawable/ic_baseline_show_chart_24"
+        app:showAsAction="ifRoom"
+        android:title="@string/stats"/>
     <item
         android:id="@+id/action_edit"
         app:showAsAction="never"
         android:title="@string/edit"/>
-    <item
-        android:id="@+id/action_stats"
-        app:showAsAction="never"
-        android:title="@string/stats"/>
     <item
         android:id="@+id/action_invite"
         app:showAsAction="never"
