@@ -1,5 +1,6 @@
 package de.thm.ap.groupexpenses
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
@@ -10,6 +11,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.thm.ap.groupexpenses.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        const val RC_CREATE_GROUP = 123
+    }
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,5 +35,17 @@ class MainActivity : AppCompatActivity() {
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+        navView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.action_create_group -> {
+                    val intent = Intent(this, GroupFormActivity::class.java)
+                    startActivityForResult(intent, RC_CREATE_GROUP)
+                    true
+                }
+                else -> true
+            }
+        }
     }
 }
