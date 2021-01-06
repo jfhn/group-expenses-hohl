@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import de.thm.ap.groupexpenses.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
     private val settingsViewModel: SettingsViewModel by viewModels()

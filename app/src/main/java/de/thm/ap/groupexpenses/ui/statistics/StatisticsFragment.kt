@@ -1,4 +1,4 @@
-package de.thm.ap.groupexpenses.ui.payments
+package de.thm.ap.groupexpenses.ui.statistics
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 
-class PaymentsFragment : Fragment() {
-	private val paymentsViewModel: PaymentsViewModel by viewModels()
-	private var _binding: FragmentPaymentsBinding? = null
+class StatisticsFragment : Fragment() {
+	private val statisticsViewModel: StatisticsViewModel by viewModels()
+	private var _binding: FragmentStatisticsBinding? = null
 
 	private val binding get() = _binding!!
 
@@ -19,11 +19,11 @@ class PaymentsFragment : Fragment() {
 			container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View? {
-		_binding = FragmentPaymentsBinding.inflate(inflater, container, false)
+		_binding = FragmentStatisticsBinding.inflate(inflater, container, false)
 		val root: View = binding.root
 
-		val textView: TextView = binding.textPayments
-		paymentsViewModel.text.observe(viewLifecycleOwner, Observer {
+		val textView: TextView = binding.textStatistics
+		statisticsViewModel.text.observe(viewLifecycleOwner, Observer {
 			textView.text = it
 		})
 		return root
