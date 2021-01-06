@@ -13,5 +13,7 @@ class GroupFormActivity : AppCompatActivity() {
         binding = ActivityGroupFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        title = resources.getString(R.string.create_group)
+
     }
 }

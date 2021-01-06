@@ -14,7 +14,8 @@
     <item
         android:id="@+id/action_create_group"
         android:icon="@drawable/ic_create_group_black_24db"
-        android:title="@string/create_group" />
+        android:title="@string/create_group"
+        android:onClick="createGroup"/>
 
     <item
         android:id="@+id/navigation_statistics"
