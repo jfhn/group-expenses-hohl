@@ -5,4 +5,10 @@
     <string name="stats">Statistik</string>
     <string name="invite">Leute einladen</string>
     <string name="jump_to_current_date">Zum aktuellen Datum springen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="statistics">Statistik</string>
+    <string name="create_group">Gruppe erstellen</string>
+    <string name="payments">Zahlungen</string>
+    <string name="groups">Gruppen</string>
+    <string name="sign_out">Abmelden</string>
 </resources>

@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ExpensesActivity" android:parentActivityName=".MainActivity" />
+        <activity android:name=".GroupFormActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

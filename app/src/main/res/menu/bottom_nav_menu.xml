@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_payments"
+        android:icon="@drawable/ic_euro_black_24"
+        android:title="@string/payments" />
+
+    <item
+        android:id="@+id/navigation_groups"
+        android:icon="@drawable/ic_groups_black_24dp"
+        android:title="@string/groups" />
+
+    <item
+        android:id="@+id/action_create_group"
+        android:icon="@drawable/ic_create_group_black_24db"
+        android:title="@string/create_group"
+        android:onClick="createGroup"/>
+
+    <item
+        android:id="@+id/navigation_statistics"
+        android:icon="@drawable/ic_statistics_black_24"
+        android:title="@string/statistics" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/settings" />
+</menu>
