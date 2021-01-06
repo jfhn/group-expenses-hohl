@@ -11,8 +11,8 @@ class ExpensesTimelineAdapter(expensesTimelineModels: List<ExpensesTimelineModel
     : RecyclerView.Adapter<ExpensesTimelineViewHolder>() {
 
     private val models: MutableList<ExpensesTimelineModel> = mutableListOf()
-    private val modelViewHolderMap:
-            MutableMap<ExpensesTimelineModel, ExpensesTimelineViewHolder> = mutableMapOf()
+    private val viewHolderModelMap:
+            MutableMap<ExpensesTimelineViewHolder, ExpensesTimelineModel> = mutableMapOf()
 
     var dividerPosition: Int = -1
         private set
@@ -31,7 +31,7 @@ class ExpensesTimelineAdapter(expensesTimelineModels: List<ExpensesTimelineModel
     override fun onBindViewHolder(viewHolder: ExpensesTimelineViewHolder, position: Int) {
         val model = this.models[position]
 
-        this.modelViewHolderMap[model] = viewHolder
+        this.viewHolderModelMap[viewHolder] = model
 
         viewHolder.date.text = model.date//.formatDateTime("")
         viewHolder.name.text = model.name
@@ -48,5 +48,9 @@ class ExpensesTimelineAdapter(expensesTimelineModels: List<ExpensesTimelineModel
 
     override fun getItemViewType(position: Int): Int {
         return TimelineView.getTimeLineViewType(position, this.itemCount)
+    }
+
+    fun getModelByViewHolder(viewHolder: ExpensesTimelineViewHolder): ExpensesTimelineModel? {
+        return this.viewHolderModelMap[viewHolder]
     }
 }

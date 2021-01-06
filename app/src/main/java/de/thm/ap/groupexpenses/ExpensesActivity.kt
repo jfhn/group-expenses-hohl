@@ -1,5 +1,6 @@
 package de.thm.ap.groupexpenses
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -94,16 +95,16 @@ class ExpensesActivity : AppCompatActivity() {
         this.recyclerView.findContainingViewHolder(view)
                 ?.takeIf { it is ExpensesTimelineViewHolder }
                 ?.let { it as ExpensesTimelineViewHolder }
-                ?.let {
-                    TODO("start intent")
+                ?.let { this.adapter.getModelByViewHolder(it) }
+                ?.let { model: ExpensesTimelineModel ->
+                    val intent = Intent(this, ExpensesDetailActivity::class.java)
+
+//                    intent.putExtra("id", this.viewModel.expense.id) // TODO
+                    startActivity(intent)
                 }
     }
 }
 /*
 TODO:
-- Scroller to current date (with highlight)
-- Line to separate past from future expenses
-- Button jump to today
-- Rework model
 - Add color config to entries (elapsed, completed, open)
  */

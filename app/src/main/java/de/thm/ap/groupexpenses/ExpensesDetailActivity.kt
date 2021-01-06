@@ -1,19 +1,17 @@
 package de.thm.ap.groupexpenses
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import de.thm.ap.groupexpenses.model.ExpensesViewModel
-import kotlinx.android.synthetic.main.activity_expenses.*
+import de.thm.ap.groupexpenses.model.ExpensesDetailViewModel
 
 class ExpensesDetailActivity : AppCompatActivity() {
 
-    private val viewModel: ExpensesViewModel by viewModels()
+    private val viewModel: ExpensesDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
