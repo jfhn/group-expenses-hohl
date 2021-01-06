@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.firebase.ui.auth.AuthUI
+import de.thm.ap.groupexpenses.MainActivity
 import de.thm.ap.groupexpenses.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -28,6 +30,13 @@ class SettingsFragment : Fragment() {
         settingsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
+        binding.actionSignOut.setOnClickListener {
+            val mainActivity = requireActivity() as MainActivity
+            mainActivity.signOut()
+            mainActivity.startSignIn()
+        }
+
         return root
     }
 
