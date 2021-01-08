@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="3dp"
+    android:layout_margin="4dp"
+    android:foreground="?selectableItemBackground"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp" >
+
+        <TextView
+            android:id="@+id/item_group_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_toStartOf="@id/item_group_expenses"
+            android:textColor="@color/black"
+            tools:text="Kneipentour"/>
+
+        <TextView
+            android:id="@+id/item_group_members"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_group_name"
+            android:textSize="12sp"
+            android:textColor="?android:textColorHint"
+            android:textAppearance="?android:textAppearanceListItem"
+            tools:text="4 Mitglieder"/>
+
+        <TextView
+            android:id="@+id/item_group_latest_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_group_members"
+            android:textSize="12sp"
+            android:textAppearance="?android:textAppearanceListItemSmall"
+            android:textColor="?android:textColorHint"
+            tools:text="Zuletzt aktualisiert: 12.12.2020"/>
+
+        <TextView
+            android:id="@+id/item_group_expenses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8sp"
+            android:textAppearance="?android:textAppearanceListItem"
+            tools:text="12,00 €"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

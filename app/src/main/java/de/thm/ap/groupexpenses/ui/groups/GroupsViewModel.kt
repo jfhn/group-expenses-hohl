@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GroupsViewModel : ViewModel() {
-	private val _text = MutableLiveData<String>().apply {
-		value = "This is groups Fragment"
-	}
+    private val _text = MutableLiveData<String>().apply {
+        value = "This is groups Fragment"
+    }
 
-	val text: LiveData<String> = _text
+    val text: LiveData<String> = _text
 }
