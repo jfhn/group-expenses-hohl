@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/divider"
+        android:id="@+id/timeline_divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">
@@ -18,8 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="Fr. 18.12.2020 (heute)"/>
+            android:layout_marginRight="10dp" />
         <!-- TODO -->
 
         <View
@@ -58,9 +57,10 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
             android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
             app:cardBackgroundColor="@color/expenses_card_background"
-            app:contentPadding="15dp"
-            android:onClick="onSelectExpense">
+            app:contentPadding="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
