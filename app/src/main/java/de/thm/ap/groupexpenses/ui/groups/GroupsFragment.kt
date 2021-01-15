@@ -21,7 +21,9 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.ExpensesActivity
+import de.thm.ap.groupexpenses.GroupActivity
 import de.thm.ap.groupexpenses.MainActivity
+import de.thm.ap.groupexpenses.R
 import de.thm.ap.groupexpenses.adapter.GroupsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupsBinding
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
@@ -95,13 +97,10 @@ class GroupsFragment : Fragment(), GroupsAdapter.OnGroupSelectedListener {
     }
 
     override fun onGroupSelected(group: DocumentSnapshot) {
-//        val intent = Intent(context, GroupDetailActivity::class.java)
-//        intent.putExtra(GroupDetailActivity.KEY_GROUP_ID, group.id)
-//
-//        startActivity(intent)
-//        requireActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left)
+        val intent = Intent(context, GroupActivity::class.java)
+        intent.putExtra(GroupActivity.KEY_GROUP_ID, group.id)
 
-        val intent = Intent(context, ExpensesActivity::class.java)
         startActivity(intent)
+        requireActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left)
     }
 }
