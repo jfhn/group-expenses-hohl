@@ -3,7 +3,7 @@ package de.thm.ap.groupexpenses
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import de.thm.ap.groupexpenses.util.Util.format
+import de.thm.ap.groupexpenses.util.DateUtil.format
 import kotlinx.android.synthetic.main.activity_expense_form.*
 import java.util.*
 
