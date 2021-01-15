@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -19,7 +20,7 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.adapter.GroupsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupsBinding
 
-class GroupsFragment : Fragment() {
+class GroupsFragment : Fragment(), GroupsAdapter.OnGroupSelectedListener {
     companion object {
         const val TAG = "GroupsFragment"
     }
@@ -61,7 +62,7 @@ class GroupsFragment : Fragment() {
                 .document(FirebaseAuth.getInstance().currentUser!!.uid)
                 .collection("groups")
 
-        object : GroupsAdapter(query) {
+        object : GroupsAdapter(query, this@GroupsFragment) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
                     binding.recyclerGroups.visibility  = View.GONE
@@ -71,13 +72,17 @@ class GroupsFragment : Fragment() {
                     binding.groupsEmptyView.visibility = View.GONE
                 }
             }
-
-            override fun onError(e: FirebaseFirestoreException?) {
-                Log.w(TAG, e.toString())
-            }
         }.also { adapter = it }
 
         binding.recyclerGroups.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerGroups.adapter = adapter
+    }
+
+    override fun onGroupSelected(group: DocumentSnapshot) {
+//        val intent = Intent(context, GroupDetailActivity::class.java)
+//        intent.putExtra(GroupDetailActivity.KEY_GROUP_ID, group.id)
+//
+//        startActivity(intent)
+//        requireActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left)
     }
 }
