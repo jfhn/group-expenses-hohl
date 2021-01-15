@@ -2,54 +2,65 @@ package de.thm.ap.groupexpenses.adapter
 
 import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import de.thm.ap.groupexpenses.R
+import de.thm.ap.groupexpenses.databinding.ItemGroupBinding
 import de.thm.ap.groupexpenses.model.Group
+import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import java.util.*
 
-open class GroupsAdapter(query: Query)
-    : FirestoreAdapter<GroupsAdapter.Companion.ViewHolder>(query)
+open class GroupsAdapter(query: Query, private val listener: OnGroupSelectedListener)
+    : FirestoreAdapter<GroupsAdapter.ViewHolder>(query)
 {
-    companion object {
-        class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-            private val groupName: TextView = itemView.findViewById(R.id.item_group_name)
-            private val groupNumOfMembers: TextView = itemView.findViewById(R.id.item_group_members)
-            private val groupExpenses: TextView = itemView.findViewById(R.id.item_group_expenses)
-            private val groupLatestUpdate: TextView = itemView.findViewById(R.id.item_group_latest_update)
 
-            fun bind(snapshot: DocumentSnapshot) {
-                val group: Group = snapshot.toObject()!!
-                val resources = itemView.resources
+    interface OnGroupSelectedListener {
+        fun onGroupSelected(group: DocumentSnapshot)
+    }
 
-                groupName.text = group.name?: ""
-                groupNumOfMembers.text = String.format(
-                        Locale.getDefault(),
-                        resources.getString(R.string.fmt_members),
-                        group.numOfMembers
-                )
-                groupExpenses.text = String.format(
-                        Locale.getDefault(),
-                        resources.getString(R.string.fmt_expenses_EUR),
-                        group.expenses
-                )
-                groupLatestUpdate.text = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                        .format(group.latestUpdate)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(ItemGroupBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getSnapshot(position), listener)
+    }
+
+    class ViewHolder(val binding: ItemGroupBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(snapshot: DocumentSnapshot, listener: OnGroupSelectedListener?) {
+            val group: Group = snapshot.toObject() ?: return
+            val resources = binding.root.resources
+            val numOfMembers: Int = group.numOfMembers // TODO: change to latest data model
+
+            binding.itemGroupName.text = group.name
+            binding.itemGroupMembers.text =
+                    if (numOfMembers == 1) resources.getString(R.string.single_member)
+                    else String.format(
+                            Locale.GERMANY,
+                            resources.getString(R.string.fmt_members),
+                            numOfMembers
+                    )
+            binding.itemGroupExpenses.text = String.format(
+                    Locale.GERMANY,
+                    resources.getString(R.string.fmt_expenses_EUR),
+                    group.expenses
+            )
+            binding.itemGroupLatestUpdate.text = String.format(
+                    Locale.GERMANY,
+                    resources.getString(R.string.fmt_latest_update),
+                    group.latestUpdate?.formatGerman()
+            )
+
+            binding.root.setOnClickListener {
+                listener?.onGroupSelected(snapshot)
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(inflater.inflate(R.layout.item_group, parent, false))
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getSnapshot(position)!!)
+    companion object {
+        private val FORMAT = SimpleDateFormat("EE dd.MM.yyyy", Locale.GERMANY)
     }
 }

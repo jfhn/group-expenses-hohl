@@ -1,30 +1,45 @@
 package de.thm.ap.groupexpenses.adapter
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.*
+import android.util.Log
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
+import java.util.ArrayList
 
-abstract class FirestoreAdapter<VH : RecyclerView.ViewHolder>(query: Query)
-    : RecyclerView.Adapter<VH>(), EventListener<QuerySnapshot>
-{
-    companion object {
-        const val TAG = "FirestoreAdapter"
-    }
+/**
+ * RecyclerView adapter for displaying the results of a Firestore [Query].
+ *
+ * Note that this class forgoes some efficiency to gain simplicity. For example, the result of
+ * [DocumentSnapshot.toObject] is not cached so the same object may be deserialized
+ * many times as the user scrolls.
+ */
+abstract class FirestoreAdapter<VH : RecyclerView.ViewHolder>(private var query: Query?) :
+        RecyclerView.Adapter<VH>(),
+        EventListener<QuerySnapshot> {
 
-    private var mQuery: Query? = query
-    private var mRegistration: ListenerRegistration? = null
+    private var registration: ListenerRegistration? = null
 
-    private val mSnapshots: MutableList<DocumentSnapshot> = mutableListOf()
+    private val snapshots = ArrayList<DocumentSnapshot>()
 
-    override fun onEvent(documentSnapshot: QuerySnapshot?, error: FirebaseFirestoreException?) {
-        // HandleErrors
-        if (error != null) {
-            Log.w(TAG, "onEvent:error", error)
+    override fun onEvent(documentSnapshots: QuerySnapshot?, e: FirebaseFirestoreException?) {
+        if (e != null) {
+            Log.w(TAG, "onEvent:error", e)
+            onError(e)
+            return
+        }
+
+        if (documentSnapshots == null) {
             return
         }
 
         // Dispatch the event
-        documentSnapshot?.documentChanges?.forEach { change ->
+        Log.d(TAG, "onEvent:numChanges:" + documentSnapshots.documentChanges.size)
+        for (change in documentSnapshots.documentChanges) {
             when (change.type) {
                 DocumentChange.Type.ADDED -> onDocumentAdded(change)
                 DocumentChange.Type.MODIFIED -> onDocumentModified(change)
@@ -35,62 +50,72 @@ abstract class FirestoreAdapter<VH : RecyclerView.ViewHolder>(query: Query)
         onDataChanged()
     }
 
-    protected open fun onDocumentAdded(change: DocumentChange) {
-        mSnapshots.add(change.newIndex, change.document)
-        notifyItemInserted(change.newIndex)
-    }
-
-    protected open fun onDocumentModified(change: DocumentChange) {
-        if (change.oldIndex == change.newIndex) {
-            // Item changed but remained in same position
-            mSnapshots[change.oldIndex] = change.document
-            notifyItemChanged(change.oldIndex)
-        } else {
-            // Item changed and changed position
-            mSnapshots.removeAt(change.oldIndex)
-            mSnapshots.add(change.newIndex, change.document)
-            notifyItemMoved(change.oldIndex, change.newIndex)
-        }
-    }
-
-    protected open fun onDocumentRemoved(change: DocumentChange) {
-        mSnapshots.removeAt(change.oldIndex)
-        notifyItemRemoved(change.oldIndex)
-    }
-
     fun startListening() {
-        if (mQuery != null && mRegistration == null) {
-            mRegistration = mQuery!!.addSnapshotListener(this)
+        if (query != null && registration == null) {
+            registration = query!!.addSnapshotListener(this)
         }
     }
 
     fun stopListening() {
-        if (mRegistration != null) {
-            mRegistration!!.remove()
-            mRegistration = null
-        }
-        mSnapshots.clear()
+        registration?.remove()
+        registration = null
+
+        snapshots.clear()
         notifyDataSetChanged()
     }
 
-    open fun setQuery(query: Query) {
+    fun setQuery(query: Query) {
         // Stop listening
         stopListening()
 
         // Clear existing data
-        mSnapshots.clear()
+        snapshots.clear()
         notifyDataSetChanged()
 
         // Listen to new query
-        mQuery = query
+        this.query = query
         startListening()
     }
 
-    override fun getItemCount(): Int = mSnapshots.size
+    open fun onError(e: FirebaseFirestoreException) {
+        Log.w(TAG, "onError", e)
+    }
 
-    protected open fun getSnapshot(index: Int): DocumentSnapshot? = mSnapshots[index]
+    open fun onDataChanged() {}
 
-    protected open fun onError(e: FirebaseFirestoreException?) {}
+    override fun getItemCount(): Int {
+        return snapshots.size
+    }
 
-    protected open fun onDataChanged() {}
+    protected fun getSnapshot(index: Int): DocumentSnapshot {
+        return snapshots[index]
+    }
+
+    private fun onDocumentAdded(change: DocumentChange) {
+        snapshots.add(change.newIndex, change.document)
+        notifyItemInserted(change.newIndex)
+    }
+
+    private fun onDocumentModified(change: DocumentChange) {
+        if (change.oldIndex == change.newIndex) {
+            // Item changed but remained in same position
+            snapshots[change.oldIndex] = change.document
+            notifyItemChanged(change.oldIndex)
+        } else {
+            // Item changed and changed position
+            snapshots.removeAt(change.oldIndex)
+            snapshots.add(change.newIndex, change.document)
+            notifyItemMoved(change.oldIndex, change.newIndex)
+        }
+    }
+
+    private fun onDocumentRemoved(change: DocumentChange) {
+        snapshots.removeAt(change.oldIndex)
+        notifyItemRemoved(change.oldIndex)
+    }
+
+    companion object {
+
+        private const val TAG = "FirestoreAdapter"
+    }
 }
