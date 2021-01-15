@@ -1,48 +1,39 @@
 package de.thm.ap.groupexpenses.model
 
+import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
-data class Expense(
-        /**
-         * The id of the expense.
-         */
-        val id: Int,
-        /**
-         * The group in which the expense was made.
-         */
-        val group: Group,
-        /**
-         * The user who has paid.
-         */
-        val payedUser: User,
-        /**
-         * The date of the expense.
-         */
-        val date: Date,
-        /**
-         * The name of the expense.
-         */
-        val name: String,
-        /**
-         * The cost of the expense in cents.
-         * (prevent arithmetic errors produced by floats or doubles)
-         */
-        val cost: Int) {
-
-    private var _receipts: List<String>? = null
+class Expense {
+    /**
+     * Id of the expense document
+     */
+    @DocumentId
+    var id: String? = null
 
     /**
-     * The uris to receipts, bound to the expense.
+     * name/purpose of the expense
      */
-    var receipts: List<String>
-        get() {
-            if (this._receipts == null) {
-                TODO("initialize from database")
-            }
+    var name: String? = null
 
-            return this._receipts!!
-        }
-        set(value) {
-            TODO()
-        }
+    /**
+     * cost of the expense
+     */
+    var cost: Double = 0.0
+
+    /**
+     * date of the expense
+     */
+    @ServerTimestamp
+    var date: Date? = null
+
+    /**
+     * id of the user, who made the expense
+     */
+    var userId: String? = null
+
+    /**
+     * name of the user, who made the expense
+     */
+    var userName: String? = null
 }
