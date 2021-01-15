@@ -88,6 +88,8 @@ class GroupsFragment : Fragment(), GroupsAdapter.OnGroupSelectedListener {
 
         binding.recyclerGroups.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerGroups.adapter = adapter
+
+        adapter?.startListening()
     }
 
     override fun onGroupSelected(group: DocumentSnapshot) {
