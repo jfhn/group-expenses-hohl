@@ -88,7 +88,9 @@ class ExpensesActivity : AppCompatActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun onAddExpense(view: View) {
-        TODO("Not yet implemented")
+        val intent = Intent(this, ExpenseFormActivity::class.java)
+
+        startActivity(intent)
     }
 
     fun onSelectExpense(view: View) {
