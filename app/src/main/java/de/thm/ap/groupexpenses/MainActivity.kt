@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -15,7 +16,10 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.databinding.ActivityMainBinding
+import de.thm.ap.groupexpenses.ui.user.UserViewModel
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -27,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private var isSigningIn: Boolean = false
 
     private lateinit var binding: ActivityMainBinding
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,10 +73,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onStop() {
-        super.onStop()
-    }
-
     fun startSignIn() {
         // Choose authentication providers
         val providers = arrayListOf(
@@ -101,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                 val response = IdpResponse.fromResultIntent(data)
                 if (resultCode == Activity.RESULT_OK) {
                     // Successfully signed in
+                    userViewModel.user.value = Firebase.auth.currentUser
                 } else {
                     startSignIn()
                 }
