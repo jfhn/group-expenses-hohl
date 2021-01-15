@@ -4,6 +4,10 @@ import java.util.*
 
 data class Expense(
         /**
+         * The id of the expense.
+         */
+        val id: Int,
+        /**
          * The group in which the expense was made.
          */
         val group: Group,

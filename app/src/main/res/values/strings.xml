@@ -14,4 +14,10 @@
     <string name="fmt_expenses_EUR" translatable="false">%.2f €</string>
     <string name="fmt_members" translatable="false">%d Mitglieder</string>
     <string name="no_groups">Du bist noch in keiner Gruppe</string>
+    <string name="receipt_description">Beleg</string>
+    <string name="receipt">Beleg</string>
+    <string name="delete">Löschen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="confirm_delete">Soll die Ausgabe wirklich gelöscht werden?</string>
+    <string name="add_receipt">Beleg hinzufügen</string>
 </resources>
