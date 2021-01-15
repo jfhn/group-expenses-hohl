@@ -33,7 +33,7 @@ open class GroupsAdapter(query: Query, private val listener: OnGroupSelectedList
         fun bind(snapshot: DocumentSnapshot, listener: OnGroupSelectedListener?) {
             val group: Group = snapshot.toObject() ?: return
             val resources = binding.root.resources
-            val numOfMembers: Int = group.numOfMembers // TODO: change to latest data model
+            val numOfMembers: Int = group.members?.size ?: 0
 
             binding.itemGroupName.text = group.name
             binding.itemGroupMembers.text =
