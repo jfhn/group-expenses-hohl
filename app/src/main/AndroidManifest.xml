@@ -25,6 +25,8 @@
         <activity
             android:name=".ExpensesDetailActivity"
             android:parentActivityName=".ExpensesActivity" />
+        <activity android:name=".GroupActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
