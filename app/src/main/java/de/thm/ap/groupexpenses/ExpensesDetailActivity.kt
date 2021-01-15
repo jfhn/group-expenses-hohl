@@ -1,6 +1,7 @@
 package de.thm.ap.groupexpenses
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -27,15 +28,13 @@ class ExpensesDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_edit -> {
-                TODO("Not yet implemented")
+                val intent = Intent(this, ExpenseFormActivity::class.java)
 
-//                val intent = Intent(this, ExpenseFormActivity::class.java) // TODO requires expense form activity
-//
-//                intent.putExtra("id", this.viewModel.expense.id) // TODO set id to the current expenses id
-//
-//                startActivity(intent)
-//
-//                true
+//                intent.putExtra("id", this.viewModel.expense.id) // TODO: set id to the current expenses id (requires database)
+
+                startActivity(intent)
+
+                true
             }
 
             R.id.action_delete -> {
@@ -56,10 +55,6 @@ class ExpensesDetailActivity : AppCompatActivity() {
     }
 
     fun onShowReceipt(view: View) {
-        TODO("Not yet implemented")
-    }
-
-    fun onAddReceipt(view: View) {
         TODO("Not yet implemented")
     }
 }
