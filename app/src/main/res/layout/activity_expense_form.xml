@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- NAME -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expenses_name"/>
+
+    <EditText
+        android:id="@+id/expense_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/expenses_name_hint"
+        android:inputType="textNoSuggestions"
+        android:importantForAutofill="no" />
+
+
+    <!-- COST -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expenses"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/expense_value"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.95"
+            android:inputType="numberDecimal"
+            android:hint="@string/expenses_hint"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".05"
+
+            android:textSize="25sp"
+            android:text="@string/currency_euro"/>
+
+    </LinearLayout>
+
+
+    <!-- DATE -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expenses_date"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/expense_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="date"
+            android:hint="@string/expenses_date_hint"
+            android:autofillHints="date, datum" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tooltipText="@string/expenses_date_button"
+            android:contentDescription="@string/expenses_date_button"
+            android:onClick="onSetDateToCurrentDate"
+            android:src="@drawable/ic_baseline_today_black_24"/>
+
+    </LinearLayout>
+
+
+    <!-- RECURRING -->
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/expense_recurring"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/recurring"/>
+
+    <TextView
+        android:id="@+id/expense_label_interval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/interval"/>
+
+    <LinearLayout
+        android:id="@+id/expense_set_interval"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <NumberPicker
+            android:id="@+id/expense_interval_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"/>
+
+        <NumberPicker
+            android:id="@+id/expense_interval_unit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"/>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/expense_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/save"
+        android:onClick="onSave"/>
+
+</LinearLayout>

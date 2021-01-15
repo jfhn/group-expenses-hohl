@@ -20,4 +20,16 @@
     <string name="cancel">Abbrechen</string>
     <string name="confirm_delete">Soll die Ausgabe wirklich gelöscht werden?</string>
     <string name="add_receipt">Beleg hinzufügen</string>
+    <string name="name">Name</string>
+    <string name="expenses_name">Name</string>
+    <string name="expenses">Kosten</string>
+    <string name="expenses_date">Datum</string>
+    <string name="recurring">Wiederkehrend</string>
+    <string name="interval">Intervall</string>
+    <string name="save">Speichern</string>
+    <string name="currency_euro">€</string>
+    <string name="expenses_hint">Die Kosten der Ausgabe in €</string>
+    <string name="expenses_date_hint">Das Fälligkeitsdatum der Ausgabe</string>
+    <string name="expenses_name_hint">Ausgabenname</string>
+    <string name="expenses_date_button">Aktuelles Datum verwenden</string>
 </resources>

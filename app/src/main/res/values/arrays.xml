@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="expense_interval_units">
+        <item>Tag/e</item>
+        <item>Woche/n</item>
+        <item>Monat/e</item>
+        <item>Jahr/e</item>
+    </string-array>
+</resources>
