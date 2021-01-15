@@ -4,41 +4,46 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import de.thm.ap.groupexpenses.ExpenseFormActivity
-import de.thm.ap.groupexpenses.ExpensesDetailActivity
-import de.thm.ap.groupexpenses.R
-import de.thm.ap.groupexpenses.timeline.ExpensesTimelineAdapter
-import de.thm.ap.groupexpenses.timeline.ExpensesTimelineModel
-import de.thm.ap.groupexpenses.timeline.ExpensesTimelineViewHolder
-import kotlinx.android.synthetic.main.fragment_expenses.*
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.Query.Direction.ASCENDING
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import de.thm.ap.groupexpenses.*
+import de.thm.ap.groupexpenses.adapter.ExpensesAdapter
+import de.thm.ap.groupexpenses.databinding.FragmentExpensesBinding
+import java.util.*
 
-class ExpensesFragment : Fragment() {
+class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
 
-    private lateinit var adapter      : ExpensesTimelineAdapter
-    private lateinit var layoutManager: LinearLayoutManager
+    private val groupViewModel: GroupViewModel by activityViewModels()
+
+    private lateinit var binding: FragmentExpensesBinding
+    private lateinit var adapter: ExpensesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        binding = FragmentExpensesBinding.inflate(inflater, container, false)
+
         this.setHasOptionsMenu(true)
 
-        return inflater.inflate(R.layout.fragment_expenses, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.adapter       = ExpensesTimelineAdapter(getTimelineData())
-        this.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        initRecyclerView()
 
-        expensesRecyclerView.layoutManager = this.layoutManager
-        expensesRecyclerView.adapter       = this.adapter
+        binding.addExpenseButton.setOnClickListener {
+            val intent = Intent(context, ExpenseFormActivity::class.java)
 
-        expensesRecyclerView.smoothScrollToPosition(this.adapter.itemCount - 1)
-        expensesRecyclerView.smoothScrollToPosition(0)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -50,7 +55,7 @@ class ExpensesFragment : Fragment() {
             R.id.action_jump_to_current_date -> {
                 val pos = adapter.dividerPosition
 
-                this.expensesRecyclerView.smoothScrollToPosition(pos) // TODO add offset
+                binding.expensesRecyclerView.smoothScrollToPosition(pos)
                 true
             }
 
@@ -65,50 +70,61 @@ class ExpensesFragment : Fragment() {
             R.id.action_invite -> {
                 TODO("Not yet implemented")
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun getTimelineData(): List<ExpensesTimelineModel> { // TODO implement real data access
-        val exampleData = mutableListOf<ExpensesTimelineModel>()
+    private fun initRecyclerView() {
+        val query: Query = Firebase.firestore
+            .collection("groups/${groupViewModel.groupId}/expenses")
+            .orderBy("date", ASCENDING)
 
-        exampleData.add(ExpensesTimelineModel("Fr. 11.12.2020", "Tanken", 50.00))
-        exampleData.add(ExpensesTimelineModel("Sa. 12.12.2020", "Tanken", 50.00))
-        exampleData.add(ExpensesTimelineModel("So. 13.12.2020", "Tanken", 50.00))
-        exampleData.add(ExpensesTimelineModel("Mo. 14.12.2020", "Tanken", 50.00))
-        exampleData.add(ExpensesTimelineModel("Di. 15.12.2020", "Einkauf", 25.48))
-        exampleData.add(ExpensesTimelineModel("Mi. 16.12.2020", "Weihnachtsbaum", 27.00))
-        exampleData.add(ExpensesTimelineModel("Do. 17.12.2020", "Einkauf", 12.98))
-        exampleData.add(ExpensesTimelineModel("Fr. 18.12.2020", "Metzger", 16.32))
-        exampleData.add(ExpensesTimelineModel("Sa. 19.12.2020", "Brötchen", 2.50))
-        exampleData.add(ExpensesTimelineModel("So. 20.12.2020", "Lieferservice (Essen)", 32.50))
-        exampleData.add(ExpensesTimelineModel("Mo. 21.12.2020", "Einkauf", 18.76))
-        exampleData.add(ExpensesTimelineModel("Di. 22.12.2020", "Einkauf", 12.60))
-        exampleData.add(ExpensesTimelineModel("Mi. 23.12.2020", "Einkauf", 12.60))
-        exampleData.add(ExpensesTimelineModel("Do. 24.12.2020", "Einkauf", 12.60))
-        exampleData.add(ExpensesTimelineModel("Fr. 25.12.2020", "Einkauf", 12.60))
+        this.adapter = object : ExpensesAdapter(query, this@ExpensesFragment) {
+            override fun onDataChanged() {
+                super.onDataChanged()
 
-        return exampleData
+                if (itemCount == 0) {
+                    binding.expensesRecyclerView.visibility = View.GONE
+                    binding.expensesEmptyView.visibility    = View.VISIBLE
+                } else {
+                    binding.expensesRecyclerView.visibility = View.VISIBLE
+                    binding.expensesEmptyView.visibility    = View.GONE
+
+                    // initialize view elements to enable scroll to current date
+                    binding.expensesRecyclerView.smoothScrollToPosition(this.itemCount - 1)
+                    binding.expensesRecyclerView.smoothScrollToPosition(0)
+                }
+            }
+        }
+
+        binding.expensesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.expensesRecyclerView.adapter       = this.adapter
+
+        this.adapter.startListening()
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    fun onAddExpense(view: View) { // TODO redirect from activity
-        val intent = Intent(context, ExpenseFormActivity::class.java)
+    override fun onStart() {
+        super.onStart()
+        this.adapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        this.adapter.stopListening()
+    }
+
+    override fun onExpenseSelected(expense: DocumentSnapshot) {
+        val intent = Intent(context, ExpensesDetailActivity::class.java)
+
+        intent.putExtra(GroupActivity.KEY_GROUP_ID, groupViewModel.groupId)
+        intent.putExtra(KEY_EXPENSE_ID, expense.id)
 
         startActivity(intent)
     }
 
-    fun onSelectExpense(view: View) { // TODO redirect from activity
-        this.expensesRecyclerView.findContainingViewHolder(view)
-            ?.takeIf { it is ExpensesTimelineViewHolder }
-            ?.let { it as ExpensesTimelineViewHolder }
-            ?.let { this.adapter.getModelByViewHolder(it) }
-            ?.let { model: ExpensesTimelineModel ->
-                val intent = Intent(context, ExpensesDetailActivity::class.java)
-
-//                intent.putExtra("id", this.viewModel.expense.id) // TODO
-                startActivity(intent)
-            }
+    companion object {
+        const val KEY_EXPENSE_ID = "key_expense_id"
     }
 }
 /*

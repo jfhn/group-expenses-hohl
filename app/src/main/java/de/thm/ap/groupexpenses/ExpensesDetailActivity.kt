@@ -17,6 +17,8 @@ class ExpensesDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expenses_detail)
+
+        // TODO: process extras
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -54,6 +56,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onShowReceipt(view: View) {
         TODO("Not yet implemented")
     }

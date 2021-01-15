@@ -36,4 +36,5 @@
     <string name="fmt_expenses_EUR" translatable="false">%.2f €</string>
     <string name="fmt_members" translatable="false">%d Mitglieder</string>
     <string name="fmt_latest_update" translatable="false">Zuletzt aktualisiert: %s</string>
+    <string name="group_no_expenses">Für diese Gruppe wurden noch keine Ausgaben getätigt!</string>
 </resources>
