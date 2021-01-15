@@ -45,6 +45,7 @@ object DateUtil {
         }
     }
 
+
     private fun dayOffset(date1: Date, date2: Date): Long = (date1.time - date2.time) / (1000L * 60 * 60 * 24)
 
     private fun secondsOffset(date1: Date, date2: Date): Long = (date1.time - date2.time) / 1000

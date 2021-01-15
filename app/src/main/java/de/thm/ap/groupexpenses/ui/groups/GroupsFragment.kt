@@ -78,7 +78,7 @@ class GroupsFragment : Fragment(), GroupsAdapter.OnGroupSelectedListener {
                 .whereArrayContains("members", user.uid)
                 .orderBy("latestUpdate", Query.Direction.DESCENDING)
 
-        object : GroupsAdapter(query, this@GroupsFragment) {
+        adapter = object : GroupsAdapter(query, this@GroupsFragment) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
                     binding.recyclerGroups.visibility  = View.GONE
@@ -88,7 +88,7 @@ class GroupsFragment : Fragment(), GroupsAdapter.OnGroupSelectedListener {
                     binding.groupsEmptyView.visibility = View.GONE
                 }
             }
-        }.also { adapter = it }
+        }
 
         binding.recyclerGroups.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerGroups.adapter = adapter
