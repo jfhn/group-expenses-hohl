@@ -1,51 +1,56 @@
-package de.thm.ap.groupexpenses
+package de.thm.ap.groupexpenses.ui.expenses
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.*
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import de.thm.ap.groupexpenses.ExpenseFormActivity
+import de.thm.ap.groupexpenses.ExpensesDetailActivity
+import de.thm.ap.groupexpenses.R
 import de.thm.ap.groupexpenses.timeline.ExpensesTimelineAdapter
 import de.thm.ap.groupexpenses.timeline.ExpensesTimelineModel
 import de.thm.ap.groupexpenses.timeline.ExpensesTimelineViewHolder
-import kotlinx.android.synthetic.main.activity_expenses.*
+import kotlinx.android.synthetic.main.fragment_expenses.*
 
-class ExpensesActivity : AppCompatActivity() {
+class ExpensesFragment : Fragment() {
 
     private lateinit var adapter      : ExpensesTimelineAdapter
     private lateinit var layoutManager: LinearLayoutManager
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_expenses)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        this.setHasOptionsMenu(true)
 
-        this.title = "Group name" // TODO get group name
-
-        this.adapter       = ExpensesTimelineAdapter(getTimelineData())
-        this.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-
-        recyclerView.layoutManager = this.layoutManager
-        recyclerView.adapter       = this.adapter
-
-        this.recyclerView.smoothScrollToPosition(this.adapter.itemCount - 1)
-        this.recyclerView.smoothScrollToPosition(0)
+        return inflater.inflate(R.layout.fragment_expenses, container, false)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        this.menuInflater.inflate(R.menu.expenses, menu)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        return true
+        this.adapter       = ExpensesTimelineAdapter(getTimelineData())
+        this.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+
+        expensesRecyclerView.layoutManager = this.layoutManager
+        expensesRecyclerView.adapter       = this.adapter
+
+        expensesRecyclerView.smoothScrollToPosition(this.adapter.itemCount - 1)
+        expensesRecyclerView.smoothScrollToPosition(0)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.expenses, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_jump_to_current_date -> {
-                val pos = this.adapter.dividerPosition
+                val pos = adapter.dividerPosition
 
-                this.recyclerView.smoothScrollToPosition(pos) // TODO add offset
+                this.expensesRecyclerView.smoothScrollToPosition(pos) // TODO add offset
                 true
             }
 
@@ -87,23 +92,23 @@ class ExpensesActivity : AppCompatActivity() {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun onAddExpense(view: View) {
-        val intent = Intent(this, ExpenseFormActivity::class.java)
+    fun onAddExpense(view: View) { // TODO redirect from activity
+        val intent = Intent(context, ExpenseFormActivity::class.java)
 
         startActivity(intent)
     }
 
-    fun onSelectExpense(view: View) {
-        this.recyclerView.findContainingViewHolder(view)
-                ?.takeIf { it is ExpensesTimelineViewHolder }
-                ?.let { it as ExpensesTimelineViewHolder }
-                ?.let { this.adapter.getModelByViewHolder(it) }
-                ?.let { model: ExpensesTimelineModel ->
-                    val intent = Intent(this, ExpensesDetailActivity::class.java)
+    fun onSelectExpense(view: View) { // TODO redirect from activity
+        this.expensesRecyclerView.findContainingViewHolder(view)
+            ?.takeIf { it is ExpensesTimelineViewHolder }
+            ?.let { it as ExpensesTimelineViewHolder }
+            ?.let { this.adapter.getModelByViewHolder(it) }
+            ?.let { model: ExpensesTimelineModel ->
+                val intent = Intent(context, ExpensesDetailActivity::class.java)
 
-//                    intent.putExtra("id", this.viewModel.expense.id) // TODO
-                    startActivity(intent)
-                }
+//                intent.putExtra("id", this.viewModel.expense.id) // TODO
+                startActivity(intent)
+            }
     }
 }
 /*
