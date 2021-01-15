@@ -83,13 +83,9 @@ abstract class FirestoreAdapter<VH : RecyclerView.ViewHolder>(private var query:
 
     open fun onDataChanged() {}
 
-    override fun getItemCount(): Int {
-        return snapshots.size
-    }
+    override fun getItemCount(): Int = snapshots.size
 
-    protected fun getSnapshot(index: Int): DocumentSnapshot {
-        return snapshots[index]
-    }
+    protected fun getSnapshot(index: Int): DocumentSnapshot = snapshots[index]
 
     private fun onDocumentAdded(change: DocumentChange) {
         snapshots.add(change.newIndex, change.document)
