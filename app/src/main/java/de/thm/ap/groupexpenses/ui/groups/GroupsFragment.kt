@@ -1,5 +1,6 @@
 package de.thm.ap.groupexpenses.ui.groups
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import de.thm.ap.groupexpenses.ExpensesActivity
 import de.thm.ap.groupexpenses.MainActivity
 import de.thm.ap.groupexpenses.adapter.GroupsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupsBinding
@@ -98,5 +100,8 @@ class GroupsFragment : Fragment(), GroupsAdapter.OnGroupSelectedListener {
 //
 //        startActivity(intent)
 //        requireActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left)
+
+        val intent = Intent(context, ExpensesActivity::class.java)
+        startActivity(intent)
     }
 }

@@ -50,7 +50,7 @@ open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelected
 //                this.dividerPosition = viewHolder.layoutPosition
 //            }
 
-            binding.textTimelineDate.text = expense.date.formatGerman()
+            binding.textTimelineDate.text = expense.date!!.formatGerman()
 
             binding.root.setOnClickListener {
                 listener?.onExpenseSelected(snapshot)
