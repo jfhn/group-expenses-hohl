@@ -11,8 +11,7 @@
     <string name="payments">Zahlungen</string>
     <string name="groups">Gruppen</string>
     <string name="sign_out">Abmelden</string>
-    <string name="fmt_expenses_EUR" translatable="false">%.2f €</string>
-    <string name="fmt_members" translatable="false">%d Mitglieder</string>
+    <string name="single_member">1 Mitglied</string>
     <string name="no_groups">Du bist noch in keiner Gruppe</string>
     <string name="receipt_description">Beleg</string>
     <string name="receipt">Beleg</string>
@@ -32,4 +31,9 @@
     <string name="expenses_date_hint">Das Fälligkeitsdatum der Ausgabe</string>
     <string name="expenses_name_hint">Ausgabenname</string>
     <string name="expenses_date_button">Aktuelles Datum verwenden</string>
+
+    <!-- Formatter -->
+    <string name="fmt_expenses_EUR" translatable="false">%.2f €</string>
+    <string name="fmt_members" translatable="false">%d Mitglieder</string>
+    <string name="fmt_latest_update" translatable="false">Zuletzt aktualisiert: %s</string>
 </resources>
