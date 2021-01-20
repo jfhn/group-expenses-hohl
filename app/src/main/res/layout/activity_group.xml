@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".GroupActivity">
 
-    <androidx.fragment.app.FragmentContainerView
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/group_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/expenses_fragment"
-        android:name="de.thm.ap.groupexpenses.ui.expenses.ExpensesFragment"
-        tools:layout="@layout/fragment_expenses" />
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

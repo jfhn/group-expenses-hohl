@@ -4,13 +4,18 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.databinding.ActivityGroupBinding
 import de.thm.ap.groupexpenses.model.Group
+import de.thm.ap.groupexpenses.ui.expenses.ExpensesFragment
+import de.thm.ap.groupexpenses.ui.group.GroupPaymentsFragment
 
-class GroupActivity : AppCompatActivity() {
+class GroupActivity : FragmentActivity() {
     private val db = Firebase.firestore
 
     private val viewModel: GroupViewModel by viewModels()
@@ -31,6 +36,8 @@ class GroupActivity : AppCompatActivity() {
                     val group: Group = it.toObject()!!
                     title = group.name
                 }
+
+        binding.groupViewpager.adapter = GroupViewPagerAdapter(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -47,6 +54,18 @@ class GroupActivity : AppCompatActivity() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right)
     }
+
+    private inner class GroupViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+        private val fragments: List<() -> Fragment> = listOf(
+            { ExpensesFragment() },
+            { GroupPaymentsFragment() }
+        )
+
+        override fun getItemCount(): Int = fragments.size
+
+        override fun createFragment(position: Int): Fragment = fragments[position]()
+    }
+
 
     companion object {
         private const val TAG = "GroupDetail"
