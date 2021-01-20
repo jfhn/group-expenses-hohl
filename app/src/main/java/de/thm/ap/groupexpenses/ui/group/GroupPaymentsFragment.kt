@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.Query
@@ -13,46 +12,26 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.GroupViewModel
 import de.thm.ap.groupexpenses.adapter.GroupPaymentsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupPaymentsBinding
-import de.thm.ap.groupexpenses.ui.user.UserViewModel
+import de.thm.ap.groupexpenses.ui.RecyclerFragment
 
-class GroupPaymentsFragment : Fragment() {
-    companion object {
-        const val TAG = "GroupPaymentsFragment"
-    }
-
+class GroupPaymentsFragment : RecyclerFragment() {
     private lateinit var binding: FragmentGroupPaymentsBinding
     private val groupViewModel: GroupViewModel by activityViewModels()
-    private var adapter: GroupPaymentsAdapter? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentGroupPaymentsBinding.inflate(inflater, container, false)
         initRecyclerView()
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        adapter = null
-    }
-
-    override fun onStart() {
-        super.onStart()
-        adapter?.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        adapter?.stopListening()
-    }
-
-    fun initRecyclerView() {
+    override fun initRecyclerView() {
         val query: Query = Firebase.firestore
-            .collection("groups/${groupViewModel.groupId}/payments")
-            .orderBy("date", Query.Direction.DESCENDING)
+                .collection("groups/${groupViewModel.groupId}/payments")
+                .orderBy("date", Query.Direction.DESCENDING)
 
         adapter = object : GroupPaymentsAdapter(query) {
             override fun onDataChanged() {
@@ -70,5 +49,9 @@ class GroupPaymentsFragment : Fragment() {
         binding.recyclerGroupPayments.adapter = adapter
 
         adapter?.startListening()
+    }
+
+    companion object {
+        const val TAG = "GroupPaymentsFragment"
     }
 }
