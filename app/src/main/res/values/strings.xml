@@ -38,4 +38,5 @@
     <string name="fmt_latest_update" translatable="false">Zuletzt aktualisiert: %s</string>
     <string name="group_no_expenses">Für diese Gruppe wurden noch keine Ausgaben getätigt!</string>
     <string name="user_no_payments">Du hast noch keine Zahlungen getätigt</string>
+    <string name="group_no_payments">In dieser Gruppe wurden noch keine Zahlungen getätigt</string>
 </resources>
