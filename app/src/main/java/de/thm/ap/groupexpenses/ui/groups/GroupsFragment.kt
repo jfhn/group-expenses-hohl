@@ -19,74 +19,56 @@ import de.thm.ap.groupexpenses.MainActivity
 import de.thm.ap.groupexpenses.R
 import de.thm.ap.groupexpenses.adapter.GroupsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupsBinding
+import de.thm.ap.groupexpenses.ui.RecyclerFragment
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
 
-class GroupsFragment : Fragment(), GroupsAdapter.OnGroupSelectedListener {
+class GroupsFragment : RecyclerFragment(), GroupsAdapter.OnGroupSelectedListener {
     companion object {
         const val TAG = "GroupsFragment"
     }
 
     private val userViewModel: UserViewModel by activityViewModels()
     private val groupsViewModel: GroupsViewModel by viewModels()
-    private var _binding: FragmentGroupsBinding? = null
-    private var adapter: GroupsAdapter? = null
-
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentGroupsBinding
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentGroupsBinding.inflate(inflater, container, false)
+        binding = FragmentGroupsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        initRecyclerView()
+        return root
+    }
+
+    override fun initRecyclerView() {
         userViewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                initRecyclerView(user)
+                val query: Query = Firebase.firestore.collection("groups")
+                        .whereArrayContains("members", user.uid)
+                        .orderBy("latestUpdate", Query.Direction.DESCENDING)
+
+                adapter = object : GroupsAdapter(query, this@GroupsFragment) {
+                    override fun onDataChanged() {
+                        if (itemCount == 0) {
+                            binding.recyclerGroups.visibility  = View.GONE
+                            binding.groupsEmptyView.visibility = View.VISIBLE
+                        } else {
+                            binding.recyclerGroups.visibility  = View.VISIBLE
+                            binding.groupsEmptyView.visibility = View.GONE
+                        }
+                    }
+                }
+
+                binding.recyclerGroups.layoutManager = LinearLayoutManager(requireContext())
+                binding.recyclerGroups.adapter = adapter
+
+                adapter?.startListening()
             } else {
                 (requireActivity() as MainActivity).startSignIn()
             }
         }
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        adapter = null
-    }
-
-    override fun onStart() {
-        super.onStart()
-        adapter?.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        adapter?.stopListening()
-    }
-
-    private fun initRecyclerView(user: FirebaseUser) {
-        val query: Query = Firebase.firestore.collection("groups")
-                .whereArrayContains("members", user.uid)
-                .orderBy("latestUpdate", Query.Direction.DESCENDING)
-
-        adapter = object : GroupsAdapter(query, this@GroupsFragment) {
-            override fun onDataChanged() {
-                if (itemCount == 0) {
-                    binding.recyclerGroups.visibility  = View.GONE
-                    binding.groupsEmptyView.visibility = View.VISIBLE
-                } else {
-                    binding.recyclerGroups.visibility  = View.VISIBLE
-                    binding.groupsEmptyView.visibility = View.GONE
-                }
-            }
-        }
-
-        binding.recyclerGroups.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerGroups.adapter = adapter
-
-        adapter?.startListening()
     }
 
     override fun onGroupSelected(group: DocumentSnapshot) {

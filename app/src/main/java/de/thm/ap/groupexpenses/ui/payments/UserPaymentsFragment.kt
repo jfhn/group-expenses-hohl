@@ -15,72 +15,53 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.MainActivity
 import de.thm.ap.groupexpenses.adapter.UserPaymentsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentUserPaymentsBinding
+import de.thm.ap.groupexpenses.ui.RecyclerFragment
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
 
-class UserPaymentsFragment : Fragment() {
+class UserPaymentsFragment : RecyclerFragment() {
     companion object {
         const val TAG = "UserPaymentsFragment"
     }
 
     private val userViewModel: UserViewModel by activityViewModels()
-    private val paymentsViewModel: PaymentsViewModel by viewModels()
-    private var _binding: FragmentUserPaymentsBinding? = null
-    private var adapter: UserPaymentsAdapter? = null
-
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentUserPaymentsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentUserPaymentsBinding.inflate(inflater, container, false)
+        binding = FragmentUserPaymentsBinding.inflate(inflater, container, false)
+        initRecyclerView()
+        return binding.root
+    }
+
+    override fun initRecyclerView() {
         userViewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                initRecyclerView(user)
+                val query: Query = Firebase.firestore
+                        .collection("users/${user.uid}/payments")
+                        .orderBy("date", Query.Direction.DESCENDING)
+
+                adapter = object : UserPaymentsAdapter(query) {
+                    override fun onDataChanged() {
+                        if (itemCount == 0) {
+                            binding.recyclerUserPayments.visibility  = View.GONE
+                            binding.userPaymentsEmptyView.visibility = View.VISIBLE
+                        } else {
+                            binding.recyclerUserPayments.visibility  = View.VISIBLE
+                            binding.userPaymentsEmptyView.visibility = View.GONE
+                        }
+                    }
+                }
+
+                binding.recyclerUserPayments.layoutManager = LinearLayoutManager(requireContext())
+                binding.recyclerUserPayments.adapter = adapter
+
+                adapter?.startListening()
             } else {
                 (requireActivity() as MainActivity).startSignIn()
             }
         }
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        adapter = null
-    }
-
-    override fun onStart() {
-        super.onStart()
-        adapter?.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        adapter?.stopListening()
-    }
-
-    fun initRecyclerView(user: FirebaseUser) {
-        val query: Query = Firebase.firestore
-            .collection("users/${user.uid}/payments")
-            .orderBy("date", Query.Direction.DESCENDING)
-
-        adapter = object : UserPaymentsAdapter(query) {
-            override fun onDataChanged() {
-                if (itemCount == 0) {
-                    binding.recyclerUserPayments.visibility  = View.GONE
-                    binding.userPaymentsEmptyView.visibility = View.VISIBLE
-                } else {
-                    binding.recyclerUserPayments.visibility  = View.VISIBLE
-                    binding.userPaymentsEmptyView.visibility = View.GONE
-                }
-            }
-        }
-
-        binding.recyclerUserPayments.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerUserPayments.adapter = adapter
-
-        adapter?.startListening()
     }
 }
