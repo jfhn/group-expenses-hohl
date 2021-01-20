@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_payments"
-        android:name="de.thm.ap.groupexpenses.ui.payments.PaymentsFragment"
+        android:name="de.thm.ap.groupexpenses.ui.payments.UserPaymentsFragment"
         android:label="@string/payments"
-        tools:layout="@layout/fragment_payments" />
+        tools:layout="@layout/fragment_user_payments" />
 
     <fragment
         android:id="@+id/navigation_groups"
