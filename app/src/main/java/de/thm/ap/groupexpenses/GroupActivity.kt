@@ -15,7 +15,7 @@ import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.ui.expenses.ExpensesFragment
 import de.thm.ap.groupexpenses.ui.group.GroupPaymentsFragment
 
-class GroupActivity : FragmentActivity() {
+class GroupActivity : AppCompatActivity() {
     private val db = Firebase.firestore
 
     private val viewModel: GroupViewModel by viewModels()
