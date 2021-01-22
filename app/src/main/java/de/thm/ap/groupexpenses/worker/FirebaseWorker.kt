@@ -2,10 +2,7 @@ package de.thm.ap.groupexpenses.worker
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.Transaction
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -55,12 +52,28 @@ object FirebaseWorker {
         }
     }
 
-    fun getGroupRef(groupId: String): DocumentReference {
-        return groupsRef.document(groupId)
+    fun getExpense(groupId: String, expenseId: String): Task<DocumentSnapshot> {
+        return db.document("groups/$groupId/expenses/$expenseId").get()
     }
 
-    fun addExpense(groupRef: DocumentReference, expense: Expense): Task<Transaction> {
-        val expenseRef = groupRef.collection("expenses").document()
+    fun updateExpense(groupId: String, expenseId: String, expense: Expense): Task<Transaction> {
+        val expenseRef = db.document("groups/$groupId/expenses/$expenseId")
+        val groupRef   = db.document("groups/$groupId")
+
+        return db.runTransaction { transaction ->
+            val group: Group = transaction.get(groupRef).toObject()!!
+            val oldExpense: Expense = transaction.get(expenseRef).toObject()!!
+            val newExpenses = group.expenses - oldExpense.cost + expense.cost
+
+            transaction.set(expenseRef, expense)
+            transaction.update(groupRef, "expenses", newExpenses)
+            transaction.update(groupRef, "latestUpdate", Date())
+        }
+    }
+
+    fun addExpense(groupId: String, expense: Expense): Task<Transaction> {
+        val expenseRef = db.collection("groups/$groupId/expenses").document()
+        val groupRef   = db.document("groups/$groupId")
 
         return db.runTransaction { transaction ->
             val group: Group = transaction.get(groupRef).toObject()!!
@@ -70,6 +83,10 @@ object FirebaseWorker {
             transaction.update(groupRef, "expenses", newExpenses)
             transaction.update(groupRef, "latestUpdate", Date())
         }
+    }
+
+    fun getGroupRef(groupId: String): DocumentReference {
+        return groupsRef.document(groupId)
     }
 
     fun addPayment(groupRef: DocumentReference, user: FirebaseUser, payment: Double) {

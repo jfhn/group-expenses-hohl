@@ -41,4 +41,7 @@
     <string name="group_no_payments">In dieser Gruppe wurden noch keine Zahlungen getätigt</string>
     <string name="group_form_name">Gruppenname</string>
     <string name="group_name_not_empty">Gruppenname darf nicht leer sein</string>
+    <string name="expense_name_missing">Ausgaben müssen einen Namen haben</string>
+    <string name="expense_cost_missing">Kosten dürfen nicht leer sein</string>
+    <string name="expense_cost_too_small">Kosten müssen größer als 0€ sein</string>
 </resources>

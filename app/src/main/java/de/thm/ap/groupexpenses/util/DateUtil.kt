@@ -21,26 +21,35 @@ object DateUtil {
 
     fun dateFromValues(year: Int, month: Int, day: Int): Date {
         val calendar = Calendar.getInstance(Locale.GERMANY)
-        calendar.set(day, month, year)
+        calendar.set(year, month, day)
         return calendar.time
     }
 
     fun DatePicker.setDate(date: Date) {
-        val calendar = Calendar.getInstance(Locale.GERMANY)
-        calendar.time = date
-        val day   = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = calendar.get(Calendar.MONTH)
-        val year  = calendar.get(Calendar.YEAR)
-
+        val (year, month, day) = date.getYearMonthDay()
         this.updateDate(year, month, day)
     }
 
-    fun Date.formatGerman(): String = Date().let {
-        when (dayOffset(it, this)) {
-            0L -> if (secondsOffset(it, this) < 60) "gerade eben" else "heute"
+    fun Date.formatGerman(asAbsoluteDate: Boolean = false): String {
+        if (asAbsoluteDate) return dateFormat.format(this)
+
+        val currentDate = Date()
+        return when (dayOffset(currentDate, this)) {
+            0L -> if (secondsOffset(currentDate, this) < 60) "gerade eben" else "heute"
             1L -> "gestern"
             else -> dateFormat.format(this)
         }
+    }
+
+    fun Date.getYearMonthDay(): Triple<Int, Int, Int> {
+        val calendar = Calendar.getInstance(Locale.GERMANY)
+        calendar.time = this
+
+        val year     = calendar.get(Calendar.YEAR)
+        val month    = calendar.get(Calendar.MONTH)
+        val day      = calendar.get(Calendar.DAY_OF_MONTH)
+
+        return Triple(year, month, day)
     }
 
     fun Date.toDateOnly(): Date {
