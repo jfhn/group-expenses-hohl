@@ -1,17 +1,26 @@
 package de.thm.ap.groupexpenses
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.DatePicker
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import de.thm.ap.groupexpenses.databinding.ActivityExpenseFormBinding
+import de.thm.ap.groupexpenses.util.DateUtil.dateFromValues
 import de.thm.ap.groupexpenses.util.DateUtil.format
+import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import kotlinx.android.synthetic.main.activity_expense_form.*
 import java.util.*
 
 class ExpenseFormActivity : AppCompatActivity() {
+    private val viewModel: ExpenseFormViewModel by viewModels()
+    private lateinit var binding: ActivityExpenseFormBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_expense_form)
+        binding = ActivityExpenseFormBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initIntervalData()
 
@@ -19,6 +28,19 @@ class ExpenseFormActivity : AppCompatActivity() {
 
         expense_recurring.setOnCheckedChangeListener { _, isChecked ->
             showIntervalControls(isChecked)
+        }
+
+        binding.buttonSelectExpenseDate.setOnClickListener {
+            DatePickerDialog(this).apply {
+                setOnDateSetListener { _, year, month, day ->
+                    viewModel.date.value = dateFromValues(year, month, day)
+                }
+                show()
+            }
+        }
+
+        viewModel.date.observe(this) {
+            binding.expenseDate.setText(it.formatGerman())
         }
     }
 
@@ -39,15 +61,5 @@ class ExpenseFormActivity : AppCompatActivity() {
             expense_set_interval.visibility   = View.GONE
             expense_label_interval.visibility = View.GONE
         }
-    }
-
-    @Suppress("UNUSED_PARAMETER")
-    fun onSave(view: View) {
-        TODO("Not yet implemented")
-    }
-
-    @Suppress("UNUSED_PARAMETER")
-    fun onSetDateToCurrentDate(view: View) {
-        expense_date.setText(Calendar.getInstance().time.format())
     }
 }
