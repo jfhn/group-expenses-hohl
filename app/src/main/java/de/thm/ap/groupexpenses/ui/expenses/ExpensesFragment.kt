@@ -1,17 +1,21 @@
 package de.thm.ap.groupexpenses.ui.expenses
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.auth.IdpResponse
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.Query.Direction.ASCENDING
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.*
+import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.adapter.ExpensesAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentExpensesBinding
 import java.util.*
@@ -40,8 +44,9 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
         initRecyclerView()
 
         binding.addExpenseButton.setOnClickListener {
-            val intent = Intent(context, ExpenseFormActivity::class.java)
-
+            val intent = Intent(context, ExpenseFormActivity::class.java).apply {
+                putExtra(KEY_GROUP_ID, groupViewModel.groupId)
+            }
             startActivity(intent)
         }
     }
@@ -117,7 +122,7 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
     override fun onExpenseSelected(expense: DocumentSnapshot) {
         val intent = Intent(context, ExpensesDetailActivity::class.java)
 
-        intent.putExtra(GroupActivity.KEY_GROUP_ID, groupViewModel.groupId)
+        intent.putExtra(KEY_GROUP_ID, groupViewModel.groupId)
         intent.putExtra(KEY_EXPENSE_ID, expense.id)
 
         startActivity(intent)
