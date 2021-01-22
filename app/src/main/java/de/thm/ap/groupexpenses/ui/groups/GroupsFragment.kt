@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -21,7 +19,6 @@ import de.thm.ap.groupexpenses.adapter.GroupsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupsBinding
 import de.thm.ap.groupexpenses.ui.RecyclerFragment
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
-import java.util.concurrent.TimeUnit
 
 class GroupsFragment : RecyclerFragment(), GroupsAdapter.OnGroupSelectedListener {
     companion object {
