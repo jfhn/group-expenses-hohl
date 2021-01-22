@@ -21,6 +21,7 @@ import de.thm.ap.groupexpenses.adapter.GroupsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupsBinding
 import de.thm.ap.groupexpenses.ui.RecyclerFragment
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
+import java.util.concurrent.TimeUnit
 
 class GroupsFragment : RecyclerFragment(), GroupsAdapter.OnGroupSelectedListener {
     companion object {

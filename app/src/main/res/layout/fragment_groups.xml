@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="ui.groups.GroupsFragment">
 
+    <ProgressBar
+        android:id="@+id/groups_progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/groups_empty_view"
         android:layout_width="match_parent"
