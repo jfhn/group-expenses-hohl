@@ -17,11 +17,9 @@ object DateUtil {
         return format.format(this)
     }
 
-    fun DatePicker.getDate(): Date {
-        val day   = this.dayOfMonth
-        val month = this.month
-        val year  = this.year
+    fun DatePicker.getDate(): Date = dateFromValues(this.year, this.month, this.dayOfMonth)
 
+    fun dateFromValues(year: Int, month: Int, day: Int): Date {
         val calendar = Calendar.getInstance(Locale.GERMANY)
         calendar.set(day, month, year)
         return calendar.time
