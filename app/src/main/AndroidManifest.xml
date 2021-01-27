@@ -15,17 +15,28 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="de.thm.ap.groupexpenses"
+                    android:pathPrefix="/group_invite" />
+            </intent-filter>
         </activity>
-        <activity android:name=".ExpensesActivity" android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ExpenseFormActivity"
             android:parentActivityName=".ExpensesDetailActivity" />
-        <activity android:name=".GroupFormActivity"
+        <activity
+            android:name=".GroupFormActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ExpensesDetailActivity"
-            android:parentActivityName=".ExpensesActivity" />
-        <activity android:name=".GroupActivity"
+            android:name=".ExpensesDetailActivity" />
+        <activity
+            android:name=".GroupActivity"
             android:parentActivityName=".MainActivity" />
     </application>
 

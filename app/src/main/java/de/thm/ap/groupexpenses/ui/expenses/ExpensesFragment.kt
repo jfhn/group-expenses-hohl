@@ -81,7 +81,15 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
                 AlertDialog.Builder(ctx).apply {
                     setTitle(getString(R.string.group_invitation_link))
                     setMessage(link)
-                    setNeutralButton("kopieren") { _, _ ->
+                    setPositiveButton("Teilen") { _, _ ->
+                        val i = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_SUBJECT, "Group Expenses - Gruppeneinladung")
+                            putExtra(Intent.EXTRA_TEXT, link)
+                        }
+                        startActivity(Intent.createChooser(i, "Teilen mit..."))
+                    }
+                    setNegativeButton("Kopieren") { _, _ ->
                         val clipboardManager = ctx.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         val clipData = ClipData.newPlainText("text", link)
                         clipboardManager.setPrimaryClip(clipData)
@@ -145,8 +153,7 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
     }
 
     fun getInvitationLink(): String {
-        val linkPrefix = "https://TODO/" // server functions?
-        return linkPrefix + groupViewModel.groupId
+        return "http://de.thm.ap.groupexpenses/group_invite/${groupViewModel.groupId}"
     }
 
     companion object {

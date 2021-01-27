@@ -37,7 +37,7 @@ object FirebaseWorker {
     fun addGroupMember(
             groupRef: DocumentReference,
             user: FirebaseUser,
-            role: String
+            role: String = ROLE_MEMBER
     ): Task<Transaction> {
         val groupMember = GroupMember().apply {
             this.userName = user.displayName
@@ -131,6 +131,10 @@ object FirebaseWorker {
             transaction.set(userPaymentRef, userPayment)
             transaction.set(groupPaymentRef, groupPayment)
         }
+    }
+
+    fun getGroup(groupId: String): Task<DocumentSnapshot> {
+        return db.document("groups/$groupId").get()
     }
 }
 

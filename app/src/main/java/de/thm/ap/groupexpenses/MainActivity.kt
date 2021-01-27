@@ -1,11 +1,13 @@
 package de.thm.ap.groupexpenses
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,9 +19,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.databinding.ActivityMainBinding
+import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.addGroupMember
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroup
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroupRef
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -39,6 +46,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        userViewModel.user.observe(this) { user ->
+            if (user == null) {
+                startSignIn()
+            }
+        }
+
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
@@ -51,11 +64,52 @@ class MainActivity : AppCompatActivity() {
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        val appLinkIntent = intent
+        val appLinkAction = appLinkIntent.action
+        val appLinkData   = appLinkIntent.data
+        if (appLinkData != null) {
+            val groupId = appLinkData.lastPathSegment
+            if (groupId != null) {
+                joinGroupDialog(groupId)
+            }
+        }
     }
 
     fun createGroup(item: MenuItem) {
         val intent = Intent(this, GroupFormActivity::class.java)
         startActivityForResult(intent, RC_CREATE_GROUP)
+    }
+
+    private fun joinGroupDialog(groupId: String) {
+        val ctx = this
+        getGroup(groupId).addOnSuccessListener { snapshot ->
+            val group: Group = snapshot.toObject()!!
+            if (!group.members!!.contains(userViewModel.user.value!!.uid)) {
+                AlertDialog.Builder(this).apply {
+                    setTitle("Gruppeneinladung")
+                    setMessage("Möchten Sie folgender Gruppe beitreten?\n${group.name}")
+                    setPositiveButton("Annehmen") { _, _ ->
+                        addGroupMember(getGroupRef(groupId), userViewModel.user.value!!)
+                        Toast.makeText(ctx, "Gruppe erfolgreich beigetreten", Toast.LENGTH_LONG).show()
+                        openGroupActivity(groupId)
+                    }
+                    setNegativeButton("Ablehnen", null)
+                    show()
+                }
+            } else {
+                openGroupActivity(groupId)
+            }
+        }.addOnFailureListener {
+            Toast.makeText(ctx, "Gruppe existiert nicht!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun openGroupActivity(groupId: String) {
+        startActivity(Intent(this, GroupActivity::class.java).apply {
+            putExtra(GroupActivity.KEY_GROUP_ID, groupId)
+            overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left)
+        })
     }
 
     private fun shouldStartSigningIn(): Boolean {
