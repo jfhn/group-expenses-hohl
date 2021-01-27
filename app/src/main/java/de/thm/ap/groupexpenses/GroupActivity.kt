@@ -13,6 +13,7 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.databinding.ActivityGroupBinding
 import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.ui.expenses.ExpensesFragment
+import de.thm.ap.groupexpenses.ui.group.GroupMembersFragment
 import de.thm.ap.groupexpenses.ui.group.GroupPaymentsFragment
 
 class GroupActivity : AppCompatActivity() {
@@ -58,7 +59,8 @@ class GroupActivity : AppCompatActivity() {
     private inner class GroupViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         private val fragments: List<() -> Fragment> = listOf(
             { ExpensesFragment() },
-            { GroupPaymentsFragment() }
+            { GroupPaymentsFragment() },
+            { GroupMembersFragment() }
         )
 
         override fun getItemCount(): Int = fragments.size
