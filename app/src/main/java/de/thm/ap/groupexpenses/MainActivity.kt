@@ -91,7 +91,6 @@ class MainActivity : AppCompatActivity() {
                     setMessage("Möchten Sie folgender Gruppe beitreten?\n${group.name}")
                     setPositiveButton("Annehmen") { _, _ ->
                         addGroupMember(getGroupRef(groupId), userViewModel.user.value!!)
-                        Toast.makeText(ctx, "Gruppe erfolgreich beigetreten", Toast.LENGTH_LONG).show()
                         openGroupActivity(groupId)
                     }
                     setNegativeButton("Ablehnen", null)
