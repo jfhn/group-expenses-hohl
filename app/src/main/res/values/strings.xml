@@ -45,4 +45,12 @@
     <string name="expense_cost_missing">Kosten dürfen nicht leer sein</string>
     <string name="expense_cost_too_small">Kosten müssen größer als 0€ sein</string>
     <string name="group_invitation_link">Einladungslink</string>
+    <string name="add_payment">Zahlung hinzufügen</string>
+    <string name="payment">Zahlung</string>
+    <string name="payment_hint">Der eingezahlte Betrag in €</string>
+    <string name="payment_date_hint">Datum der Zahlung</string>
+    <string name="button_add_payment">Zahlung verbuchen</string>
+    <string name="payment_value_missing">Zahlung darf nicht leer sein</string>
+    <string name="payment_value_too_small">Zahlung muss größer als 0€ sein</string>
+    <string name="payment_save_error">Zahlung konnte nicht gespeichert werden</string>
 </resources>

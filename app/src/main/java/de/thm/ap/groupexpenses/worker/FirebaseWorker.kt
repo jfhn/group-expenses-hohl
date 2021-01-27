@@ -104,27 +104,30 @@ object FirebaseWorker {
         return groupsRef.document(groupId)
     }
 
-    fun addPayment(groupRef: DocumentReference, user: FirebaseUser, payment: Double) {
+    fun addPayment(groupId: String, user: FirebaseUser, payment: Double, date: Date?): Task<Transaction> {
+        val groupRef        = groupsRef.document(groupId)
         val userPaymentRef  = db.collection("users/${user.uid}/payments").document()
         val groupPaymentRef = groupRef.collection("payments").document()
 
-        db.runTransaction { transaction ->
+        return db.runTransaction { transaction ->
             val group: Group = transaction.get(groupRef).toObject()!!
             val userPayment = UserPayment().apply {
-                this.groupId = group.id
+                this.groupId   = group.id
                 this.groupName = group.name
-                this.payment = payment
+                this.payment   = payment
+                this.date      = date
             }
 
             val groupPayment = GroupPayment().apply {
-                this.userId = user.uid
+                this.userId   = user.uid
                 this.userName = user.displayName
-                this.payment = payment
+                this.payment  = payment
+                this.date     = date
             }
 
             group.apply {
                 this.latestUpdate = null
-                this.expenses -= payment
+                this.expenses    -= payment
             }
 
             transaction.set(groupRef, group)
