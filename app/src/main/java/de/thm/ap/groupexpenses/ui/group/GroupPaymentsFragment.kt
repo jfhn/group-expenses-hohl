@@ -1,5 +1,6 @@
 package de.thm.ap.groupexpenses.ui.group
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.GroupViewModel
+import de.thm.ap.groupexpenses.PaymentFormActivity
 import de.thm.ap.groupexpenses.adapter.GroupPaymentsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupPaymentsBinding
 import de.thm.ap.groupexpenses.ui.RecyclerFragment
@@ -25,6 +28,13 @@ class GroupPaymentsFragment : RecyclerFragment() {
     ): View {
         binding = FragmentGroupPaymentsBinding.inflate(inflater, container, false)
         initRecyclerView()
+
+        binding.addPaymentButton.setOnClickListener {
+            startActivity(Intent(context, PaymentFormActivity::class.java).apply {
+                putExtra(KEY_GROUP_ID, groupViewModel.groupId)
+            })
+        }
+
         return binding.root
     }
 

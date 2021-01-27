@@ -69,6 +69,7 @@ class ExpenseFormActivity : AppCompatActivity() {
         }
     }
 
+    // TODO(refactor): pull out
     private fun showDatePickerDialog() {
         val (year, month, day) = viewModel.date.value!!.getYearMonthDay()
 
