@@ -1,13 +1,16 @@
 package de.thm.ap.groupexpenses.ui.expenses
 
 import android.app.Activity
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.IdpResponse
+import com.google.android.gms.common.internal.GetServiceRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -73,7 +76,28 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
             }
 
             R.id.action_invite -> {
-                TODO("Not yet implemented")
+                val link = getInvitationLink()
+                val ctx = requireContext()
+                AlertDialog.Builder(ctx).apply {
+                    setTitle(getString(R.string.group_invitation_link))
+                    setMessage(link)
+                    setPositiveButton("Teilen") { _, _ ->
+                        val i = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_SUBJECT, "Group Expenses - Gruppeneinladung")
+                            putExtra(Intent.EXTRA_TEXT, link)
+                        }
+                        startActivity(Intent.createChooser(i, "Teilen mit..."))
+                    }
+                    setNegativeButton("Kopieren") { _, _ ->
+                        val clipboardManager = ctx.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        val clipData = ClipData.newPlainText("text", link)
+                        clipboardManager.setPrimaryClip(clipData)
+                        Toast.makeText(ctx, "Link wurde kopiert", Toast.LENGTH_LONG).show()
+                    }
+                    show()
+                }
+                true
             }
 
             else -> super.onOptionsItemSelected(item)
@@ -126,6 +150,10 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
         intent.putExtra(KEY_EXPENSE_ID, expense.id)
 
         startActivity(intent)
+    }
+
+    fun getInvitationLink(): String {
+        return "http://de.thm.ap.groupexpenses/group_invite/${groupViewModel.groupId}"
     }
 
     companion object {
