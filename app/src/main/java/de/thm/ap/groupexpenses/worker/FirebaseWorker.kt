@@ -56,6 +56,21 @@ object FirebaseWorker {
         return db.document("groups/$groupId/expenses/$expenseId").get()
     }
 
+    fun removeExpense(groupId: String, expenseId: String): Task<Transaction> {
+        val expenseRef = db.document("groups/$groupId/expenses/$expenseId")
+        val groupRef   = db.document("groups/$groupId")
+
+        return db.runTransaction { transaction ->
+            val group: Group = transaction.get(groupRef).toObject()!!
+            val expense: Expense = transaction.get(expenseRef).toObject()!!
+            val newExpenses = group.expenses - expense.cost
+
+            transaction.delete(expenseRef)
+            transaction.update(groupRef, "expenses", newExpenses)
+            transaction.update(groupRef, "latestUpdate", Date())
+        }
+    }
+
     fun updateExpense(groupId: String, expenseId: String, expense: Expense): Task<Transaction> {
         val expenseRef = db.document("groups/$groupId/expenses/$expenseId")
         val groupRef   = db.document("groups/$groupId")
@@ -90,7 +105,7 @@ object FirebaseWorker {
     }
 
     fun addPayment(groupRef: DocumentReference, user: FirebaseUser, payment: Double) {
-        val userPaymentRef  = usersRef.document(user.uid).collection("payments").document()
+        val userPaymentRef  = db.collection("users/${user.uid}/payments").document()
         val groupPaymentRef = groupRef.collection("payments").document()
 
         db.runTransaction { transaction ->
