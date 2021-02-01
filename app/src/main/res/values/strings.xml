@@ -84,4 +84,5 @@
     <string name="group_member_stats_payments">Einzahlungen:</string>
     <string name="group_stats_payments_per_user">Zu zahlender Betrag pro Person:</string>
     <string name="balance">Bilanz:</string>
+    <string name="no_achievements_or_shamements">Du hast bisher noch keine Achievements oder Shamements gesammelt.</string>
 </resources>
