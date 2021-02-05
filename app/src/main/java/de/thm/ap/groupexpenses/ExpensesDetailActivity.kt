@@ -18,6 +18,8 @@ class ExpensesDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expenses_detail)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         // TODO: process extras
     }
 
@@ -29,6 +31,10 @@ class ExpensesDetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
             R.id.action_edit -> {
                 val intent = Intent(this, ExpenseFormActivity::class.java)
 

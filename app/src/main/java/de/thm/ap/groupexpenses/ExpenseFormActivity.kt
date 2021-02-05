@@ -2,6 +2,7 @@ package de.thm.ap.groupexpenses
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -27,6 +28,8 @@ class ExpenseFormActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityExpenseFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel.groupId = intent.extras?.getString(GroupActivity.KEY_GROUP_ID)
                 ?: throw IllegalArgumentException("Must pass extra ${GroupActivity.KEY_GROUP_ID}")
@@ -65,6 +68,16 @@ class ExpenseFormActivity : AppCompatActivity() {
 
         viewModel.date.observe(this) {
             binding.expenseDate.setText(it.formatGerman(true))
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
