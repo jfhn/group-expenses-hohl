@@ -17,7 +17,6 @@ import de.thm.ap.groupexpenses.util.DateUtil.getYearMonthDay
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.addExpense
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getExpense
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.updateExpense
-import kotlinx.android.synthetic.main.activity_expense_form.*
 import java.util.*
 
 class ExpenseFormActivity : AppCompatActivity() {
@@ -50,9 +49,9 @@ class ExpenseFormActivity : AppCompatActivity() {
 
         initIntervalData()
 
-        showIntervalControls(expense_recurring.isChecked)
+        showIntervalControls(binding.expenseRecurring.isChecked)
 
-        expense_recurring.setOnCheckedChangeListener { _, isChecked ->
+        binding.expenseRecurring.setOnCheckedChangeListener { _, isChecked ->
             showIntervalControls(isChecked)
         }
 
@@ -106,21 +105,21 @@ class ExpenseFormActivity : AppCompatActivity() {
     }
 
     private fun initIntervalData() {
-        expense_interval_unit.minValue = 0
-        expense_interval_unit.maxValue = 3
-        expense_interval_unit.displayedValues = resources.getStringArray(R.array.expense_interval_units)
+        binding.expenseIntervalUnit.minValue = 0
+        binding.expenseIntervalUnit.maxValue = 3
+        binding.expenseIntervalUnit.displayedValues = resources.getStringArray(R.array.expense_interval_units)
 
-        expense_interval_value.minValue = 1
-        expense_interval_value.maxValue = 100
+        binding.expenseIntervalValue.minValue = 1
+        binding.expenseIntervalValue.maxValue = 100
     }
 
     private fun showIntervalControls(checked: Boolean) {
         if (checked) {
-            expense_set_interval.visibility   = View.VISIBLE
-            expense_label_interval.visibility = View.VISIBLE
+            binding.expenseSetInterval.visibility   = View.VISIBLE
+            binding.expenseLabelInterval.visibility = View.VISIBLE
         } else {
-            expense_set_interval.visibility   = View.GONE
-            expense_label_interval.visibility = View.GONE
+            binding.expenseSetInterval.visibility   = View.GONE
+            binding.expenseLabelInterval.visibility = View.GONE
         }
     }
 
