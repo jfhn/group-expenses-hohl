@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/black"
-                    tools:text="DATE"/>
+                    android:text="@string/expenses_date"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/date"
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/black"
-                    tools:text="COST"/>
+                    android:text="@string/expenses"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/cost"
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/black"
-                    tools:text="USER"/>
+                    android:text="@string/payed_by"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/user"
@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/black"
-                    tools:text="RECURRING"/>
+                    android:text="@string/recurring"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/recurring"
@@ -118,41 +118,36 @@
             </FrameLayout>
 
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="vertical">
+                android:layout_marginTop="30dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
+                    android:id="@+id/header_receipt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/receipt"
                     android:textSize="20sp"
-                    android:text="@string/receipt"/>
+                    android:textStyle="bold" />
 
-                <!-- TODO -->
-<!--                <androidx.appcompat.widget.AppCompatButton-->
-<!--                    android:id="@+id/receiptButton"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/add_receipt"-->
-<!--                    android:onClick="onAddReceipt"-->
-<!--                    android:visibility="visible"/>-->
-
-                <!-- Either the button or the image view should be visible -->
 
                 <ImageView
                     android:id="@+id/receiptImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/receipt_description"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/button_add_receipt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher_background"
-                    android:contentDescription="@string/receipt_description"
-                    android:onClick="onShowReceipt"
-                    android:visibility="visible"/>
+                    android:text="@string/add_receipt"
+                    android:layout_gravity="center"/>
 
             </LinearLayout>
-
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

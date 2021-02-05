@@ -8,19 +8,78 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
+import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
+import de.thm.ap.groupexpenses.databinding.ActivityExpensesDetailBinding
 import de.thm.ap.groupexpenses.model.ExpensesDetailViewModel
+import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
+import de.thm.ap.groupexpenses.worker.FirebaseWorker
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.getExpense
+import java.util.*
 
 class ExpensesDetailActivity : AppCompatActivity() {
 
     private val viewModel: ExpensesDetailViewModel by viewModels()
+    private lateinit var binding: ActivityExpensesDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_expenses_detail)
+        binding = ActivityExpensesDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // TODO: process extras
+        viewModel.groupId = intent.extras?.getString(KEY_GROUP_ID)
+            ?: throw IllegalArgumentException("must pass extra: $KEY_EXPENSE_ID")
+
+        viewModel.expenseId = intent.extras?.getString(KEY_EXPENSE_ID)
+            ?: throw IllegalArgumentException("must pass extra: $KEY_EXPENSE_ID")
+
+        getExpense(viewModel.groupId, viewModel.expenseId).addOnSuccessListener {
+            viewModel.expense.value = it.toObject()!!
+        }
+
+        viewModel.expense.observe(this) { expense ->
+            if (expense != null) {
+                binding.date.text = expense.date!!.formatGerman()
+                binding.cost.text = String.format(
+                    Locale.GERMANY,
+                    getString(R.string.fmt_expenses_EUR),
+                    expense.cost
+                )
+                binding.user.text = expense.userName
+                title = expense.name
+            }
+        }
+
+        binding.receiptImage.setOnClickListener { pickImage() }
+        binding.buttonAddReceipt.setOnClickListener { pickImage() }
+    }
+
+    private fun pickImage() {
+        val intent = Intent(this, PickImageActivity::class.java)
+        intent.putExtra(KEY_EXPENSE_ID, viewModel.expenseId)
+        startActivity(intent)
+    }
+
+    private fun loadReceiptImage() {
+        FirebaseWorker.getImageUri("images/expenses/${viewModel.expenseId}.jpg").addOnSuccessListener {
+            binding.receiptImage.visibility     = View.VISIBLE
+            binding.buttonAddReceipt.visibility = View.GONE
+
+            Glide.with(this).load(it).into(binding.receiptImage)
+        }.addOnFailureListener {
+            binding.receiptImage.visibility     = View.GONE
+            binding.buttonAddReceipt.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        loadReceiptImage()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -38,7 +97,8 @@ class ExpensesDetailActivity : AppCompatActivity() {
             R.id.action_edit -> {
                 val intent = Intent(this, ExpenseFormActivity::class.java)
 
-//                intent.putExtra("id", this.viewModel.expense.id) // TODO: set id to the current expenses id (requires database)
+                // TODO: set id to the current expenses id (requires database)
+//                intent.putExtra("id", this.viewModel.expense.id)
 
                 startActivity(intent)
 
@@ -60,10 +120,5 @@ class ExpensesDetailActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    @Suppress("UNUSED_PARAMETER")
-    fun onShowReceipt(view: View) {
-        TODO("Not yet implemented")
     }
 }

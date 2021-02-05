@@ -53,4 +53,8 @@
     <string name="payment_value_missing">Zahlung darf nicht leer sein</string>
     <string name="payment_value_too_small">Zahlung muss größer als 0€ sein</string>
     <string name="payment_save_error">Zahlung konnte nicht gespeichert werden</string>
+    <string name="pick_image">Bild auswählen</string>
+    <string name="pick">Auswählen</string>
+    <string name="failed_to_upload_receipt">Fehler beim Hochladen des Belegs</string>
+    <string name="payed_by">Bezahlt von</string>
 </resources>

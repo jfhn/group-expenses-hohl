@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpenseFormBinding
 import de.thm.ap.groupexpenses.model.Expense
 import de.thm.ap.groupexpenses.util.DateUtil.dateFromValues
@@ -169,9 +170,5 @@ class ExpenseFormActivity : AppCompatActivity() {
                 ).show()
             }
         }
-    }
-
-    companion object {
-        const val KEY_EXPENSE_ID = "key_expense_id"
     }
 }
