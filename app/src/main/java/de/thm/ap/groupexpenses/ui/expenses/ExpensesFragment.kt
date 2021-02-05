@@ -1,6 +1,5 @@
 package de.thm.ap.groupexpenses.ui.expenses
 
-import android.app.Activity
 import android.content.*
 import android.os.Bundle
 import android.view.*
@@ -9,15 +8,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.auth.IdpResponse
-import com.google.android.gms.common.internal.GetServiceRequest
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.Query.Direction.ASCENDING
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.*
+import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.adapter.ExpensesAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentExpensesBinding
@@ -154,10 +151,6 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
 
     fun getInvitationLink(): String {
         return "http://de.thm.ap.groupexpenses/group_invite/${groupViewModel.groupId}"
-    }
-
-    companion object {
-        const val KEY_EXPENSE_ID = "key_expense_id"
     }
 }
 /*

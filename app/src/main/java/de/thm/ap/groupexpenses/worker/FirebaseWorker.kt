@@ -1,16 +1,20 @@
 package de.thm.ap.groupexpenses.worker
 
+import android.graphics.Bitmap
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.ktx.storage
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.UploadTask
 import de.thm.ap.groupexpenses.model.Expense
 import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.model.GroupMember
 import de.thm.ap.groupexpenses.model.GroupPayment
 import de.thm.ap.groupexpenses.model.UserPayment
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 
@@ -23,6 +27,14 @@ object FirebaseWorker {
 
     const val ROLE_MEMBER = "member"
     const val ROLE_ADMIN  = "admin"
+
+    fun uploadImage(path: String, bitmap: Bitmap): UploadTask {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 95, baos)
+        val data = baos.toByteArray()
+
+        return Firebase.storage.reference.child(path).putBytes(data)
+    }
 
     fun getUsersGroupsQuery(user: FirebaseUser): Query {
         return groupsRef

@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpensesDetailBinding
 import de.thm.ap.groupexpenses.model.ExpensesDetailViewModel
 
@@ -24,8 +25,13 @@ class ExpensesDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // TODO: process extras
+        val expenseId = intent.extras?.getString(KEY_EXPENSE_ID)
+            ?: throw IllegalArgumentException("must pass extra: $KEY_EXPENSE_ID")
+
         binding.receiptImage.setOnClickListener {
-            startActivity(Intent(this, PickImageActivity::class.java))
+            val intent = Intent(this, PickImageActivity::class.java)
+            intent.putExtra(KEY_EXPENSE_ID, expenseId)
+            startActivity(intent)
         }
     }
 
@@ -66,10 +72,5 @@ class ExpensesDetailActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    @Suppress("UNUSED_PARAMETER")
-    fun onShowReceipt(view: View) {
-        TODO("Not yet implemented")
     }
 }

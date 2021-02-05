@@ -72,5 +72,6 @@ class GroupActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "GroupDetail"
         const val KEY_GROUP_ID = "key_group_id"
+        const val KEY_EXPENSE_ID = "key_expense_id"
     }
 }
