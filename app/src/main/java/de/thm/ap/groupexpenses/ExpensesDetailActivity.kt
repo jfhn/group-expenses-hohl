@@ -8,19 +8,25 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import de.thm.ap.groupexpenses.databinding.ActivityExpensesDetailBinding
 import de.thm.ap.groupexpenses.model.ExpensesDetailViewModel
 
 class ExpensesDetailActivity : AppCompatActivity() {
 
     private val viewModel: ExpensesDetailViewModel by viewModels()
+    private lateinit var binding: ActivityExpensesDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_expenses_detail)
+        binding = ActivityExpensesDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // TODO: process extras
+        binding.receiptImage.setOnClickListener {
+            startActivity(Intent(this, PickImageActivity::class.java))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -148,7 +148,6 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_launcher_background"
                     android:contentDescription="@string/receipt_description"
-                    android:onClick="onShowReceipt"
                     android:visibility="visible"/>
 
             </LinearLayout>

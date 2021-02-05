@@ -39,6 +39,10 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PaymentFormActivity" />
+        <activity
+            android:name=".PickImageActivity"
+            android:parentActivityName=".ExpensesDetailActivity"/>
+
     </application>
 
 </manifest>
