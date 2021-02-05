@@ -34,7 +34,8 @@
             android:name=".GroupFormActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ExpensesDetailActivity" />
+            android:name=".ExpensesDetailActivity"
+            android:parentActivityName=".ExpensesDetailActivity"/>
         <activity
             android:name=".GroupActivity"
             android:parentActivityName=".MainActivity" />
