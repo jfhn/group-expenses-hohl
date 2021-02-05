@@ -28,14 +28,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ExpenseFormActivity"
-            android:parentActivityName=".ExpensesDetailActivity" />
+            android:name=".ExpenseFormActivity" />
         <activity
             android:name=".GroupFormActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ExpensesDetailActivity"
-            android:parentActivityName=".ExpensesDetailActivity"/>
+            android:name=".ExpensesDetailActivity"/>
         <activity
             android:name=".GroupActivity"
             android:parentActivityName=".MainActivity" />
