@@ -56,4 +56,5 @@
     <string name="pick_image">Bild auswählen</string>
     <string name="pick">Auswählen</string>
     <string name="failed_to_upload_receipt">Fehler beim Hochladen des Belegs</string>
+    <string name="payed_by">Bezahlt von</string>
 </resources>

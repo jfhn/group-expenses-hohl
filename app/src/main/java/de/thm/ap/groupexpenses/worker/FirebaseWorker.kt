@@ -1,6 +1,7 @@
 package de.thm.ap.groupexpenses.worker
 
 import android.graphics.Bitmap
+import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
@@ -34,6 +35,10 @@ object FirebaseWorker {
         val data = baos.toByteArray()
 
         return Firebase.storage.reference.child(path).putBytes(data)
+    }
+
+    fun getImageUri(path: String): Task<Uri> {
+        return Firebase.storage.reference.child(path).downloadUrl
     }
 
     fun getUsersGroupsQuery(user: FirebaseUser): Query {
