@@ -3,19 +3,17 @@ package de.thm.ap.groupexpenses.worker
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.core.app.TaskStackBuilder
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.storage.ktx.storage
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
-import de.thm.ap.groupexpenses.model.Expense
-import de.thm.ap.groupexpenses.model.Group
-import de.thm.ap.groupexpenses.model.GroupMember
-import de.thm.ap.groupexpenses.model.GroupPayment
-import de.thm.ap.groupexpenses.model.UserPayment
+import com.google.firebase.storage.ktx.storage
+import de.thm.ap.groupexpenses.model.*
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -42,14 +40,10 @@ object FirebaseWorker {
         return Firebase.storage.reference.child(path).downloadUrl
     }
 
-    fun downloadImage(path: String): Task<ByteArray> {
-        return Firebase.storage.reference.child(path).getBytes(Long.MAX_VALUE)
-    }
-
-    fun getUsersGroupsQuery(user: FirebaseUser): Query {
-        return groupsRef
-                .whereArrayContains("members", user.uid)
-                .orderBy("latestUpdate", Query.Direction.DESCENDING)
+    fun downloadImage(path: String): Task<Bitmap> {
+        return Firebase.storage.reference.child(path).getBytes(Long.MAX_VALUE).onSuccessTask {
+            Tasks.call { BitmapFactory.decodeByteArray(it, 0, it!!.size) }
+        }
     }
 
     fun createGroup(group: Group): Task<DocumentReference> {
