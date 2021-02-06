@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
+import de.thm.ap.groupexpenses.R
 import de.thm.ap.groupexpenses.databinding.ItemGroupMemberBinding
 import de.thm.ap.groupexpenses.model.GroupMember
+import java.lang.IllegalStateException
 
 open class GroupMembersAdapter(query: Query)
     : FirestoreAdapter<GroupMembersAdapter.ViewHolder>(query)
@@ -29,7 +31,11 @@ open class GroupMembersAdapter(query: Query)
             val groupMember: GroupMember = snapshot.toObject() ?: return
 
             binding.itemGroupMemberName.text = groupMember.userName
-            binding.itemGroupMemberRole.text = groupMember.role
+            binding.itemGroupMemberRole.text = when (groupMember.role) {
+                "admin"  -> binding.root.resources.getString(R.string.admin)
+                "member" -> binding.root.resources.getString(R.string.member)
+                else     -> throw IllegalStateException("$TAG: must not occur")
+            }
         }
     }
 }
