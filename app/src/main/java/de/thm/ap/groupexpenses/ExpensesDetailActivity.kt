@@ -38,7 +38,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
             ?: throw IllegalArgumentException("must pass extra: $KEY_EXPENSE_ID")
 
         getExpense(viewModel.groupId, viewModel.expenseId).addOnSuccessListener {
-            viewModel.expense.value = it.toObject()!!
+            viewModel.expense.value = it
         }
 
         viewModel.expense.observe(this) { expense ->

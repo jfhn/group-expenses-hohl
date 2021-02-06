@@ -68,8 +68,12 @@ object FirebaseWorker {
         }
     }
 
-    fun getExpense(groupId: String, expenseId: String): Task<DocumentSnapshot> {
-        return db.document("groups/$groupId/expenses/$expenseId").get()
+    fun getExpense(groupId: String, expenseId: String): Task<Expense> {
+        return db.document("groups/$groupId/expenses/$expenseId")
+                .get()
+                .onSuccessTask { snapshot ->
+                    Tasks.call { snapshot!!.toObject<Expense>() }
+                }
     }
 
     fun removeExpense(groupId: String, expenseId: String): Task<Transaction> {
@@ -152,8 +156,10 @@ object FirebaseWorker {
         }
     }
 
-    fun getGroup(groupId: String): Task<DocumentSnapshot> {
-        return db.document("groups/$groupId").get()
+    fun getGroup(groupId: String): Task<Group> {
+        return db.document("groups/$groupId").get().onSuccessTask { snapshot ->
+            Tasks.call { snapshot!!.toObject<Group>() }
+        }
     }
 }
 

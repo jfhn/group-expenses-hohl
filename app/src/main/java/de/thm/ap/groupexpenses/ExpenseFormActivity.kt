@@ -39,7 +39,7 @@ class ExpenseFormActivity : AppCompatActivity() {
 
         if (viewModel.expenseId != null) {
             getExpense(viewModel.groupId, viewModel.expenseId!!).addOnSuccessListener {
-                val expense: Expense = it.toObject()!!
+                val expense: Expense = it
 
                 binding.expenseName.setText(expense.name)
                 binding.expenseValue.setText(String.format(
