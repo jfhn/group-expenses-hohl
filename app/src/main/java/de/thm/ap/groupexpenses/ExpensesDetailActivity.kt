@@ -2,12 +2,14 @@ package de.thm.ap.groupexpenses
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -55,6 +57,17 @@ class ExpensesDetailActivity : AppCompatActivity() {
             }
         }
 
+        viewModel.image.observe(this) { bitmap ->
+            if (bitmap != null) {
+                binding.receiptImage.visibility     = View.VISIBLE
+                binding.buttonAddReceipt.visibility = View.GONE
+                Glide.with(this).load(bitmap).into(binding.receiptImage)
+            } else {
+                binding.receiptImage.visibility     = View.GONE
+                binding.buttonAddReceipt.visibility = View.VISIBLE
+            }
+        }
+
         binding.receiptImage.setOnClickListener { pickImage() }
         binding.buttonAddReceipt.setOnClickListener { pickImage() }
     }
@@ -66,15 +79,14 @@ class ExpensesDetailActivity : AppCompatActivity() {
     }
 
     private fun loadReceiptImage() {
-        FirebaseWorker.getImageUri("images/expenses/${viewModel.expenseId}.jpg").addOnSuccessListener {
-            binding.receiptImage.visibility     = View.VISIBLE
-            binding.buttonAddReceipt.visibility = View.GONE
-
-            Glide.with(this).load(it).into(binding.receiptImage)
-        }.addOnFailureListener {
-            binding.receiptImage.visibility     = View.GONE
-            binding.buttonAddReceipt.visibility = View.VISIBLE
-        }
+        FirebaseWorker
+                .downloadImage("images/expenses/${viewModel.expenseId}.jpg")
+                .addOnSuccessListener {
+                    viewModel.image.value = BitmapFactory.decodeByteArray(it, 0, it.size)
+                }
+                .addOnFailureListener {
+                    viewModel.image.value = null
+                }
     }
 
     override fun onStart() {
