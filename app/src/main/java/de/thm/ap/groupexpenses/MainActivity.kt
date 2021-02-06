@@ -83,8 +83,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun joinGroupDialog(groupId: String) {
         val ctx = this
-        getGroup(groupId).addOnSuccessListener { snapshot ->
-            val group: Group = snapshot.toObject()!!
+        getGroup(groupId).addOnSuccessListener { group ->
             if (!group.members!!.contains(userViewModel.user.value!!.uid)) {
                 AlertDialog.Builder(this).apply {
                     setTitle("Gruppeneinladung")
