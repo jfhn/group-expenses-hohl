@@ -2,17 +2,14 @@ package de.thm.ap.groupexpenses
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpensesDetailBinding
@@ -82,7 +79,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
         FirebaseWorker
                 .downloadImage("images/expenses/${viewModel.expenseId}.jpg")
                 .addOnSuccessListener {
-                    viewModel.image.value = BitmapFactory.decodeByteArray(it, 0, it.size)
+                    viewModel.image.value = it
                 }
                 .addOnFailureListener {
                     viewModel.image.value = null
