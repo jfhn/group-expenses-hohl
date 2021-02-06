@@ -57,4 +57,9 @@
     <string name="pick">Auswählen</string>
     <string name="failed_to_upload_receipt">Fehler beim Hochladen des Belegs</string>
     <string name="payed_by">Bezahlt von</string>
+    <string name="group_invitation">Gruppeneinladung</string>
+    <string name="fmt_group_invitation">Möchten Sie folgender Gruppe beitreten?</string>
+    <string name="accept">Annehmen</string>
+    <string name="decline">Ablehnen</string>
+    <string name="group_doesnt_exist">Gruppe existiert nicht!</string>
 </resources>
