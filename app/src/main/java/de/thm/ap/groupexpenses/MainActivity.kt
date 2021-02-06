@@ -27,6 +27,7 @@ import de.thm.ap.groupexpenses.ui.user.UserViewModel
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.addGroupMember
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroup
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroupRef
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -86,20 +87,20 @@ class MainActivity : AppCompatActivity() {
         getGroup(groupId).addOnSuccessListener { group ->
             if (!group.members!!.contains(userViewModel.user.value!!.uid)) {
                 AlertDialog.Builder(this).apply {
-                    setTitle("Gruppeneinladung")
-                    setMessage("Möchten Sie folgender Gruppe beitreten?\n${group.name}")
-                    setPositiveButton("Annehmen") { _, _ ->
+                    setTitle(getString(R.string.group_invitation))
+                    setMessage(getString(R.string.fmt_group_invitation) + "\n${group.name}")
+                    setPositiveButton(getString(R.string.accept)) { _, _ ->
                         addGroupMember(getGroupRef(groupId), userViewModel.user.value!!)
                         openGroupActivity(groupId)
                     }
-                    setNegativeButton("Ablehnen", null)
+                    setNegativeButton(getString(R.string.decline), null)
                     show()
                 }
             } else {
                 openGroupActivity(groupId)
             }
         }.addOnFailureListener {
-            Toast.makeText(ctx, "Gruppe existiert nicht!", Toast.LENGTH_LONG).show()
+            Toast.makeText(ctx, getString(R.string.group_doesnt_exist), Toast.LENGTH_LONG).show()
         }
     }
 
