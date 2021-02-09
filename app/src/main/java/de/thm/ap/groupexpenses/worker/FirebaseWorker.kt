@@ -43,6 +43,8 @@ object FirebaseWorker {
     fun downloadImage(path: String): Task<Bitmap> {
         return Firebase.storage.reference.child(path).getBytes(Long.MAX_VALUE).onSuccessTask {
             Tasks.call { BitmapFactory.decodeByteArray(it, 0, it!!.size) }
+        }.addOnFailureListener {
+            Tasks.forException<Bitmap>(it)
         }
     }
 
