@@ -33,7 +33,7 @@
             android:name=".GroupFormActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ExpensesDetailActivity"/>
+            android:name=".ExpensesDetailActivity" />
         <activity
             android:name=".GroupActivity"
             android:parentActivityName=".MainActivity" />
@@ -41,7 +41,7 @@
             android:name=".PaymentFormActivity" />
         <activity
             android:name=".PickImageActivity"
-            android:parentActivityName=".ExpensesDetailActivity"/>
+            android:parentActivityName=".ExpensesDetailActivity" />
 
     </application>
 

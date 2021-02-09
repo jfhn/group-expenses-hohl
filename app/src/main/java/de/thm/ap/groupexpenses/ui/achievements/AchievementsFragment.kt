@@ -19,7 +19,7 @@ class AchievementsFragment : Fragment() {
     private lateinit var binding: FragmentAchievementsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+                              savedInstanceState: Bundle?): View { // TODO: refactor to activity
         binding = FragmentAchievementsBinding.inflate(inflater, container, false)
 
         requireActivity().actionBar!!.title = getString(R.string.achievements_title)
