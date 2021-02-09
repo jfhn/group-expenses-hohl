@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import de.thm.ap.groupexpenses.R
 import de.thm.ap.groupexpenses.databinding.FragmentAchievementsBinding
 import de.thm.ap.groupexpenses.model.Achievement
 
@@ -20,6 +21,8 @@ class AchievementsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = FragmentAchievementsBinding.inflate(inflater, container, false)
+
+        requireActivity().actionBar!!.title = getString(R.string.achievements_title)
 
         val adapter = ArrayAdapter<Achievement>(requireContext(), simple_list_item_1, mutableListOf())
 
