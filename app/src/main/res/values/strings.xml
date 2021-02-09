@@ -36,9 +36,9 @@
     <string name="expenses_date_hint">Das Datum der Ausgabe</string>
     <string name="expenses_name_hint">Ausgabenname</string>
     <string name="expenses_date_button">Datum auswählen</string>
-    <string name="group_no_expenses">Für diese Gruppe wurden noch keine Ausgaben getätigt!</string>
+    <string name="group_no_expenses">In dieser Gruppe wurden noch keine Ausgaben getätigt.</string>
     <string name="user_no_payments">Du hast noch keine Zahlungen getätigt</string>
-    <string name="group_no_payments">In dieser Gruppe wurden noch keine Zahlungen getätigt</string>
+    <string name="group_no_payments">In dieser Gruppe wurden noch keine Zahlungen getätigt.</string>
     <string name="group_form_name">Gruppenname</string>
     <string name="group_name_not_empty">Gruppenname darf nicht leer sein</string>
     <string name="expense_name_missing">Ausgaben müssen einen Namen haben</string>
