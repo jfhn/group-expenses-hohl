@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpenseFormBinding
@@ -43,7 +42,7 @@ class ExpenseFormActivity : AppCompatActivity() {
 
                 binding.expenseName.setText(expense.name)
                 binding.expenseValue.setText(String.format(
-                        Locale.GERMANY,
+                        Locale.ENGLISH,
                         "%.2f",
                         expense.cost
                 ))
