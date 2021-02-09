@@ -42,7 +42,7 @@ class ExpenseFormActivity : AppCompatActivity() {
 
                 binding.expenseName.setText(expense.name)
                 binding.expenseValue.setText(String.format(
-                        Locale.GERMANY,
+                        Locale.ENGLISH,
                         "%.2f",
                         expense.cost
                 ))
