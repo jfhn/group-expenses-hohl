@@ -106,8 +106,8 @@ class ExpensesDetailActivity : AppCompatActivity() {
             R.id.action_edit -> {
                 val intent = Intent(this, ExpenseFormActivity::class.java)
 
-                // TODO: set id to the current expenses id (requires database)
-//                intent.putExtra("id", this.viewModel.expense.id)
+                intent.putExtra(KEY_EXPENSE_ID, this.viewModel.expenseId)
+                intent.putExtra(KEY_GROUP_ID, this.viewModel.groupId)
 
                 startActivity(intent)
 
