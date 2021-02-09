@@ -64,4 +64,6 @@
     <string name="group_doesnt_exist">Gruppe existiert nicht!</string>
     <string name="admin">Admin</string>
     <string name="member">Mitglied</string>
+    <string name="expense_remove_success">Ausgabe erfolgreich gelöscht!</string>
+    <string name="expense_remove_failure">Beim Löschen der Ausgabe ist ein Fehler aufgetreten. Versuche es später erneut.</string>
 </resources>

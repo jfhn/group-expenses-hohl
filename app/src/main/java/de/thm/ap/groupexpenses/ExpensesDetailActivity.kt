@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.google.firebase.firestore.ktx.toObject
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpensesDetailBinding
@@ -77,13 +77,13 @@ class ExpensesDetailActivity : AppCompatActivity() {
 
     private fun loadReceiptImage() {
         FirebaseWorker
-                .downloadImage("images/expenses/${viewModel.expenseId}.jpg")
-                .addOnSuccessListener {
-                    viewModel.image.value = it
-                }
-                .addOnFailureListener {
-                    viewModel.image.value = null
-                }
+            .downloadImage("images/expenses/${viewModel.expenseId}.jpg")
+            .addOnSuccessListener {
+                viewModel.image.value = it
+            }
+            .addOnFailureListener {
+                viewModel.image.value = null
+            }
     }
 
     override fun onStart() {
@@ -99,7 +99,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            android.R.id.home -> {
+            R.id.home -> {
                 finish()
                 true
             }
@@ -113,13 +113,31 @@ class ExpensesDetailActivity : AppCompatActivity() {
 
                 true
             }
-
             R.id.action_delete -> {
+                val ctx = applicationContext
+
                 AlertDialog.Builder(this).apply {
                     setTitle(R.string.stats)
                     setMessage(R.string.confirm_delete)
                     setNegativeButton(R.string.delete) { _, _ ->
-                        TODO("delete expense")
+                        FirebaseWorker
+                            .removeExpense(viewModel.groupId, viewModel.expenseId)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    ctx,
+                                    getString(R.string.expense_remove_success),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(
+                                    ctx,
+                                    getString(R.string.expense_remove_failure),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        finish()
                     }
                     setNeutralButton(R.string.cancel, null)
                     show()
