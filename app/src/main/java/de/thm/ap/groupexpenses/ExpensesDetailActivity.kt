@@ -10,9 +10,11 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.Task
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpensesDetailBinding
+import de.thm.ap.groupexpenses.model.Expense
 import de.thm.ap.groupexpenses.model.ExpensesDetailViewModel
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
@@ -37,9 +39,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
         viewModel.expenseId = intent.extras?.getString(KEY_EXPENSE_ID)
             ?: throw IllegalArgumentException("must pass extra: $KEY_EXPENSE_ID")
 
-        getExpense(viewModel.groupId, viewModel.expenseId).addOnSuccessListener {
-            viewModel.expense.value = it
-        }
+        getExpense()
 
         viewModel.expense.observe(this) { expense ->
             if (expense != null) {
@@ -89,6 +89,11 @@ class ExpensesDetailActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         loadReceiptImage()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getExpense()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -146,6 +151,12 @@ class ExpensesDetailActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun getExpense(): Task<Expense> {
+        return getExpense(viewModel.groupId, viewModel.expenseId).addOnSuccessListener {
+            viewModel.expense.value = it
         }
     }
 }
