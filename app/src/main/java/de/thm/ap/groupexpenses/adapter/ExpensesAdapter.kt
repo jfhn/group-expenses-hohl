@@ -67,6 +67,10 @@ open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelected
         this.dividerHolder = null
 
         this.notifyDataSetChanged()
+
+        if (this.dividerPosition == -1) {
+            this.dividerPosition = itemCount - 1
+        }
     }
 
     class ViewHolder(val binding: ItemTimelineBinding,
