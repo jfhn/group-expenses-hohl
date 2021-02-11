@@ -9,6 +9,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.functions.HttpsCallableResult
+import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
@@ -70,27 +72,26 @@ object FirebaseWorker {
         }
     }
 
-    fun createGroup(group: Group): Task<DocumentReference> {
-        return groupsRef.add(group)
-    }
+    fun createGroup(name: String): Task<String> = Firebase.functions
+            .getHttpsCallable("createGroup")
+            .call(mapOf("name" to name))
+            .continueWith { task ->
+                task.result?.data as String // groupId
+            }
 
-    fun addGroupMember(
-            groupRef: DocumentReference,
-            user: FirebaseUser,
-            role: String = ROLE_MEMBER
-    ): Task<Transaction> {
-        val groupMember = GroupMember().apply {
-            this.userName = user.displayName
-            this.role = role
-        }
+    fun joinGroup(groupId: String, role: String): Task<String> = Firebase.functions
+            .getHttpsCallable("joinGroup")
+            .call(mapOf("groupId" to groupId, "role" to role))
+            .continueWith { task ->
+                task.result?.data as String // groupId
+            }
 
-        val groupMemberRef = groupRef.collection("members").document(user.uid)
-
-        return db.runTransaction { transaction ->
-            transaction.update(groupRef, "members", FieldValue.arrayUnion(user.uid))
-            transaction.set(groupMemberRef, groupMember)
-        }
-    }
+    fun leaveGroup(groupId: String): Task<String> = Firebase.functions
+            .getHttpsCallable("leaveGroup")
+            .call(mapOf("groupId" to groupId))
+            .continueWith { task ->
+                task.result?.data as String // groupId
+            }
 
     fun getExpense(groupId: String, expenseId: String): Task<Expense> {
         return db.document("groups/$groupId/expenses/$expenseId")
@@ -142,10 +143,6 @@ object FirebaseWorker {
             transaction.update(groupRef, "expenses", newExpenses)
             transaction.update(groupRef, "latestUpdate", Date())
         }
-    }
-
-    fun getGroupRef(groupId: String): DocumentReference {
-        return groupsRef.document(groupId)
     }
 
     fun addPayment(groupId: String, user: FirebaseUser, payment: Double, date: Date?): Task<Transaction> {

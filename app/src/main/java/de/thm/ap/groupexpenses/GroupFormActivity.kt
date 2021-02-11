@@ -1,12 +1,12 @@
 package de.thm.ap.groupexpenses
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.databinding.ActivityGroupFormBinding
-import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.joinGroup
 
 class GroupFormActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGroupFormBinding
@@ -27,18 +27,15 @@ class GroupFormActivity : AppCompatActivity() {
     private fun createGroup() {
         if (!validateForm()) return
 
-        val group = Group().apply {
-            name = binding.groupFormName.text.toString().trim()
-        }
+        val name = binding.groupFormName.text.toString().trim()
 
-        FirebaseWorker.createGroup(group).addOnSuccessListener { groupRef ->
-            FirebaseWorker.addGroupMember(
-                    groupRef,
-                    Firebase.auth.currentUser!!,
-                    FirebaseWorker.ROLE_ADMIN
-            )
-            setResult(RESULT_OK)
-            finish()
+        Toast.makeText(this, "Erstelle Gruppe ...", Toast.LENGTH_LONG).show()
+        FirebaseWorker.createGroup(name).addOnSuccessListener { groupId ->
+            Toast.makeText(this, "Tritt Gruppe bei...", Toast.LENGTH_LONG).show()
+            joinGroup(groupId, FirebaseWorker.ROLE_ADMIN).addOnSuccessListener {
+                setResult(RESULT_OK)
+                finish()
+            }
         }.addOnFailureListener {
             setResult(RESULT_CANCELED)
             finish()
