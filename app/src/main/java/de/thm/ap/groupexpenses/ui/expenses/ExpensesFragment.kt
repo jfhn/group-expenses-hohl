@@ -18,6 +18,7 @@ import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.adapter.ExpensesAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentExpensesBinding
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.groupExpensesQuery
 import java.util.*
 
 class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
@@ -102,9 +103,7 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
     }
 
     private fun initRecyclerView() {
-        val query: Query = Firebase.firestore
-            .collection("groups/${groupViewModel.groupId}/expenses")
-            .orderBy("date", ASCENDING)
+        val query: Query = groupExpensesQuery(groupViewModel.groupId)
 
         this.adapter = object : ExpensesAdapter(query, this@ExpensesFragment) {
             override fun onDataChanged() {

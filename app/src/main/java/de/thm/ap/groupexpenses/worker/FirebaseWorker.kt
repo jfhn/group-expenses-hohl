@@ -3,7 +3,6 @@ package de.thm.ap.groupexpenses.worker
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.core.app.TaskStackBuilder
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseUser
@@ -27,6 +26,29 @@ object FirebaseWorker {
 
     const val ROLE_MEMBER = "member"
     const val ROLE_ADMIN  = "admin"
+
+    fun userGroupsQuery(uid: String): Query = db
+            .collection("users/$uid/groups")
+            .orderBy("latestUpdate", Query.Direction.DESCENDING)
+
+    fun userPaymentsQuery(uid: String): Query = db
+            .collection("users/$uid/payments")
+            .orderBy("date", Query.Direction.DESCENDING)
+
+    fun userExpensesQuery(uid: String): Query = db
+            .collection("users/$uid/expenses")
+            .orderBy("date", Query.Direction.DESCENDING)
+
+    fun groupMembersQuery(groupId: String): Query = db.
+            collection("groups/$groupId/members")
+
+    fun groupPaymentsQuery(groupId: String): Query = db
+            .collection("groups/$groupId/payments")
+            .orderBy("date", Query.Direction.DESCENDING)
+
+    fun groupExpensesQuery(groupId: String): Query = db
+            .collection("groups/$groupId/expenses")
+            .orderBy("date", Query.Direction.ASCENDING)
 
     fun uploadImage(path: String, bitmap: Bitmap): UploadTask {
         val baos = ByteArrayOutputStream()
@@ -85,7 +107,7 @@ object FirebaseWorker {
         return db.runTransaction { transaction ->
             val group: Group = transaction.get(groupRef).toObject()!!
             val expense: Expense = transaction.get(expenseRef).toObject()!!
-            val newExpenses = group.expenses - expense.cost
+            val newExpenses = group.totalExpenses - expense.cost
 
             transaction.delete(expenseRef)
             transaction.update(groupRef, "expenses", newExpenses)
@@ -100,7 +122,7 @@ object FirebaseWorker {
         return db.runTransaction { transaction ->
             val group: Group = transaction.get(groupRef).toObject()!!
             val oldExpense: Expense = transaction.get(expenseRef).toObject()!!
-            val newExpenses = group.expenses - oldExpense.cost + expense.cost
+            val newExpenses = group.totalExpenses - oldExpense.cost + expense.cost
 
             transaction.set(expenseRef, expense)
             transaction.update(groupRef, "expenses", newExpenses)
@@ -114,7 +136,7 @@ object FirebaseWorker {
 
         return db.runTransaction { transaction ->
             val group: Group = transaction.get(groupRef).toObject()!!
-            val newExpenses = group.expenses + expense.cost
+            val newExpenses = group.totalExpenses + expense.cost
 
             transaction.set(expenseRef, expense)
             transaction.update(groupRef, "expenses", newExpenses)
@@ -149,7 +171,7 @@ object FirebaseWorker {
 
             group.apply {
                 this.latestUpdate = null
-                this.expenses    -= payment
+                this.totalExpenses    -= payment
             }
 
             transaction.set(groupRef, group)

@@ -33,20 +33,19 @@ open class GroupsAdapter(query: Query, private val listener: OnGroupSelectedList
         fun bind(snapshot: DocumentSnapshot, listener: OnGroupSelectedListener?) {
             val group: Group = snapshot.toObject() ?: return
             val resources = binding.root.resources
-            val numOfMembers: Int = group.members?.size ?: 0
 
             binding.itemGroupName.text = group.name
             binding.itemGroupMembers.text =
-                    if (numOfMembers == 1) resources.getString(R.string.single_member)
+                    if (group.numMembers == 1) resources.getString(R.string.single_member)
                     else String.format(
                             Locale.GERMANY,
                             resources.getString(R.string.fmt_members),
-                            numOfMembers
+                            group.numMembers
                     )
             binding.itemGroupExpenses.text = String.format(
                     Locale.GERMANY,
                     resources.getString(R.string.fmt_expenses_EUR),
-                    group.expenses
+                    group.totalExpenses
             )
             binding.itemGroupLatestUpdate.text = String.format(
                     Locale.GERMANY,

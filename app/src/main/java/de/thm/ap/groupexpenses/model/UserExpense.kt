@@ -4,10 +4,11 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
-class GroupPayment {
+class UserExpense {
     @DocumentId var id: String? = null
-    var userId: String? = null
-    var userName: String? = null
+    var name: String? = null
+    var groupId: String? = null
+    var groupName: String? = null
     @ServerTimestamp var date: Date? = null
-    var payment: Double = 0.0
+    var cost: Double = 0.0
 }

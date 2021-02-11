@@ -7,7 +7,10 @@ import java.util.*
 class Group {
     @DocumentId var id: String? = null
     var name: String? = null
-    var expenses: Double = 0.0
-    @ServerTimestamp var latestUpdate: Date? = Date()
-    var members: List<String>? = null
+    var totalExpenses: Double = 0.0
+    var totalPayments: Double = 0.0
+    var personalExpenses: Double = 0.0
+    var personalPayments: Double = 0.0
+    @ServerTimestamp var latestUpdate: Date? = null
+    var numMembers: Int = 0
 }

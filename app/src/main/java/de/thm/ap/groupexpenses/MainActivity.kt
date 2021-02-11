@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -85,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     private fun joinGroupDialog(groupId: String) {
         val ctx = this
         getGroup(groupId).addOnSuccessListener { group ->
-            if (!group.members!!.contains(userViewModel.user.value!!.uid)) {
+            /*if (!group.members!!.contains(userViewModel.user.value!!.uid)) {
                 AlertDialog.Builder(this).apply {
                     setTitle(getString(R.string.group_invitation))
                     setMessage(getString(R.string.fmt_group_invitation) + "\n${group.name}")
@@ -98,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                 }
             } else {
                 openGroupActivity(groupId)
-            }
+            }*/
         }.addOnFailureListener {
             Toast.makeText(ctx, getString(R.string.group_doesnt_exist), Toast.LENGTH_LONG).show()
         }

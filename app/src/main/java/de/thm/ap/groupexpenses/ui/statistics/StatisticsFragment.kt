@@ -14,7 +14,6 @@ import de.thm.ap.groupexpenses.ui.user.UserViewModel
 
 class StatisticsFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
-    private val statisticsViewModel: StatisticsViewModel by viewModels()
     private var _binding: FragmentStatisticsBinding? = null
 
     private val binding get() = _binding!!

@@ -29,7 +29,6 @@ class GroupFormActivity : AppCompatActivity() {
 
         val group = Group().apply {
             name = binding.groupFormName.text.toString().trim()
-            members = listOf()
         }
 
         FirebaseWorker.createGroup(group).addOnSuccessListener { groupRef ->

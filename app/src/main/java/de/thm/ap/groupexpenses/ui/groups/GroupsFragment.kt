@@ -19,6 +19,7 @@ import de.thm.ap.groupexpenses.adapter.GroupsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupsBinding
 import de.thm.ap.groupexpenses.ui.RecyclerFragment
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.userGroupsQuery
 
 class GroupsFragment : RecyclerFragment(), GroupsAdapter.OnGroupSelectedListener {
     companion object {
@@ -26,7 +27,6 @@ class GroupsFragment : RecyclerFragment(), GroupsAdapter.OnGroupSelectedListener
     }
 
     private val userViewModel: UserViewModel by activityViewModels()
-    private val groupsViewModel: GroupsViewModel by viewModels()
     private lateinit var binding: FragmentGroupsBinding
 
     override fun onCreateView(
@@ -43,9 +43,7 @@ class GroupsFragment : RecyclerFragment(), GroupsAdapter.OnGroupSelectedListener
     override fun initRecyclerView() {
         userViewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                val query: Query = Firebase.firestore.collection("groups")
-                        .whereArrayContains("members", user.uid)
-                        .orderBy("latestUpdate", Query.Direction.DESCENDING)
+                val query: Query = userGroupsQuery(user.uid)
 
                 adapter = object : GroupsAdapter(query, this@GroupsFragment) {
                     override fun onDataChanged() {
