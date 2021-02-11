@@ -41,8 +41,8 @@ object FirebaseWorker {
             .collection("users/$uid/expenses")
             .orderBy("date", Query.Direction.DESCENDING)
 
-    fun groupMembersQuery(groupId: String): Query = db.
-            collection("groups/$groupId/members")
+    fun groupMembersQuery(groupId: String): Query = db
+            .collection("groups/$groupId/members")
 
     fun groupPaymentsQuery(groupId: String): Query = db
             .collection("groups/$groupId/payments")

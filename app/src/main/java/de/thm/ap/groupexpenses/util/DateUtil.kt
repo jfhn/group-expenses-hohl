@@ -1,6 +1,9 @@
 package de.thm.ap.groupexpenses.util
 
+import android.content.res.Resources
 import android.widget.DatePicker
+import de.thm.ap.groupexpenses.R
+import de.thm.ap.groupexpenses.util.DateUtil.getDayOfWeek
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,12 +36,20 @@ object DateUtil {
     fun Date.formatGerman(asAbsoluteDate: Boolean = false): String {
         if (asAbsoluteDate) return dateFormat.format(this)
 
-        val currentDate = Date()
-        return when (dayOffset(currentDate, this)) {
-            0L -> if (secondsOffset(currentDate, this) < 60) "gerade eben" else "heute"
-            1L -> "gestern"
+        val off = dayOffset(Date(), this)
+        return when {
+            off == 0L -> SimpleDateFormat("HH:mm", Locale.GERMANY).format(this)
+            off == 1L -> "gestern"
+            off in 2..6 -> SimpleDateFormat("E", Locale.GERMANY).format(this)
             else -> dateFormat.format(this)
         }
+    }
+
+    fun Date.getDayOfWeek(resources: Resources): String {
+        val calendar  = Calendar.getInstance()
+        calendar.time = this
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        return resources.getStringArray(R.array.days_of_week).toString()
     }
 
     fun Date.getYearMonthDay(): Triple<Int, Int, Int> {
