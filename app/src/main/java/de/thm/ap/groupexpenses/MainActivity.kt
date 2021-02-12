@@ -61,16 +61,6 @@ class MainActivity : AppCompatActivity() {
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        val appLinkIntent = intent
-        val appLinkAction = appLinkIntent.action
-        val appLinkData   = appLinkIntent.data
-        if (appLinkData != null) {
-            val groupId = appLinkData.lastPathSegment
-            if (groupId != null) {
-                joinGroupDialog(groupId)
-            }
-        }
     }
 
     fun createGroup(item: MenuItem) {
@@ -122,6 +112,14 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        val appLinkData = intent.data
+        if (appLinkData != null) {
+            val groupId = appLinkData.lastPathSegment
+            intent.data = null
+            if (groupId != null) {
+                joinGroupDialog(groupId)
+            }
+        }
     }
 
     fun startSignIn() {
