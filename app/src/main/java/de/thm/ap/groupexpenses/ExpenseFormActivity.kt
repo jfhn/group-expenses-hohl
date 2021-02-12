@@ -15,10 +15,8 @@ import de.thm.ap.groupexpenses.model.GroupExpense
 import de.thm.ap.groupexpenses.util.DateUtil.dateFromValues
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.util.DateUtil.getYearMonthDay
-import de.thm.ap.groupexpenses.worker.FirebaseWorker.addExpense
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getExpense
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.setExpense
-import de.thm.ap.groupexpenses.worker.FirebaseWorker.updateExpense
 import java.util.*
 
 class ExpenseFormActivity : AppCompatActivity() {
