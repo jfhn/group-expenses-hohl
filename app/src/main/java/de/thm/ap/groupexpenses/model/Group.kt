@@ -1,6 +1,8 @@
 package de.thm.ap.groupexpenses.model
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.IgnoreExtraProperties
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
@@ -13,4 +15,8 @@ class Group {
     var personalPayments: Double = 0.0
     @ServerTimestamp var latestUpdate: Date? = null
     var numMembers: Int = 0
+
+    fun getPersonalBalance(): Double = personalPayments - totalExpenses / numMembers
+
+    fun getTotalBalance(): Double = totalPayments - totalExpenses
 }

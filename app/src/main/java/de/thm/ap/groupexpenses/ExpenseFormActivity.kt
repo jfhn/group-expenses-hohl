@@ -156,7 +156,7 @@ class ExpenseFormActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.GONE
             Toast.makeText(
                     this,
-                    "Ausgabe konnte nicht gespeichert werden",
+                    getString(R.string.error_saving_expense),
                     Toast.LENGTH_LONG
             ).show()
         }

@@ -66,4 +66,6 @@
     <string name="member">Mitglied</string>
     <string name="expense_remove_success">Ausgabe erfolgreich gelöscht!</string>
     <string name="expense_remove_failure">Beim Löschen der Ausgabe ist ein Fehler aufgetreten. Versuche es später erneut.</string>
+    <string name="error_saving_expense">Ausgabe konnte nicht gespeichert werden</string>
+    <string name="error_saving_group">Gruppe konnte nicht erstellt werden</string>
 </resources>

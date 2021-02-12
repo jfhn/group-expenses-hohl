@@ -10,4 +10,5 @@
     <color name="grey">#696969</color>
 
     <color name="expenses_card_background">#F3F3F3</color>
+    <color name="red">#FF3232</color>
 </resources>

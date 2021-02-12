@@ -91,7 +91,11 @@ class PaymentFormActivity : AppCompatActivity() {
             finish()
         }.addOnFailureListener {
             binding.progressBar.visibility = View.GONE
-            Toast.makeText(this, getString(R.string.payment_save_error), Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                    this,
+                    getString(R.string.payment_save_error),
+                    Toast.LENGTH_LONG
+            ).show()
         }
     }
 

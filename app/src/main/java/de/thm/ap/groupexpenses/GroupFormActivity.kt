@@ -38,7 +38,11 @@ class GroupFormActivity : AppCompatActivity() {
             setResult(RESULT_OK, resultIntent)
             finish()
         }.addOnFailureListener {
-            Toast.makeText(this, "Gruppe konnte nicht erstellt werden", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                    this,
+                    getString(R.string.error_saving_group),
+                    Toast.LENGTH_LONG
+            ).show()
             binding.progressBar.visibility = View.GONE
         }
     }
