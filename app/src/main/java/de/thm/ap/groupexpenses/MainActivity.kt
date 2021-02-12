@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -112,6 +113,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        // TODO(bug): open the group when the invitation link is clicked once
         val appLinkData = intent.data
         if (appLinkData != null) {
             val groupId = appLinkData.lastPathSegment
