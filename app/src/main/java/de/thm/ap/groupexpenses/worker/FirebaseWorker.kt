@@ -118,6 +118,9 @@ object FirebaseWorker {
     fun getGroup(groupId: String): Task<Group> = db
             .document("groups/$groupId").get()
             .continueWith { it.result!!.toObject<Group>() }
+
+    fun getGroupMember(groupId: String, memberId: String): Task<DocumentSnapshot> = db
+            .document("groups/$groupId/members/$memberId").get()
 }
 
 

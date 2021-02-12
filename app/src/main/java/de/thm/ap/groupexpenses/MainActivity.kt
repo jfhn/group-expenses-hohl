@@ -1,6 +1,7 @@
 package de.thm.ap.groupexpenses
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -20,7 +21,10 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityMainBinding
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.ROLE_MEMBER
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroup
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroupMember
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.joinGroup
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -77,20 +81,22 @@ class MainActivity : AppCompatActivity() {
     private fun joinGroupDialog(groupId: String) {
         val ctx = this
         getGroup(groupId).addOnSuccessListener { group ->
-            /*if (!group.members!!.contains(userViewModel.user.value!!.uid)) {
-                AlertDialog.Builder(this).apply {
-                    setTitle(getString(R.string.group_invitation))
-                    setMessage(getString(R.string.fmt_group_invitation) + "\n${group.name}")
-                    setPositiveButton(getString(R.string.accept)) { _, _ ->
-                        addGroupMember(getGroupRef(groupId), userViewModel.user.value!!)
-                        openGroupActivity(groupId)
+            getGroupMember(groupId, userViewModel.user.value!!.uid).addOnSuccessListener {
+                if (it.exists()) {
+                    openGroupActivity(groupId)
+                } else {
+                    AlertDialog.Builder(this).apply {
+                        setTitle(getString(R.string.group_invitation))
+                        setMessage(getString(R.string.fmt_group_invitation) + "\n${group.name}")
+                        setPositiveButton(getString(R.string.accept)) { _, _ ->
+                            joinGroup(groupId, ROLE_MEMBER)
+                            openGroupActivity(groupId)
+                        }
+                        setNegativeButton(getString(R.string.decline), null)
+                        show()
                     }
-                    setNegativeButton(getString(R.string.decline), null)
-                    show()
                 }
-            } else {
-                openGroupActivity(groupId)
-            }*/
+            }
         }.addOnFailureListener {
             Toast.makeText(ctx, getString(R.string.group_doesnt_exist), Toast.LENGTH_LONG).show()
         }
