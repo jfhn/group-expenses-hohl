@@ -17,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityMainBinding
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroup
@@ -97,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openGroupActivity(groupId: String) {
         startActivity(Intent(this, GroupActivity::class.java).apply {
-            putExtra(GroupActivity.KEY_GROUP_ID, groupId)
+            putExtra(KEY_GROUP_ID, groupId)
             overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left)
         })
     }
@@ -150,6 +151,13 @@ class MainActivity : AppCompatActivity() {
                     userViewModel.user.value = Firebase.auth.currentUser
                 } else {
                     startSignIn()
+                }
+            }
+            RC_CREATE_GROUP -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val groupId = data?.extras?.getString(KEY_GROUP_ID)
+                            ?: throw IllegalStateException("groupId must be passed from GroupFormActivity")
+                    openGroupActivity(groupId)
                 }
             }
         }
