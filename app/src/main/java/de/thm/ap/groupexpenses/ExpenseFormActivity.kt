@@ -17,6 +17,7 @@ import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.util.DateUtil.getYearMonthDay
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.addExpense
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getExpense
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.setExpense
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.updateExpense
 import java.util.*
 
@@ -139,6 +140,8 @@ class ExpenseFormActivity : AppCompatActivity() {
     private fun saveExpense() {
         if (!validateForm()) return
 
+        binding.progressBar.visibility = View.VISIBLE
+
         val expense = GroupExpense().apply {
             name     = binding.expenseName.text.toString().trim()
             cost     = binding.expenseValue.text.toString().toDouble()
@@ -147,27 +150,15 @@ class ExpenseFormActivity : AppCompatActivity() {
             userName = Firebase.auth.currentUser!!.displayName
         }
 
-        // TODO(refactor): Define listeners once
-        if (viewModel.expenseId == null) {
-            addExpense(viewModel.groupId, expense).addOnSuccessListener {
-                finish()
-            }.addOnFailureListener {
-                Toast.makeText(
-                        this,
-                        "Ausgabe konnte nicht gespeichert werden",
-                        Toast.LENGTH_LONG
-                ).show()
-            }
-        } else {
-            updateExpense(viewModel.groupId, viewModel.expenseId!!, expense).addOnSuccessListener {
-                finish()
-            }.addOnFailureListener {
-                Toast.makeText(
-                        this,
-                        "Ausgabe konnte nicht gespeichert werden",
-                        Toast.LENGTH_LONG
-                ).show()
-            }
+        setExpense(viewModel.groupId, viewModel.expenseId, expense).addOnSuccessListener {
+            finish()
+        }.addOnFailureListener {
+            binding.progressBar.visibility = View.GONE
+            Toast.makeText(
+                    this,
+                    "Ausgabe konnte nicht gespeichert werden",
+                    Toast.LENGTH_LONG
+            ).show()
         }
     }
 }

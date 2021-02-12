@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -15,7 +14,6 @@ import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import de.thm.ap.groupexpenses.model.*
 import java.io.ByteArrayOutputStream
-import java.util.*
 
 
 object FirebaseWorker {
@@ -104,6 +102,15 @@ object FirebaseWorker {
 
     fun addExpense(groupId: String, expense: GroupExpense): Task<DocumentReference> = db
             .collection("groups/$groupId/expenses").add(expense)
+
+    fun setExpense(groupId: String, expenseId: String?, expense: GroupExpense)
+    : Task<DocumentReference> =
+        if (expenseId != null) {
+            val expenseRef = db.document("groups/$groupId/expenses/$expenseId")
+            expenseRef.set(expense).continueWith { expenseRef }
+        } else {
+            db.collection("groups/$groupId/expenses").add(expense)
+        }
 
     fun addPayment(groupId: String, payment: GroupPayment): Task<DocumentReference> = db
             .collection("groups/$groupId/payments").add(payment)
