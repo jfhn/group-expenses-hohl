@@ -1,12 +1,15 @@
 package de.thm.ap.groupexpenses
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityGroupFormBinding
-import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.joinGroup
 
 class GroupFormActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGroupFormBinding
@@ -27,22 +30,20 @@ class GroupFormActivity : AppCompatActivity() {
     private fun createGroup() {
         if (!validateForm()) return
 
-        val group = Group().apply {
-            name = binding.groupFormName.text.toString().trim()
-            members = listOf()
-        }
+        val name = binding.groupFormName.text.toString().trim()
 
-        FirebaseWorker.createGroup(group).addOnSuccessListener { groupRef ->
-            FirebaseWorker.addGroupMember(
-                    groupRef,
-                    Firebase.auth.currentUser!!,
-                    FirebaseWorker.ROLE_ADMIN
-            )
-            setResult(RESULT_OK)
+        binding.progressBar.visibility = View.VISIBLE
+        FirebaseWorker.createGroup(name).addOnSuccessListener { groupId ->
+            val resultIntent = Intent().putExtra(KEY_GROUP_ID, groupId)
+            setResult(RESULT_OK, resultIntent)
             finish()
         }.addOnFailureListener {
-            setResult(RESULT_CANCELED)
-            finish()
+            Toast.makeText(
+                    this,
+                    getString(R.string.error_saving_group),
+                    Toast.LENGTH_LONG
+            ).show()
+            binding.progressBar.visibility = View.GONE
         }
     }
 

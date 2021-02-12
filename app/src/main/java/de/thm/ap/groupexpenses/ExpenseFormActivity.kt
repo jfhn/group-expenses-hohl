@@ -11,13 +11,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpenseFormBinding
-import de.thm.ap.groupexpenses.model.Expense
+import de.thm.ap.groupexpenses.model.GroupExpense
 import de.thm.ap.groupexpenses.util.DateUtil.dateFromValues
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.util.DateUtil.getYearMonthDay
-import de.thm.ap.groupexpenses.worker.FirebaseWorker.addExpense
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getExpense
-import de.thm.ap.groupexpenses.worker.FirebaseWorker.updateExpense
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.setExpense
 import java.util.*
 
 class ExpenseFormActivity : AppCompatActivity() {
@@ -38,7 +37,7 @@ class ExpenseFormActivity : AppCompatActivity() {
 
         if (viewModel.expenseId != null) {
             getExpense(viewModel.groupId, viewModel.expenseId!!).addOnSuccessListener {
-                val expense: Expense = it
+                val expense: GroupExpense = it
 
                 binding.expenseName.setText(expense.name)
                 binding.expenseValue.setText(String.format(
@@ -139,7 +138,9 @@ class ExpenseFormActivity : AppCompatActivity() {
     private fun saveExpense() {
         if (!validateForm()) return
 
-        val expense = Expense().apply {
+        binding.progressBar.visibility = View.VISIBLE
+
+        val expense = GroupExpense().apply {
             name     = binding.expenseName.text.toString().trim()
             cost     = binding.expenseValue.text.toString().toDouble()
             date     = viewModel.date.value
@@ -147,27 +148,15 @@ class ExpenseFormActivity : AppCompatActivity() {
             userName = Firebase.auth.currentUser!!.displayName
         }
 
-        // TODO(refactor): Define listeners once
-        if (viewModel.expenseId == null) {
-            addExpense(viewModel.groupId, expense).addOnSuccessListener {
-                finish()
-            }.addOnFailureListener {
-                Toast.makeText(
-                        this,
-                        "Ausgabe konnte nicht gespeichert werden",
-                        Toast.LENGTH_LONG
-                ).show()
-            }
-        } else {
-            updateExpense(viewModel.groupId, viewModel.expenseId!!, expense).addOnSuccessListener {
-                finish()
-            }.addOnFailureListener {
-                Toast.makeText(
-                        this,
-                        "Ausgabe konnte nicht gespeichert werden",
-                        Toast.LENGTH_LONG
-                ).show()
-            }
+        setExpense(viewModel.groupId, viewModel.expenseId, expense).addOnSuccessListener {
+            finish()
+        }.addOnFailureListener {
+            binding.progressBar.visibility = View.GONE
+            Toast.makeText(
+                    this,
+                    getString(R.string.error_saving_expense),
+                    Toast.LENGTH_LONG
+            ).show()
         }
     }
 }

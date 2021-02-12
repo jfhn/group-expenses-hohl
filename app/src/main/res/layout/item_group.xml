@@ -10,7 +10,8 @@
     app:cardElevation="3dp"
     android:layout_margin="4dp"
     android:foreground="?selectableItemBackground"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -53,6 +54,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginStart="8sp"
             android:textAppearance="?android:textAppearanceListItem"
+            android:textColor="@color/red"
             tools:text="12,00 €"/>
 
     </RelativeLayout>

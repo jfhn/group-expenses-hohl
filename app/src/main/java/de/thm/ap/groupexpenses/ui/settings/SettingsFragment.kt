@@ -15,7 +15,6 @@ import de.thm.ap.groupexpenses.ui.user.UserViewModel
 
 class SettingsFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
-    private val settingsViewModel: SettingsViewModel by viewModels()
     private var _binding: FragmentSettingsBinding? = null
 
     private val binding get() = _binding!!

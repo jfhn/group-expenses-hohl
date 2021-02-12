@@ -17,6 +17,7 @@ import de.thm.ap.groupexpenses.adapter.UserPaymentsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentUserPaymentsBinding
 import de.thm.ap.groupexpenses.ui.RecyclerFragment
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.userPaymentsQuery
 
 class UserPaymentsFragment : RecyclerFragment() {
     companion object {
@@ -39,9 +40,7 @@ class UserPaymentsFragment : RecyclerFragment() {
     override fun initRecyclerView() {
         userViewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                val query: Query = Firebase.firestore
-                        .collection("users/${user.uid}/payments")
-                        .orderBy("date", Query.Direction.DESCENDING)
+                val query: Query = userPaymentsQuery(user.uid)
 
                 adapter = object : UserPaymentsAdapter(query) {
                     override fun onDataChanged() {

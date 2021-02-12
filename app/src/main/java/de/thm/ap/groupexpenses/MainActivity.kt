@@ -1,14 +1,12 @@
 package de.thm.ap.groupexpenses
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -16,18 +14,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityMainBinding
-import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
-import de.thm.ap.groupexpenses.worker.FirebaseWorker.addGroupMember
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroup
-import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroupRef
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -43,7 +36,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -85,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     private fun joinGroupDialog(groupId: String) {
         val ctx = this
         getGroup(groupId).addOnSuccessListener { group ->
-            if (!group.members!!.contains(userViewModel.user.value!!.uid)) {
+            /*if (!group.members!!.contains(userViewModel.user.value!!.uid)) {
                 AlertDialog.Builder(this).apply {
                     setTitle(getString(R.string.group_invitation))
                     setMessage(getString(R.string.fmt_group_invitation) + "\n${group.name}")
@@ -98,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                 }
             } else {
                 openGroupActivity(groupId)
-            }
+            }*/
         }.addOnFailureListener {
             Toast.makeText(ctx, getString(R.string.group_doesnt_exist), Toast.LENGTH_LONG).show()
         }
@@ -106,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openGroupActivity(groupId: String) {
         startActivity(Intent(this, GroupActivity::class.java).apply {
-            putExtra(GroupActivity.KEY_GROUP_ID, groupId)
+            putExtra(KEY_GROUP_ID, groupId)
             overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left)
         })
     }
@@ -159,6 +151,13 @@ class MainActivity : AppCompatActivity() {
                     userViewModel.user.value = Firebase.auth.currentUser
                 } else {
                     startSignIn()
+                }
+            }
+            RC_CREATE_GROUP -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val groupId = data?.extras?.getString(KEY_GROUP_ID)
+                            ?: throw IllegalStateException("groupId must be passed from GroupFormActivity")
+                    openGroupActivity(groupId)
                 }
             }
         }

@@ -13,6 +13,7 @@ import de.thm.ap.groupexpenses.GroupViewModel
 import de.thm.ap.groupexpenses.adapter.GroupMembersAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupMembersBinding
 import de.thm.ap.groupexpenses.ui.RecyclerFragment
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.groupMembersQuery
 
 class GroupMembersFragment : RecyclerFragment() {
     private lateinit var binding: FragmentGroupMembersBinding
@@ -29,9 +30,7 @@ class GroupMembersFragment : RecyclerFragment() {
     }
 
     override fun initRecyclerView() {
-        val query: Query = Firebase.firestore
-                .collection("groups/${groupViewModel.groupId}/members")
-                .orderBy("role", Query.Direction.ASCENDING)
+        val query: Query = groupMembersQuery(groupViewModel.groupId)
 
         adapter = GroupMembersAdapter(query)
 

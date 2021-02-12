@@ -10,7 +10,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import de.thm.ap.groupexpenses.R
 import de.thm.ap.groupexpenses.databinding.ItemTimelineBinding
-import de.thm.ap.groupexpenses.model.Expense
+import de.thm.ap.groupexpenses.model.GroupExpense
 import de.thm.ap.groupexpenses.util.DateUtil.format
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.util.DateUtil.toDateOnly
@@ -44,7 +44,7 @@ open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelected
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val snapshot: DocumentSnapshot = getSnapshot(position)
-        val expense:  Expense          = snapshot.toObject()!!
+        val expense:  GroupExpense          = snapshot.toObject()!!
         val today:    Date             = Calendar.getInstance().time.toDateOnly()
 
         holder.bind(snapshot, listener)
@@ -81,7 +81,7 @@ open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelected
         }
 
         fun bind(snapshot: DocumentSnapshot, listener: OnExpenseSelectedListener) {
-            val expense: Expense = snapshot.toObject() ?: return
+            val expense: GroupExpense = snapshot.toObject() ?: return
             val resources = binding.root.resources
 
             binding.textTimelineName.text = expense.name

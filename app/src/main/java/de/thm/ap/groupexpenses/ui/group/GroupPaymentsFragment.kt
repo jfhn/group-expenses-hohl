@@ -16,6 +16,7 @@ import de.thm.ap.groupexpenses.PaymentFormActivity
 import de.thm.ap.groupexpenses.adapter.GroupPaymentsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentGroupPaymentsBinding
 import de.thm.ap.groupexpenses.ui.RecyclerFragment
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.groupPaymentsQuery
 
 class GroupPaymentsFragment : RecyclerFragment() {
     private lateinit var binding: FragmentGroupPaymentsBinding
@@ -39,9 +40,7 @@ class GroupPaymentsFragment : RecyclerFragment() {
     }
 
     override fun initRecyclerView() {
-        val query: Query = Firebase.firestore
-                .collection("groups/${groupViewModel.groupId}/payments")
-                .orderBy("date", Query.Direction.DESCENDING)
+        val query: Query = groupPaymentsQuery(groupViewModel.groupId)
 
         adapter = object : GroupPaymentsAdapter(query) {
             override fun onDataChanged() {

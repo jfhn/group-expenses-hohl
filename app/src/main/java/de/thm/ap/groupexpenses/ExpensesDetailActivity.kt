@@ -14,7 +14,7 @@ import com.google.android.gms.tasks.Task
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpensesDetailBinding
-import de.thm.ap.groupexpenses.model.Expense
+import de.thm.ap.groupexpenses.model.GroupExpense
 import de.thm.ap.groupexpenses.model.ExpensesDetailViewModel
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
@@ -154,7 +154,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun getExpense(): Task<Expense> {
+    private fun getExpense(): Task<GroupExpense> {
         return getExpense(viewModel.groupId, viewModel.expenseId).addOnSuccessListener {
             viewModel.expense.value = it
         }
