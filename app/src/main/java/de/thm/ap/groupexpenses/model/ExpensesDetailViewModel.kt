@@ -11,7 +11,7 @@ class ExpensesDetailViewModel(app: Application) : AndroidViewModel(app) {
 
     val image: MutableLiveData<Bitmap> = MutableLiveData()
 
-    val expense: MutableLiveData<Expense> = MutableLiveData()
+    val expense: MutableLiveData<GroupExpense> = MutableLiveData()
 
     init {
         expense.value = null

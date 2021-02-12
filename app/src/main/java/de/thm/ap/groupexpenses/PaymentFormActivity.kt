@@ -2,12 +2,14 @@ package de.thm.ap.groupexpenses
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.databinding.ActivityPaymentFormBinding
+import de.thm.ap.groupexpenses.model.GroupPayment
 import de.thm.ap.groupexpenses.util.DateUtil
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.util.DateUtil.getYearMonthDay
@@ -74,15 +76,21 @@ class PaymentFormActivity : AppCompatActivity() {
     private fun addPayment() {
         if (!validateForm()) return
 
+        binding.progressBar.visibility = View.VISIBLE
         val value = binding.paymentValue.text.toString().trim().toDouble()
-        FirebaseWorker.addPayment(
-                viewModel.groupId,
-                Firebase.auth.currentUser!!,
-                value,
-                viewModel.date.value
-        ).addOnSuccessListener {
+        val user = Firebase.auth.currentUser!!
+
+        val payment = GroupPayment().apply {
+            userId   = user.uid
+            userName = user.displayName
+            payment  = value
+            date     = viewModel.date.value
+        }
+
+        FirebaseWorker.addPayment(viewModel.groupId, payment).addOnSuccessListener {
             finish()
         }.addOnFailureListener {
+            binding.progressBar.visibility = View.GONE
             Toast.makeText(this, getString(R.string.payment_save_error), Toast.LENGTH_LONG).show()
         }
     }

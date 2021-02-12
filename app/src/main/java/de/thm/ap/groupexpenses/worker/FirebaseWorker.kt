@@ -9,7 +9,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.functions.HttpsCallableResult
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
@@ -93,95 +92,25 @@ object FirebaseWorker {
                 task.result?.data as String // groupId
             }
 
-    fun getExpense(groupId: String, expenseId: String): Task<Expense> {
-        return db.document("groups/$groupId/expenses/$expenseId")
-                .get()
-                .onSuccessTask { snapshot ->
-                    Tasks.call { snapshot!!.toObject<Expense>() }
-                }
-    }
+    fun getExpense(groupId: String, expenseId: String): Task<GroupExpense> = db
+            .document("groups/$groupId/expenses/$expenseId").get()
+            .continueWith { it.result!!.toObject<GroupExpense>() }
 
-    fun removeExpense(groupId: String, expenseId: String): Task<Transaction> {
-        val expenseRef = db.document("groups/$groupId/expenses/$expenseId")
-        val groupRef   = db.document("groups/$groupId")
+    fun removeExpense(groupId: String, expenseId: String): Task<Void> = db
+            .document("groups/$groupId/expenses/$expenseId").delete()
 
-        return db.runTransaction { transaction ->
-            val group: Group = transaction.get(groupRef).toObject()!!
-            val expense: Expense = transaction.get(expenseRef).toObject()!!
-            val newExpenses = group.totalExpenses - expense.cost
+    fun updateExpense(groupId: String, expenseId: String, expense: GroupExpense): Task<Void> = db
+            .document("groups/$groupId/expenses/$expenseId").set(expense)
 
-            transaction.delete(expenseRef)
-            transaction.update(groupRef, "expenses", newExpenses)
-            transaction.update(groupRef, "latestUpdate", Date())
-        }
-    }
+    fun addExpense(groupId: String, expense: GroupExpense): Task<DocumentReference> = db
+            .collection("groups/$groupId/expenses").add(expense)
 
-    fun updateExpense(groupId: String, expenseId: String, expense: Expense): Task<Transaction> {
-        val expenseRef = db.document("groups/$groupId/expenses/$expenseId")
-        val groupRef   = db.document("groups/$groupId")
+    fun addPayment(groupId: String, payment: GroupPayment): Task<DocumentReference> = db
+            .collection("groups/$groupId/payments").add(payment)
 
-        return db.runTransaction { transaction ->
-            val group: Group = transaction.get(groupRef).toObject()!!
-            val oldExpense: Expense = transaction.get(expenseRef).toObject()!!
-            val newExpenses = group.totalExpenses - oldExpense.cost + expense.cost
-
-            transaction.set(expenseRef, expense)
-            transaction.update(groupRef, "expenses", newExpenses)
-            transaction.update(groupRef, "latestUpdate", Date())
-        }
-    }
-
-    fun addExpense(groupId: String, expense: Expense): Task<Transaction> {
-        val expenseRef = db.collection("groups/$groupId/expenses").document()
-        val groupRef   = db.document("groups/$groupId")
-
-        return db.runTransaction { transaction ->
-            val group: Group = transaction.get(groupRef).toObject()!!
-            val newExpenses = group.totalExpenses + expense.cost
-
-            transaction.set(expenseRef, expense)
-            transaction.update(groupRef, "expenses", newExpenses)
-            transaction.update(groupRef, "latestUpdate", Date())
-        }
-    }
-
-    fun addPayment(groupId: String, user: FirebaseUser, payment: Double, date: Date?): Task<Transaction> {
-        val groupRef        = groupsRef.document(groupId)
-        val userPaymentRef  = db.collection("users/${user.uid}/payments").document()
-        val groupPaymentRef = groupRef.collection("payments").document()
-
-        return db.runTransaction { transaction ->
-            val group: Group = transaction.get(groupRef).toObject()!!
-            val userPayment = UserPayment().apply {
-                this.groupId   = group.id
-                this.groupName = group.name
-                this.payment   = payment
-                this.date      = date
-            }
-
-            val groupPayment = GroupPayment().apply {
-                this.userId   = user.uid
-                this.userName = user.displayName
-                this.payment  = payment
-                this.date     = date
-            }
-
-            group.apply {
-                this.latestUpdate = null
-                this.totalExpenses    -= payment
-            }
-
-            transaction.set(groupRef, group)
-            transaction.set(userPaymentRef, userPayment)
-            transaction.set(groupPaymentRef, groupPayment)
-        }
-    }
-
-    fun getGroup(groupId: String): Task<Group> {
-        return db.document("groups/$groupId").get().onSuccessTask { snapshot ->
-            Tasks.call { snapshot!!.toObject<Group>() }
-        }
-    }
+    fun getGroup(groupId: String): Task<Group> = db
+            .document("groups/$groupId").get()
+            .continueWith { it.result!!.toObject<Group>() }
 }
 
 

@@ -4,7 +4,7 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
-class Expense {
+class GroupExpense {
     /**
      * Id of the expense document
      */

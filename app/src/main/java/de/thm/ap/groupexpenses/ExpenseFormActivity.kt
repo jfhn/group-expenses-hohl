@@ -11,7 +11,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpenseFormBinding
-import de.thm.ap.groupexpenses.model.Expense
+import de.thm.ap.groupexpenses.model.GroupExpense
 import de.thm.ap.groupexpenses.util.DateUtil.dateFromValues
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.util.DateUtil.getYearMonthDay
@@ -38,7 +38,7 @@ class ExpenseFormActivity : AppCompatActivity() {
 
         if (viewModel.expenseId != null) {
             getExpense(viewModel.groupId, viewModel.expenseId!!).addOnSuccessListener {
-                val expense: Expense = it
+                val expense: GroupExpense = it
 
                 binding.expenseName.setText(expense.name)
                 binding.expenseValue.setText(String.format(
@@ -139,7 +139,7 @@ class ExpenseFormActivity : AppCompatActivity() {
     private fun saveExpense() {
         if (!validateForm()) return
 
-        val expense = Expense().apply {
+        val expense = GroupExpense().apply {
             name     = binding.expenseName.text.toString().trim()
             cost     = binding.expenseValue.text.toString().toDouble()
             date     = viewModel.date.value
