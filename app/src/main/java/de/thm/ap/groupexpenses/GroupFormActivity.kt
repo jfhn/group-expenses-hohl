@@ -3,6 +3,7 @@ package de.thm.ap.groupexpenses
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
@@ -31,14 +32,14 @@ class GroupFormActivity : AppCompatActivity() {
 
         val name = binding.groupFormName.text.toString().trim()
 
-        Toast.makeText(this, "Erstelle Gruppe ...", Toast.LENGTH_SHORT).show()
+        binding.progressBar.visibility = View.VISIBLE
         FirebaseWorker.createGroup(name).addOnSuccessListener { groupId ->
             val resultIntent = Intent().putExtra(KEY_GROUP_ID, groupId)
             setResult(RESULT_OK, resultIntent)
             finish()
         }.addOnFailureListener {
-            setResult(RESULT_CANCELED)
-            finish()
+            Toast.makeText(this, "Gruppe konnte nicht erstellt werden", Toast.LENGTH_LONG).show()
+            binding.progressBar.visibility = View.GONE
         }
     }
 
