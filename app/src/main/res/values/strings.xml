@@ -75,7 +75,7 @@
     <string name="no_group_memberships">Du gehörst keiner Gruppe an</string>
     <string name="total_payments">Einzahlungen gesamt:</string>
     <string name="group_number_of_members">Anzahl der Mitglieder:</string>
-    <string name="group_total_balance">Gesamtbalance:</string>
+    <string name="group_total_balance">Gesamtbilanz:</string>
     <string name="payment_per_user">Zu zahlender Betrag pro Mitglied:</string>
     <string name="group_personal_balance">Persönliche Bilanz:</string>
 </resources>

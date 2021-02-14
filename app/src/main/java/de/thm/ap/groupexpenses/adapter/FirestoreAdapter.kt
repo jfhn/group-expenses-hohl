@@ -24,7 +24,7 @@ abstract class FirestoreAdapter<VH : RecyclerView.ViewHolder>(private var query:
 
     private var registration: ListenerRegistration? = null
 
-    private val snapshots = ArrayList<DocumentSnapshot>()
+    val snapshots = ArrayList<DocumentSnapshot>()
 
     override fun onEvent(documentSnapshots: QuerySnapshot?, e: FirebaseFirestoreException?) {
         if (e != null) {

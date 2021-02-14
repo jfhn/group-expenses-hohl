@@ -15,6 +15,7 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.MainActivity
 import de.thm.ap.groupexpenses.adapter.UserGroupStatsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentStatisticsBinding
+import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.model.UserData
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.userGroupsStatsQuery
@@ -90,5 +91,9 @@ class StatisticsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         adapter = null
+    }
+
+    fun calculateStats() {
+        val groups = adapter!!.snapshots.map { it.toObject<Group>() }
     }
 }
