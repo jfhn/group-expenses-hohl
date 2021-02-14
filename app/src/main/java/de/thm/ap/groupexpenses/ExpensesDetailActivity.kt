@@ -46,7 +46,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
                 binding.date.text = expense.date!!.formatGerman()
                 binding.cost.text = String.format(
                     Locale.GERMANY,
-                    getString(R.string.fmt_expenses_EUR),
+                    getString(R.string.fmt_double_EUR),
                     expense.cost
                 )
                 binding.user.text = expense.userName

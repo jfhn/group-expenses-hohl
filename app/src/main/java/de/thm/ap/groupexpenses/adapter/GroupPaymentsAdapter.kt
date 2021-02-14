@@ -32,7 +32,7 @@ open class GroupPaymentsAdapter(query: Query)
             binding.itemPaymentDate.text = FORMAT.format(groupPayment.date)
             binding.itemGroupPaymentCost.text = String.format(
                     Locale.GERMANY,
-                    resources.getString(R.string.fmt_expenses_EUR),
+                    resources.getString(R.string.fmt_double_EUR),
                     groupPayment.payment
             )
         }

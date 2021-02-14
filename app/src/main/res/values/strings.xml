@@ -1,8 +1,9 @@
 <resources>
     <!-- Formatter -->
-    <string name="fmt_expenses_EUR" translatable="false">%.2f €</string>
+    <string name="fmt_double_EUR" translatable="false">%.2f €</string>
     <string name="fmt_members" translatable="false">%d Mitglieder</string>
     <string name="fmt_latest_update" translatable="false">Zuletzt aktualisiert: %s</string>
+    <string name="fmt_number_of_groups">Du bist Mitglied in %d Gruppen</string>
 
     <string name="app_name">Group Expenses</string>
     <string name="add_expense">Ausgabe hinzufügen</string>
@@ -14,7 +15,7 @@
     <string name="statistics">Statistik</string>
     <string name="create_group">Gruppe erstellen</string>
     <string name="payments">Zahlungen</string>
-    <string name="groups">Gruppen</string>
+    <string name="personal_stats_groups">Gruppen:</string>
     <string name="sign_out">Abmelden</string>
     <string name="single_member">1 Mitglied</string>
     <string name="no_groups">Du bist noch in keiner Gruppe</string>
@@ -68,4 +69,13 @@
     <string name="expense_remove_failure">Beim Löschen der Ausgabe ist ein Fehler aufgetreten. Versuche es später erneut.</string>
     <string name="error_saving_expense">Ausgabe konnte nicht gespeichert werden</string>
     <string name="error_saving_group">Gruppe konnte nicht erstellt werden</string>
+    <string name="total_expenses">Ausgaben gesamt:</string>
+    <string name="personal_total_payments">Deine gesamten Einzahlungen:</string>
+    <string name="personal_total_expenses">Deine gesamten Ausgaben:</string>
+    <string name="no_group_memberships">Du gehörst keiner Gruppe an</string>
+    <string name="total_payments">Einzahlungen gesamt:</string>
+    <string name="group_number_of_members">Anzahl der Mitglieder:</string>
+    <string name="group_total_balance">Gesamtbalance:</string>
+    <string name="payment_per_user">Zu zahlender Betrag pro Mitglied:</string>
+    <string name="group_personal_balance">Persönliche Bilanz:</string>
 </resources>

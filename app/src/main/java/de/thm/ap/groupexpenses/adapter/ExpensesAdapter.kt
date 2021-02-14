@@ -87,7 +87,7 @@ open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelected
             binding.textTimelineName.text = expense.name
             binding.textTimelineCost.text = String.format(
                     Locale.GERMANY,
-                    resources.getString(R.string.fmt_expenses_EUR),
+                    resources.getString(R.string.fmt_double_EUR),
                     expense.cost
             )
             binding.textTimelineDate.text = expense.date!!.formatGerman()

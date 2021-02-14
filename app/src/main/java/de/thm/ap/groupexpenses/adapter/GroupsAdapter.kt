@@ -44,7 +44,7 @@ open class GroupsAdapter(query: Query, private val listener: OnGroupSelectedList
                     )
             binding.itemGroupExpenses.text = String.format(
                     Locale.GERMANY,
-                    resources.getString(R.string.fmt_expenses_EUR),
+                    resources.getString(R.string.fmt_double_EUR),
                     group.getPersonalBalance()
             )
             binding.itemGroupLatestUpdate.text = String.format(
