@@ -30,6 +30,10 @@ object FirebaseWorker {
             .collection("users/$uid/groups")
             .orderBy("latestUpdate", Query.Direction.DESCENDING)
 
+    fun userGroupsStatsQuery(uid: String): Query = db
+            .collection("users/$uid/groups")
+            .orderBy("name", Query.Direction.ASCENDING)
+
     fun userPaymentsQuery(uid: String): Query = db
             .collection("users/$uid/payments")
             .orderBy("date", Query.Direction.DESCENDING)

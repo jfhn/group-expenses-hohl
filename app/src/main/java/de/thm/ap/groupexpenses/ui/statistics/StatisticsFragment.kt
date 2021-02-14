@@ -13,12 +13,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.MainActivity
-import de.thm.ap.groupexpenses.adapter.GroupsAdapter
 import de.thm.ap.groupexpenses.adapter.UserGroupStatsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentStatisticsBinding
 import de.thm.ap.groupexpenses.model.UserData
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
-import de.thm.ap.groupexpenses.worker.FirebaseWorker.userGroupsQuery
+import de.thm.ap.groupexpenses.worker.FirebaseWorker.userGroupsStatsQuery
 
 class StatisticsFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
@@ -59,7 +58,7 @@ class StatisticsFragment : Fragment() {
     }
 
     fun initRecyclerView(user: FirebaseUser) {
-        val query = userGroupsQuery(user.uid)
+        val query = userGroupsStatsQuery(user.uid)
 
         adapter = object : UserGroupStatsAdapter(query) {
             override fun onDataChanged() {
