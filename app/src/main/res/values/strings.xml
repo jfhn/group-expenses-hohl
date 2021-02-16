@@ -86,5 +86,5 @@
     <string name="balance">Bilanz:</string>
     <string name="no_achievements_or_shamements">Du hast bisher noch keine Achievements oder Shamements gesammelt.</string>
     <string name="achievements">Achievements und Shamements</string>
-    <string name="achievements_title">Achievements und Shamements</string>
+    <string name="achievements_title">Achievements / Shamements</string>
 </resources>

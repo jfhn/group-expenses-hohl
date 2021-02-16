@@ -22,27 +22,24 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="http"
                     android:host="de.thm.ap.groupexpenses"
-                    android:pathPrefix="/group_invite" />
+                    android:pathPrefix="/group_invite"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ExpenseFormActivity" />
+        <activity android:name=".ExpenseFormActivity" />
         <activity
             android:name=".GroupFormActivity"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".ExpensesDetailActivity" />
+        <activity android:name=".ExpensesDetailActivity" />
         <activity
             android:name=".GroupActivity"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".PaymentFormActivity" />
+        <activity android:name=".PaymentFormActivity" />
         <activity
             android:name=".PickImageActivity"
             android:parentActivityName=".ExpensesDetailActivity" />
-
+        <activity android:name=".AchievementsActivity" android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

@@ -19,10 +19,8 @@ class AchievementsFragment : Fragment() {
     private lateinit var binding: FragmentAchievementsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View { // TODO: refactor to activity
+                              savedInstanceState: Bundle?): View {
         binding = FragmentAchievementsBinding.inflate(inflater, container, false)
-
-        requireActivity().actionBar!!.title = getString(R.string.achievements_title)
 
         val adapter = ArrayAdapter<Achievement>(requireContext(), simple_list_item_1, mutableListOf())
 
