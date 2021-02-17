@@ -78,4 +78,6 @@
     <string name="group_total_balance">Gesamtbilanz:</string>
     <string name="payment_per_user">Zu zahlender Betrag pro Mitglied:</string>
     <string name="group_personal_balance">Persönliche Bilanz:</string>
+    <string name="total_group_expenses">Gruppenausgaben gesamt:</string>
+    <string name="total_group_payments">Gruppeneinzahlungen gesamt:</string>
 </resources>

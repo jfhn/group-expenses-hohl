@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ListenerRegistration
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.MainActivity
+import de.thm.ap.groupexpenses.R
 import de.thm.ap.groupexpenses.adapter.UserGroupStatsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentStatisticsBinding
 import de.thm.ap.groupexpenses.model.Group
@@ -22,6 +24,7 @@ import de.thm.ap.groupexpenses.worker.FirebaseWorker.userGroupsStatsQuery
 
 class StatisticsFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
+    private val userStatisticsViewModel: UserStatisticsViewModel by viewModels()
     private lateinit var binding: FragmentStatisticsBinding
     private lateinit var registration: ListenerRegistration
 
@@ -47,6 +50,15 @@ class StatisticsFragment : Fragment() {
         userViewModel.userData.observe(viewLifecycleOwner) { userData ->
             binding.userData = userData
         }
+
+        userStatisticsViewModel.expenses.observe(viewLifecycleOwner) {
+            binding.personalTotalGroupExpenses.text = getString(R.string.fmt_double_EUR).format(it)
+        }
+
+        userStatisticsViewModel.payments.observe(viewLifecycleOwner) {
+            binding.personalTotalGroupPayments.text = getString(R.string.fmt_double_EUR).format(it)
+        }
+
         return binding.root
     }
 
@@ -68,6 +80,8 @@ class StatisticsFragment : Fragment() {
                 } else {
                     binding.recyclerGroupStats.visibility  = View.VISIBLE
                 }
+
+                calculateStats()
             }
         }
 
@@ -94,6 +108,15 @@ class StatisticsFragment : Fragment() {
     }
 
     fun calculateStats() {
-        val groups = adapter!!.snapshots.map { it.toObject<Group>() }
+        var expenses = 0.0
+        var payments = 0.0
+
+        adapter!!.map { it.toObject<Group>()!! }.forEach { group ->
+            expenses += group.totalExpenses
+            payments += group.totalPayments
+        }
+
+        userStatisticsViewModel.expenses.value = expenses
+        userStatisticsViewModel.payments.value = payments
     }
 }
