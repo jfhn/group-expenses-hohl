@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_statistics"
-        android:name="de.thm.ap.groupexpenses.ui.statistics.StatisticsFragment"
+        android:name="de.thm.ap.groupexpenses.ui.statistics.UserStatisticsFragment"
         android:label="@string/statistics"
-        tools:layout="@layout/fragment_statistics" />
+        tools:layout="@layout/fragment_user_statistics" />
 
     <fragment
         android:id="@+id/navigation_settings"

@@ -27,7 +27,7 @@
     <string name="add_receipt">Beleg hinzufügen</string>
     <string name="name">Name</string>
     <string name="expenses_name">Name</string>
-    <string name="expenses">Kosten</string>
+    <string name="costs">Kosten</string>
     <string name="expenses_date">Datum</string>
     <string name="recurring">Wiederkehrend</string>
     <string name="interval">Intervall</string>
@@ -80,4 +80,8 @@
     <string name="group_personal_balance">Persönliche Bilanz:</string>
     <string name="total_group_expenses">Gruppenausgaben gesamt:</string>
     <string name="total_group_payments">Gruppeneinzahlungen gesamt:</string>
+    <string name="expenses">Ausgaben:</string>
+    <string name="group_member_stats_payments">Einzahlungen:</string>
+    <string name="group_stats_payments_per_user">Zu zahlender Betrag pro Person:</string>
+    <string name="balance">Bilanz:</string>
 </resources>

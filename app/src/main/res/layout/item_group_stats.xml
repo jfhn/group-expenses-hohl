@@ -168,7 +168,7 @@
                     android:textAlignment="textEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:textColor="@{group.getPersonalBalance() &lt; 0 ?  @color/red : @color/grey}"
+                    android:textColor="@{group.getPersonalBalance() &lt; 0 ? @color/red : @color/grey}"
                     android:text="@{@string/fmt_double_EUR(group.getPersonalBalance())}"
                     tools:text="-5.00 €" />
 

@@ -15,6 +15,7 @@ import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.ui.expenses.ExpensesFragment
 import de.thm.ap.groupexpenses.ui.group.GroupMembersFragment
 import de.thm.ap.groupexpenses.ui.group.GroupPaymentsFragment
+import de.thm.ap.groupexpenses.ui.group.GroupStatisticsFragment
 
 class GroupActivity : AppCompatActivity() {
     private val db = Firebase.firestore
@@ -60,7 +61,8 @@ class GroupActivity : AppCompatActivity() {
         private val fragments: List<() -> Fragment> = listOf(
             { ExpensesFragment() },
             { GroupPaymentsFragment() },
-            { GroupMembersFragment() }
+            { GroupMembersFragment() },
+            { GroupStatisticsFragment() },
         )
 
         override fun getItemCount(): Int = fragments.size

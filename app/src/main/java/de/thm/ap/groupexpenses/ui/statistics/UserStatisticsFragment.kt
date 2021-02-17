@@ -16,16 +16,16 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.MainActivity
 import de.thm.ap.groupexpenses.R
 import de.thm.ap.groupexpenses.adapter.UserGroupStatsAdapter
-import de.thm.ap.groupexpenses.databinding.FragmentStatisticsBinding
+import de.thm.ap.groupexpenses.databinding.FragmentUserStatisticsBinding
 import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.model.UserData
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.userGroupsStatsQuery
 
-class StatisticsFragment : Fragment() {
+class UserStatisticsFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
     private val userStatisticsViewModel: UserStatisticsViewModel by viewModels()
-    private lateinit var binding: FragmentStatisticsBinding
+    private lateinit var binding: FragmentUserStatisticsBinding
     private lateinit var registration: ListenerRegistration
 
     private var adapter: UserGroupStatsAdapter? = null
@@ -36,7 +36,7 @@ class StatisticsFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        binding = FragmentStatisticsBinding.inflate(inflater, container, false)
+        binding = FragmentUserStatisticsBinding.inflate(inflater, container, false)
 
         userViewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
@@ -70,15 +70,15 @@ class StatisticsFragment : Fragment() {
         }
     }
 
-    fun initRecyclerView(user: FirebaseUser) {
+    private fun initRecyclerView(user: FirebaseUser) {
         val query = userGroupsStatsQuery(user.uid)
 
         adapter = object : UserGroupStatsAdapter(query) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
-                    binding.recyclerGroupStats.visibility  = View.GONE
+                    binding.recyclerGroupStats.visibility = View.GONE
                 } else {
-                    binding.recyclerGroupStats.visibility  = View.VISIBLE
+                    binding.recyclerGroupStats.visibility = View.VISIBLE
                 }
 
                 calculateStats()
