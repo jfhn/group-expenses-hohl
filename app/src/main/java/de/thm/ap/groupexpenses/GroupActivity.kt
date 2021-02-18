@@ -60,9 +60,9 @@ class GroupActivity : AppCompatActivity() {
     private inner class GroupViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         private val fragments: List<() -> Fragment> = listOf(
             { ExpensesFragment() },
-            { GroupPaymentsFragment() },
-            { GroupMembersFragment() },
             { GroupStatisticsFragment() },
+            { GroupMembersFragment() },
+            { GroupPaymentsFragment() }, // TODO: remove fragment and transfer functionality
         )
 
         override fun getItemCount(): Int = fragments.size
