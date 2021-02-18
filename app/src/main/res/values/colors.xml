@@ -11,4 +11,7 @@
 
     <color name="expenses_card_background">#F3F3F3</color>
     <color name="red">#FF3232</color>
+
+    <color name="achievements_card_background">#5DB3ED</color>
+    <color name="shamements_card_background">#F49B4D</color>
 </resources>

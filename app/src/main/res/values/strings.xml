@@ -84,9 +84,47 @@
     <string name="group_member_stats_payments">Einzahlungen:</string>
     <string name="group_stats_payments_per_user">Zu zahlender Betrag pro Person:</string>
     <string name="balance">Bilanz:</string>
+
+
+    <!-- Achievements / Shamements -->
     <string name="no_achievements_or_shamements">Du hast bisher noch keine Achievements oder Shamements gesammelt.</string>
     <string name="achievements">Achievements und Shamements</string>
     <string name="achievements_title">Achievements / Shamements</string>
     <string name="achievements_text">Achievements</string>
     <string name="shamements_text">Shamements</string>
+    <string name="achievement">Achievement</string>
+    <string name="shamement">Shamement</string>
+
+    <string name="achievement_expenses_1">Zahltag!</string>
+    <string name="achievement_expenses_1_desc">Deine erste Ausgabe ist eingetragen</string>
+    <string name="achievement_expenses_5">Ausgeber</string>
+    <string name="achievement_expenses_5_desc">Du hast schon 5 Ausgaben für deine Gruppen getätigt</string>
+    <string name="achievement_expenses_10">Vorstrecker</string>
+    <string name="achievement_expenses_10_desc">Du hast schon 10 mal Geld vorgestreckt</string>
+    <string name="achievement_expenses_50">Geldverleiher</string>
+    <string name="achievement_expenses_50_desc">Unter deinem Namen stehen bereits 50 Ausgaben!</string>
+    <string name="achievement_expenses_100">Bank</string>
+    <string name="achievement_expenses_100_desc">Du hast 100 Ausgaben in deinen Gruppen getätigt! Du solltest vielleicht Bankier werden und Zinsen verlangen</string>
+
+    <string name="achievement_payments_1">Take my money!</string>
+    <string name="achievement_payments_1_desc">Du hast deine erste Zahlung getätigt!</string>
+    <string name="achievement_payments_5">Schulden beglichen</string>
+    <string name="achievement_payments_5_desc">Du hast schon 5 mal Geld eingezahlt!</string>
+    <string name="achievement_payments_10">Du hast den Dreh raus</string>
+    <string name="achievement_payments_10_desc">10 Zahlungen hast du bereits getätigt!</string>
+    <string name="achievement_payments_50">Auf dich ist verlass!</string>
+    <string name="achievement_payments_50_desc">Du hast insgesamt schon 50 Zahlungen getätigt!</string>
+    <string name="achievement_payments_100">Gönnjamin!</string>
+    <string name="achievement_payments_100_desc">100 Zahlungen! Du bist ein echter Gönnjamin</string>
+
+    <string name="achievement_missed_payments_1">Einmal ist keinmal</string>
+    <string name="achievement_missed_payments_1_desc">Du hast das erste Mal einen Zahltermin verpasst</string>
+    <string name="achievement_missed_payments_3">Aller schlechten Dinge sind 3?</string>
+    <string name="achievement_missed_payments_3_desc">Denk doch mal an deine Kompagnons. Du hast bereits 3 Zahlungen versäumt</string>
+    <string name="achievement_missed_payments_5">Langsam wird\'s übel.</string>
+    <string name="achievement_missed_payments_5_desc">Checkst du deine Zahlungserinnerungen auch mal? 5 mal hast du nun schon Zahlungstermine verpasst.</string>
+    <string name="achievement_missed_payments_10">Kameradenschwein!</string>
+    <string name="achievement_missed_payments_10_desc">Du hast nun schon 10 Zahltermine verpasst. Ein Wunder, dass deine Gruppenmitglieder dich noch nicht herausgeworfen haben…</string>
+    <string name="achievement_missed_payments_25">Lebst du noch?!</string>
+    <string name="achievement_missed_payments_25_desc">Bei nun schon 25 versäumten Zahlungen machen wir uns echt Gadanken um dich…</string>
 </resources>

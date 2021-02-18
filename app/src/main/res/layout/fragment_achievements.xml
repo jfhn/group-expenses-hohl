@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.achievements.AchievementsFragment">
-
-    <TextView
-        android:id="@+id/achievements_list_empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/no_achievements_or_shamements"
-        android:textSize="18sp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/achievements_card_view"
@@ -56,7 +43,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="35sp"
-                    android:text="0"
                     tools:text="3" />
 
             </LinearLayout>
@@ -80,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="35sp"
-                    android:text="0"
                     tools:text="1" />
 
             </LinearLayout>
@@ -89,13 +74,30 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <ListView
-        android:id="@+id/achievements_list_view"
+    <TextView
+        android:id="@+id/achievements_empty_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/no_achievements_or_shamements"
+        android:textSize="18sp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/achievements_card_view" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/achievements_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/achievements_card_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_achievement" />
+
+</LinearLayout>
