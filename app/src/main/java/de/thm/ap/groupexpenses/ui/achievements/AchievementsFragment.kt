@@ -8,9 +8,14 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import de.thm.ap.groupexpenses.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.databinding.FragmentAchievementsBinding
 import de.thm.ap.groupexpenses.model.Achievement
+import de.thm.ap.groupexpenses.model.UserData
 
 class AchievementsFragment : Fragment() {
 
@@ -22,14 +27,31 @@ class AchievementsFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
         binding = FragmentAchievementsBinding.inflate(inflater, container, false)
 
-        val adapter = ArrayAdapter<Achievement>(requireContext(), simple_list_item_1, mutableListOf())
+        val user    = Firebase.auth.currentUser!!
+        val userRef = Firebase.firestore.document("users/${user.uid}")
 
-        binding.achievementsListView.emptyView = binding.achievementsListEmptyView
-        binding.achievementsListView.adapter   = adapter
+        userRef.addSnapshotListener { snapshot, _ ->
+            viewModel.userData.value = snapshot!!.toObject<UserData>()
+        }
 
-        viewModel.achievements.observe(viewLifecycleOwner) {
-            adapter.clear()
-            adapter.addAll(it)
+        viewModel.userData.observe(viewLifecycleOwner) { userData ->
+            val achievements = Achievement.getAchievements(userData)
+
+            val adapter = AchievementsAdapter(achievements)
+
+            if (adapter.itemCount == 0) {
+                binding.achievementsEmptyView.visibility    = View.VISIBLE
+                binding.achievementsRecyclerView.visibility = View.GONE
+            } else {
+                binding.achievementsEmptyView.visibility    = View.GONE
+                binding.achievementsRecyclerView.visibility = View.VISIBLE
+
+                binding.achievementsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                binding.achievementsRecyclerView.adapter       = adapter
+            }
+
+            binding.achievementsCount.text = Achievement.getAchievementCount(achievements).toString()
+            binding.shamementsCount.text   = Achievement.getShamementCount(achievements).toString()
         }
 
         return binding.root
