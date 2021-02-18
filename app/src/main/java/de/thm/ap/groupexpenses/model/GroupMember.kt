@@ -1,6 +1,7 @@
 package de.thm.ap.groupexpenses.model
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
@@ -11,4 +12,6 @@ class GroupMember {
     @ServerTimestamp var joinDate: Date? = null
     var totalExpenses: Double = 0.0
     var totalPayments: Double = 0.0
+
+    @Exclude var personalBalance: Double = 0.0
 }

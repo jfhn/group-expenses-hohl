@@ -16,6 +16,8 @@ class Group {
     @ServerTimestamp var latestUpdate: Date? = null
     var numMembers: Int = 0
 
+    fun getPaymentPerUser(): Double = totalExpenses / numMembers
+
     fun getPersonalBalance(): Double = personalPayments - totalExpenses / numMembers
 
     fun getTotalBalance(): Double = totalPayments - totalExpenses

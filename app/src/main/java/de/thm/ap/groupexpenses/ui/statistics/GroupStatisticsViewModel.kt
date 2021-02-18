@@ -1,12 +1,10 @@
-package de.thm.ap.groupexpenses
+package de.thm.ap.groupexpenses.ui.statistics
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.thm.ap.groupexpenses.model.Group
 
-class GroupViewModel : ViewModel() {
-    lateinit var groupId: String
-
+class GroupStatisticsViewModel : ViewModel() {
     val group: MutableLiveData<Group?> = MutableLiveData()
 
     init {

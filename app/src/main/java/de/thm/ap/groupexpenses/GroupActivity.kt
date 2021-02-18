@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -15,12 +16,15 @@ import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.ui.expenses.ExpensesFragment
 import de.thm.ap.groupexpenses.ui.group.GroupMembersFragment
 import de.thm.ap.groupexpenses.ui.group.GroupPaymentsFragment
+import de.thm.ap.groupexpenses.ui.group.GroupStatisticsFragment
 
 class GroupActivity : AppCompatActivity() {
     private val db = Firebase.firestore
 
     private val viewModel: GroupViewModel by viewModels()
     private lateinit var binding: ActivityGroupBinding
+
+    private lateinit var registration: ListenerRegistration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +36,22 @@ class GroupActivity : AppCompatActivity() {
                 ?: throw IllegalArgumentException("Must pass extra $KEY_GROUP_ID")
 
         title = ""
-        db.document("groups/${viewModel.groupId}")
-                .get().addOnSuccessListener {
-                    val group: Group = it.toObject()!!
-                    title = group.name
-                }
+
+        viewModel.group.observe(this) { group ->
+            if (group != null) {
+                title = group.name
+            }
+        }
 
         binding.groupViewpager.adapter = GroupViewPagerAdapter(this)
+    }
+
+    private fun initRegistration(groupId: String) {
+        val groupRef = Firebase.firestore.document("groups/$groupId")
+
+        registration = groupRef.addSnapshotListener { snapshot, _ ->
+            viewModel.group.value = snapshot!!.toObject<Group>()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -51,6 +64,16 @@ class GroupActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        initRegistration(viewModel.groupId)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        registration.remove()
+    }
+
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right)
@@ -59,8 +82,9 @@ class GroupActivity : AppCompatActivity() {
     private inner class GroupViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         private val fragments: List<() -> Fragment> = listOf(
             { ExpensesFragment() },
-            { GroupPaymentsFragment() },
-            { GroupMembersFragment() }
+            { GroupStatisticsFragment() },
+            { GroupMembersFragment() },
+            { GroupPaymentsFragment() }, // TODO: remove fragment and transfer functionality
         )
 
         override fun getItemCount(): Int = fragments.size

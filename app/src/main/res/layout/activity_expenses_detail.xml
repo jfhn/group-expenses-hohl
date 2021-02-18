@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/black"
-                    android:text="@string/expenses"/>
+                    android:text="@string/costs"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/cost"

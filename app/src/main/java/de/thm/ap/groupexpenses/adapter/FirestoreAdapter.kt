@@ -26,6 +26,12 @@ abstract class FirestoreAdapter<VH : RecyclerView.ViewHolder>(private var query:
 
     private val snapshots = ArrayList<DocumentSnapshot>()
 
+    fun forEach(action: (DocumentSnapshot) -> Unit) {
+        snapshots.forEach(action)
+    }
+
+    fun <R> map(transform: (DocumentSnapshot) -> R) = snapshots.map(transform)
+
     override fun onEvent(documentSnapshots: QuerySnapshot?, e: FirebaseFirestoreException?) {
         if (e != null) {
             Log.w(TAG, "onEvent:error", e)
