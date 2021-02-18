@@ -1,9 +1,8 @@
 package de.thm.ap.groupexpenses.ui.statistics
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -13,6 +12,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import de.thm.ap.groupexpenses.AchievementsActivity
 import de.thm.ap.groupexpenses.MainActivity
 import de.thm.ap.groupexpenses.R
 import de.thm.ap.groupexpenses.adapter.UserGroupStatsAdapter
@@ -29,7 +29,6 @@ class UserStatisticsFragment : Fragment() {
     private lateinit var registration: ListenerRegistration
 
     private var adapter: UserGroupStatsAdapter? = null
-
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -59,6 +58,8 @@ class UserStatisticsFragment : Fragment() {
             binding.personalTotalGroupPayments.text = getString(R.string.fmt_double_EUR).format(it)
         }
 
+        this.setHasOptionsMenu(true)
+
         return binding.root
     }
 
@@ -67,6 +68,21 @@ class UserStatisticsFragment : Fragment() {
 
         registration = userRef.addSnapshotListener { snapshot, _ ->
             userViewModel.userData.value = snapshot!!.toObject<UserData>()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.statistics, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_show_achievements -> {
+                startActivity(Intent(requireContext(), AchievementsActivity::class.java))
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
