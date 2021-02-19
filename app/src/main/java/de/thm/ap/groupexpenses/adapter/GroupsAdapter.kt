@@ -53,6 +53,10 @@ open class GroupsAdapter(query: Query, private val listener: OnGroupSelectedList
                     group.latestUpdate?.formatGerman()
             )
 
+            val color = if (group.getPersonalBalance() < 0) R.color.red else R.color.black
+
+            binding.itemGroupExpenses.setTextColor(resources.getColor(color))
+
             binding.root.setOnClickListener {
                 listener?.onGroupSelected(snapshot)
             }
