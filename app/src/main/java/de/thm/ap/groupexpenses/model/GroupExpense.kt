@@ -28,6 +28,32 @@ class GroupExpense {
     var date: Date? = null
 
     /**
+     *
+     */
+    var isRecurring: Boolean = false
+
+    /**
+     *
+     */
+    var alreadyRecurred: Boolean = false
+
+    /**
+     * First bit is unused, because firebase uses 32 bit signed integers
+     *      _ = unused,
+     *      b = bit mask bits
+     *      v = value bit
+     * _bbv vvvv  vvvv vvvv  vvvv vvvv  vvvv vvvv
+     *
+     * bitmask:
+     *      00... = day
+     *      01... = week
+     *      10... = month
+     *      11... = year
+     *      rest  = value
+     */
+    var recurringInterval: Int = 0
+
+    /**
      * id of the user, who made the expense
      */
     var userId: String? = null

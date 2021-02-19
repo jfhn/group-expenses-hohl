@@ -141,11 +141,19 @@ class ExpenseFormActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
 
         val expense = GroupExpense().apply {
-            name     = binding.expenseName.text.toString().trim()
-            cost     = binding.expenseValue.text.toString().toDouble()
-            date     = viewModel.date.value
-            userId   = Firebase.auth.currentUser!!.uid
-            userName = Firebase.auth.currentUser!!.displayName
+            name            = binding.expenseName.text.toString().trim()
+            cost            = binding.expenseValue.text.toString().toDouble()
+            date            = viewModel.date.value
+            isRecurring     = binding.expenseRecurring.isChecked
+            alreadyRecurred = false
+            userId          = Firebase.auth.currentUser!!.uid
+            userName        = Firebase.auth.currentUser!!.displayName
+
+            if (isRecurring) {
+                val intervalType : Int = binding.expenseIntervalUnit.value shl 29 // shl = shift left
+                val intervalValue: Int = binding.expenseIntervalValue.value
+                recurringInterval = intervalType or intervalValue
+            }
         }
 
         setExpense(viewModel.groupId, viewModel.expenseId, expense).addOnSuccessListener {
