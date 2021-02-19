@@ -1,8 +1,15 @@
 package de.thm.ap.groupexpenses
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -19,7 +26,6 @@ import de.thm.ap.groupexpenses.ui.group.GroupPaymentsFragment
 import de.thm.ap.groupexpenses.ui.group.GroupStatisticsFragment
 
 class GroupActivity : AppCompatActivity() {
-    private val db = Firebase.firestore
 
     private val viewModel: GroupViewModel by viewModels()
     private lateinit var binding: ActivityGroupBinding
@@ -54,14 +60,67 @@ class GroupActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menuInflater.inflate(R.menu.groups, menu)
+
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 true
             }
+
+            R.id.action_remind -> {
+                val groupName = viewModel.group.value!!.name!!
+                val subject   = "${getString(R.string.reminder_subject)} $groupName"
+                val text      = "${getString(R.string.reminder_text_a)} $groupName " +
+                        getString(R.string.reminder_text_b)
+
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = "*/*"
+                    putExtra(Intent.EXTRA_SUBJECT, subject)
+                    putExtra(Intent.EXTRA_TEXT, text)
+                }
+                if (intent.resolveActivity(packageManager) != null) {
+                    startActivity(intent)
+                    true
+                } else false
+            }
+
+            R.id.action_invite -> {
+                val link = getInvitationLink()
+                val ctx = this
+                AlertDialog.Builder(ctx).apply {
+                    setTitle(getString(R.string.group_invitation_link))
+                    setMessage(link)
+                    setPositiveButton("Teilen") { _, _ ->
+                        val i = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_SUBJECT, "Group Expenses - Gruppeneinladung")
+                            putExtra(Intent.EXTRA_TEXT, link)
+                        }
+                        startActivity(Intent.createChooser(i, "Teilen mit..."))
+                    }
+                    setNegativeButton("Kopieren") { _, _ ->
+                        val clipboardManager = ctx.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        val clipData = ClipData.newPlainText("text", link)
+                        clipboardManager.setPrimaryClip(clipData)
+                        Toast.makeText(ctx, "Link wurde kopiert", Toast.LENGTH_LONG).show()
+                    }
+                    show()
+                }
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun getInvitationLink(): String {
+        return "http://de.thm.ap.groupexpenses/group_invite/${viewModel.groupId}"
     }
 
     override fun onStart() {
@@ -84,7 +143,7 @@ class GroupActivity : AppCompatActivity() {
             { ExpensesFragment() },
             { GroupStatisticsFragment() },
             { GroupMembersFragment() },
-            { GroupPaymentsFragment() }, // TODO: remove fragment and transfer functionality
+            { GroupPaymentsFragment() },
         )
 
         override fun getItemCount(): Int = fragments.size
@@ -94,7 +153,6 @@ class GroupActivity : AppCompatActivity() {
 
 
     companion object {
-        private const val TAG = "GroupDetail"
         const val KEY_GROUP_ID = "key_group_id"
         const val KEY_EXPENSE_ID = "key_expense_id"
     }
