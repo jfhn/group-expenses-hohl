@@ -3,16 +3,11 @@ package de.thm.ap.groupexpenses.ui.expenses
 import android.content.*
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.Query.Direction.ASCENDING
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.*
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
@@ -65,39 +60,6 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
                 true
             }
 
-            R.id.action_edit -> {
-                TODO("Not yet implemented")
-            }
-
-            R.id.action_stats -> {
-                TODO("Not yet implemented")
-            }
-
-            R.id.action_invite -> {
-                val link = getInvitationLink()
-                val ctx = requireContext()
-                AlertDialog.Builder(ctx).apply {
-                    setTitle(getString(R.string.group_invitation_link))
-                    setMessage(link)
-                    setPositiveButton("Teilen") { _, _ ->
-                        val i = Intent(Intent.ACTION_SEND).apply {
-                            type = "text/plain"
-                            putExtra(Intent.EXTRA_SUBJECT, "Group Expenses - Gruppeneinladung")
-                            putExtra(Intent.EXTRA_TEXT, link)
-                        }
-                        startActivity(Intent.createChooser(i, "Teilen mit..."))
-                    }
-                    setNegativeButton("Kopieren") { _, _ ->
-                        val clipboardManager = ctx.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        val clipData = ClipData.newPlainText("text", link)
-                        clipboardManager.setPrimaryClip(clipData)
-                        Toast.makeText(ctx, "Link wurde kopiert", Toast.LENGTH_LONG).show()
-                    }
-                    show()
-                }
-                true
-            }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -146,10 +108,6 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
         intent.putExtra(KEY_EXPENSE_ID, expense.id)
 
         startActivity(intent)
-    }
-
-    fun getInvitationLink(): String {
-        return "http://de.thm.ap.groupexpenses/group_invite/${groupViewModel.groupId}"
     }
 }
 /*
