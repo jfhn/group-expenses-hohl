@@ -1,9 +1,7 @@
 package de.thm.ap.groupexpenses.ui.group
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +21,7 @@ class GroupStatisticsFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?)
-    : View? {
+    : View {
         binding = FragmentGroupStatisticsBinding.inflate(inflater, container, false)
 
         groupViewModel.group.observe(viewLifecycleOwner) { group ->

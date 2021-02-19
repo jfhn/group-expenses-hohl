@@ -12,8 +12,8 @@ import de.thm.ap.groupexpenses.model.GroupMember
 import java.lang.IllegalStateException
 
 open class GroupMembersAdapter(query: Query)
-    : FirestoreAdapter<GroupMembersAdapter.ViewHolder>(query)
-{
+    : FirestoreAdapter<GroupMembersAdapter.ViewHolder>(query) {
+
     companion object {
         const val TAG = "GroupMembersAdapter"
     }
