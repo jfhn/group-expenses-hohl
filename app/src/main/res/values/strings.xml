@@ -131,4 +131,6 @@
     <string name="reminder_subject">Zahlungserinnerung</string>
     <string name="reminder_text_a">Hey,\nin deiner Gruppe"</string>
     <string name="reminder_text_b">"sind noch Zahlungen offen.</string>
+    <string name="leave_group">Gruppe verlassen</string>
+    <string name="kick_member">Mitglied entfernen</string>
 </resources>
