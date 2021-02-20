@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_groups"
         android:name="de.thm.ap.groupexpenses.ui.groups.GroupsFragment"
-        android:label="@string/personal_stats_groups"
+        android:label="@string/fragment_user_groups"
         tools:layout="@layout/fragment_groups" />
 
     <fragment

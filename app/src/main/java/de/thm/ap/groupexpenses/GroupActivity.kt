@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -25,6 +26,7 @@ import de.thm.ap.groupexpenses.ui.expenses.ExpensesFragment
 import de.thm.ap.groupexpenses.ui.group.GroupMembersFragment
 import de.thm.ap.groupexpenses.ui.group.GroupPaymentsFragment
 import de.thm.ap.groupexpenses.ui.group.GroupStatisticsFragment
+import de.thm.ap.groupexpenses.util.GroupMembershipChecker
 
 class GroupActivity : AppCompatActivity() {
 
@@ -32,6 +34,7 @@ class GroupActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGroupBinding
 
     private lateinit var registration: ListenerRegistration
+    private lateinit var membershipChecker: GroupMembershipChecker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +55,11 @@ class GroupActivity : AppCompatActivity() {
         }
 
         binding.groupViewpager.adapter = GroupViewPagerAdapter(this)
+
+        membershipChecker = GroupMembershipChecker(viewModel.groupId) {
+            Toast.makeText(this, R.string.kicked_message, Toast.LENGTH_LONG).show()
+            finish()
+        }
     }
 
     private fun initRegistration(groupId: String) {
@@ -128,11 +136,13 @@ class GroupActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         initRegistration(viewModel.groupId)
+        membershipChecker.startListening()
     }
 
     override fun onStop() {
         super.onStop()
         registration.remove()
+        membershipChecker.stopListening()
     }
 
     override fun finish() {
@@ -152,7 +162,6 @@ class GroupActivity : AppCompatActivity() {
 
         override fun createFragment(position: Int): Fragment = fragments[position]()
     }
-
 
     companion object {
         const val KEY_GROUP_ID = "key_group_id"
