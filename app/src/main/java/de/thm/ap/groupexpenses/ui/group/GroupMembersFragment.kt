@@ -57,8 +57,5 @@ class GroupMembersFragment : RecyclerFragment() {
 
                 adapter?.startListening()
             }
-            .addOnFailureListener {
-                requireActivity().finish()
-            }
     }
 }

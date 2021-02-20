@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.thm.ap.groupexpenses.databinding.ActivityGroupBinding
 import de.thm.ap.groupexpenses.model.Group
+import de.thm.ap.groupexpenses.util.GroupMembershipChecker
 
 class GroupViewModel : ViewModel() {
     lateinit var groupId: String
