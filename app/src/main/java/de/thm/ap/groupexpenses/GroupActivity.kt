@@ -56,7 +56,10 @@ class GroupActivity : AppCompatActivity() {
 
         binding.groupViewpager.adapter = GroupViewPagerAdapter(this)
 
-        membershipChecker = GroupMembershipChecker(viewModel.groupId) { finish() }
+        membershipChecker = GroupMembershipChecker(viewModel.groupId) {
+            Toast.makeText(this, R.string.kicked_message, Toast.LENGTH_LONG).show()
+            finish()
+        }
     }
 
     private fun initRegistration(groupId: String) {
