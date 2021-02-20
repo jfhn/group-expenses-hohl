@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -43,6 +44,7 @@ class GroupActivity : AppCompatActivity() {
 
         title = ""
 
+        viewModel.parentBinding = binding
         viewModel.group.observe(this) { group ->
             if (group != null) {
                 title = group.name
