@@ -133,4 +133,8 @@
     <string name="reminder_text_b">"sind noch Zahlungen offen.</string>
     <string name="leave_group">Gruppe verlassen</string>
     <string name="kick_member">Mitglied entfernen</string>
+    <string name="confirm_leave_descA">Bist du dir sicher, dass du diese Gruppe verlassen möchtest?</string>
+    <string name="confirm_leave_descB">Bist du dir sicher, dass du diese Gruppe verlassen möchtest? Ohne eine Einladung kannst du ihr nicht erneut beitreten.</string>
+    <string name="confirm_kick_desc1">"Bist du dir sicher, dass du "</string>
+    <string name="confirm_kick_desc2">" aus dieser Gruppe entfernen möchtest?"</string>
 </resources>

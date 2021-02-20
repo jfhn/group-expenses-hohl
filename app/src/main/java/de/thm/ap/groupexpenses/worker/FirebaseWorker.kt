@@ -99,7 +99,7 @@ object FirebaseWorker {
         .call(mapOf("groupId" to groupId, "memberId" to memberId))
         .continueWith { task ->
             task.result?.data as String // groupId
-        } // TODO: server side
+        }
 
     fun getExpense(groupId: String, expenseId: String): Task<GroupExpense> = db
             .document("groups/$groupId/expenses/$expenseId").get()

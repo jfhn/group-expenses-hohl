@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -25,6 +26,7 @@ import de.thm.ap.groupexpenses.ui.expenses.ExpensesFragment
 import de.thm.ap.groupexpenses.ui.group.GroupMembersFragment
 import de.thm.ap.groupexpenses.ui.group.GroupPaymentsFragment
 import de.thm.ap.groupexpenses.ui.group.GroupStatisticsFragment
+import de.thm.ap.groupexpenses.worker.FirebaseWorker
 
 class GroupActivity : AppCompatActivity() {
 

@@ -39,12 +39,26 @@ class GroupMembersFragment : RecyclerFragment() {
             .addOnSuccessListener {
                 val isAdmin = it!!.toObject<GroupMember>()!!.role == "admin"
 
-                adapter = GroupMembersAdapter(query, isAdmin)
+                adapter = object : GroupMembersAdapter(
+                    query,
+                    isAdmin,
+                    groupViewModel.groupId,
+                    requireActivity()
+                ) {
+                    override fun onDataChanged() {
+                        super.onDataChanged()
+
+                        binding.recyclerGroupMembers.adapter = adapter
+                    }
+                }
 
                 binding.recyclerGroupMembers.layoutManager = LinearLayoutManager(requireContext())
                 binding.recyclerGroupMembers.adapter       = adapter
 
                 adapter?.startListening()
+            }
+            .addOnFailureListener {
+                requireActivity().finish()
             }
     }
 }

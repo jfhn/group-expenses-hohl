@@ -1,5 +1,7 @@
 package de.thm.ap.groupexpenses.adapter
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +18,8 @@ import de.thm.ap.groupexpenses.worker.FirebaseWorker
 
 open class GroupMembersAdapter(query: Query,
                                private val isAdmin: Boolean,
-                               private val groupId: String)
+                               private val groupId: String,
+                               private val activity: Activity)
     : FirestoreAdapter<GroupMembersAdapter.ViewHolder>(query) {
 
     companion object {
@@ -41,28 +44,53 @@ open class GroupMembersAdapter(query: Query,
             binding.itemGroupMemberRole.text = when (groupMember.role) {
                 "admin"  -> binding.root.resources.getString(R.string.admin)
                 "member" -> binding.root.resources.getString(R.string.member)
-                else     -> throw IllegalStateException("$TAG: must not occur")
+                else     -> "???"
             }
 
-            if (Firebase.auth.currentUser!!.uid == groupMember.id) {
+            val isLastMember = this@GroupMembersAdapter.itemCount == 1
+            val canLeave     = !isAdmin || isLastMember
+
+            if (Firebase.auth.currentUser!!.uid == groupMember.id && canLeave) {
                 binding.itemGroupMemberKick.visibility  = View.GONE
                 binding.itemGroupMemberLeave.visibility = View.VISIBLE
 
                 binding.itemGroupMemberLeave.setOnClickListener {
-                    // TODO: add confirmation alert dialog
-                    FirebaseWorker.leaveGroup(groupId)
+                    AlertDialog.Builder(activity).apply {
+                        setTitle(R.string.leave_group)
+                        val message =
+                            if (isLastMember) activity.getString(R.string.confirm_leave_descA)
+                            else activity.getString(R.string.confirm_leave_descB)
+                        setMessage(message)
+                        setNeutralButton(R.string.cancel, null)
+                        setNegativeButton(R.string.leave_group) { _, _ ->
+                            FirebaseWorker.leaveGroup(groupId)
+                            activity.finish()
+                        }
+                        show()
+                    }
                 }
-            } else if (groupMember.role == "member") {
+            } else if (groupMember.role != "admin") {
                 binding.itemGroupMemberLeave.visibility = View.GONE
 
                 binding.itemGroupMemberKick.visibility = if (isAdmin) {
                     binding.itemGroupMemberKick.setOnClickListener {
-                        // TODO: add confirmation alert dialog
-                        FirebaseWorker.kickMemberFromGroup(groupId, groupMember.id!!)
+                        AlertDialog.Builder(activity).apply {
+                            setTitle(R.string.kick_member)
+                            val message = context.getString(R.string.confirm_kick_desc1) + groupMember.userName + context.getString(R.string.confirm_kick_desc2)
+                            setMessage(message)
+                            setNeutralButton(R.string.cancel, null)
+                            setNegativeButton(R.string.kick_member) { _, _ ->
+                                FirebaseWorker.kickMemberFromGroup(groupId, groupMember.id!!)
+                            }
+                            show()
+                        }
                     }
 
                     View.VISIBLE
                 } else View.GONE
+            } else {
+                binding.itemGroupMemberLeave.visibility = View.GONE
+                binding.itemGroupMemberKick.visibility  = View.GONE
             }
         }
     }
