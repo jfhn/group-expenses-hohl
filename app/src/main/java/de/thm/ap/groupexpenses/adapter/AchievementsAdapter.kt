@@ -1,4 +1,4 @@
-package de.thm.ap.groupexpenses.ui.achievements
+package de.thm.ap.groupexpenses.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import de.thm.ap.groupexpenses.databinding.ItemAchievementBinding
 import de.thm.ap.groupexpenses.model.Achievement
 
-// TODO refactor to adapter package
 class AchievementsAdapter(private val achievements: List<Achievement>)
     : RecyclerView.Adapter<AchievementsAdapter.AchievementsViewHolder>() {
 

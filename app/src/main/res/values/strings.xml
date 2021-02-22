@@ -126,7 +126,7 @@
     <string name="achievement_missed_payments_10">Kameradenschwein!</string>
     <string name="achievement_missed_payments_10_desc">Du hast nun schon 10 Zahltermine verpasst. Ein Wunder, dass deine Gruppenmitglieder dich noch nicht herausgeworfen haben…</string>
     <string name="achievement_missed_payments_25">Lebst du noch?!</string>
-    <string name="achievement_missed_payments_25_desc">Bei nun schon 25 versäumten Zahlungen machen wir uns echt Gadanken um dich…</string>
+    <string name="achievement_missed_payments_25_desc">Bei nun schon 25 versäumten Zahlungen machen wir uns echt Gedanken um dich…</string>
     <string name="send_payment_reminder">Zahlungserinnerung versenden</string>
     <string name="reminder_subject">Zahlungserinnerung</string>
     <string name="reminder_text_a">Hey,\nin deiner Gruppe"</string>

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -29,7 +28,6 @@ import de.thm.ap.groupexpenses.worker.FirebaseWorker.joinGroup
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        const val TAG = "MainActivity"
         const val RC_SIGN_IN = 9001
         const val RC_CREATE_GROUP = 123
     }
@@ -58,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun createGroup(item: MenuItem) {
         val intent = Intent(this, GroupFormActivity::class.java)
         startActivityForResult(intent, RC_CREATE_GROUP)
@@ -145,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             RC_SIGN_IN -> {
                 isSigningIn = false
-                val response = IdpResponse.fromResultIntent(data)
+                val response = IdpResponse.fromResultIntent(data) // TODO
                 if (resultCode == Activity.RESULT_OK) {
                     // Successfully signed in
                     userViewModel.user.value = Firebase.auth.currentUser

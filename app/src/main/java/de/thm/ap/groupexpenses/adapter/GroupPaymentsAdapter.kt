@@ -13,8 +13,8 @@ import de.thm.ap.groupexpenses.model.GroupPayment
 import java.util.*
 
 open class GroupPaymentsAdapter(query: Query)
-    : FirestoreAdapter<GroupPaymentsAdapter.ViewHolder>(query)
-{
+    : FirestoreAdapter<GroupPaymentsAdapter.ViewHolder>(query) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(ItemGroupPaymentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }

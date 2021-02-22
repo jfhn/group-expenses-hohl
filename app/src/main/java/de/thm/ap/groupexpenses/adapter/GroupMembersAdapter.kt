@@ -22,10 +22,6 @@ open class GroupMembersAdapter(query: Query,
                                private val activity: Activity)
     : FirestoreAdapter<GroupMembersAdapter.ViewHolder>(query) {
 
-    companion object {
-        const val TAG = "GroupMembersAdapter"
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(ItemGroupMemberBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }

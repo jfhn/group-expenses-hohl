@@ -6,6 +6,7 @@ import de.thm.ap.groupexpenses.databinding.ActivityGroupBinding
 import de.thm.ap.groupexpenses.model.Group
 
 class GroupViewModel : ViewModel() {
+
     lateinit var groupId: String
     lateinit var parentBinding: ActivityGroupBinding
 

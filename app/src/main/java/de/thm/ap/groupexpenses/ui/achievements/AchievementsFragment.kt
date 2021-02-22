@@ -1,11 +1,9 @@
 package de.thm.ap.groupexpenses.ui.achievements
 
-import android.R.layout.simple_list_item_1
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +11,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import de.thm.ap.groupexpenses.adapter.AchievementsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentAchievementsBinding
 import de.thm.ap.groupexpenses.model.Achievement
 import de.thm.ap.groupexpenses.model.UserData

@@ -17,6 +17,7 @@ import de.thm.ap.groupexpenses.worker.FirebaseWorker
 import java.util.*
 
 class PaymentFormActivity : AppCompatActivity() {
+
     private val viewModel: PaymentFormViewModel by viewModels()
     private lateinit var binding: ActivityPaymentFormBinding
 
@@ -97,9 +98,5 @@ class PaymentFormActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
             ).show()
         }
-    }
-
-    companion object {
-        const val TAG = "PaymentFormActivity"
     }
 }

@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.GroupViewModel
 import de.thm.ap.groupexpenses.PaymentFormActivity
@@ -58,9 +56,5 @@ class GroupPaymentsFragment : RecyclerFragment() {
         binding.recyclerGroupPayments.adapter = adapter
 
         adapter?.startListening()
-    }
-
-    companion object {
-        const val TAG = "GroupPaymentsFragment"
     }
 }

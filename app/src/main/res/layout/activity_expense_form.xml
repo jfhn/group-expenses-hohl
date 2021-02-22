@@ -86,7 +86,8 @@
                 android:focusable="false"
                 android:inputType="none"
                 android:hint="@string/expenses_date_hint"
-                tools:ignore="TextFields"/>
+                tools:ignore="TextFields"
+                android:autofillHints="date" />
 
             <ImageButton
                 android:id="@+id/button_select_expense_date"
@@ -94,7 +95,8 @@
                 android:layout_height="wrap_content"
                 android:tooltipText="@string/expenses_date_button"
                 android:contentDescription="@string/expenses_date_button"
-                android:src="@drawable/ic_baseline_today_black_24"/>
+                android:src="@drawable/ic_baseline_today_black_24"
+                tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
 

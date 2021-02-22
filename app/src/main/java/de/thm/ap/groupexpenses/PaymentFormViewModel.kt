@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import java.util.*
 
 class PaymentFormViewModel : ViewModel() {
+
     lateinit var groupId: String
     val date: MutableLiveData<Date> = MutableLiveData()
 

@@ -3,6 +3,7 @@ package de.thm.ap.groupexpenses.model
 import android.content.res.Resources
 import de.thm.ap.groupexpenses.R
 
+@Suppress("unused") // used in companion object: getAchievements()
 enum class Achievement(val isShamement: Boolean,
                        private val fulfillment: (UserData) -> Boolean,
                        private val displayName: Int,

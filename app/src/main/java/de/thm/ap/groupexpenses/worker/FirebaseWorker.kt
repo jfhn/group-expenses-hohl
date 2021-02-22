@@ -2,29 +2,26 @@ package de.thm.ap.groupexpenses.worker
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
-import de.thm.ap.groupexpenses.model.*
+import de.thm.ap.groupexpenses.model.Group
+import de.thm.ap.groupexpenses.model.GroupExpense
+import de.thm.ap.groupexpenses.model.GroupPayment
 import java.io.ByteArrayOutputStream
 
-
 object FirebaseWorker {
-    private const val TAG = "FirebaseWorker"
     private val db = Firebase.firestore
-    private val usersRef  = db.collection("users")
-    private val groupsRef = db.collection("groups")
-    private val usersGroupsRef = db.collection("usersGroups")
 
     const val ROLE_MEMBER = "member"
-    const val ROLE_ADMIN  = "admin"
 
     fun userGroupsQuery(uid: String): Query = db
             .collection("users/$uid/groups")
@@ -36,10 +33,6 @@ object FirebaseWorker {
 
     fun userPaymentsQuery(uid: String): Query = db
             .collection("users/$uid/payments")
-            .orderBy("date", Query.Direction.DESCENDING)
-
-    fun userExpensesQuery(uid: String): Query = db
-            .collection("users/$uid/expenses")
             .orderBy("date", Query.Direction.DESCENDING)
 
     fun groupMembersQuery(groupId: String): Query = db
@@ -59,10 +52,6 @@ object FirebaseWorker {
         val data = baos.toByteArray()
 
         return Firebase.storage.reference.child(path).putBytes(data)
-    }
-
-    fun getImageUri(path: String): Task<Uri> {
-        return Firebase.storage.reference.child(path).downloadUrl
     }
 
     fun downloadImage(path: String): Task<Bitmap> {
@@ -107,12 +96,6 @@ object FirebaseWorker {
 
     fun removeExpense(groupId: String, expenseId: String): Task<Void> = db
             .document("groups/$groupId/expenses/$expenseId").delete()
-
-    fun updateExpense(groupId: String, expenseId: String, expense: GroupExpense): Task<Void> = db
-            .document("groups/$groupId/expenses/$expenseId").set(expense)
-
-    fun addExpense(groupId: String, expense: GroupExpense): Task<DocumentReference> = db
-            .collection("groups/$groupId/expenses").add(expense)
 
     fun setExpense(groupId: String, expenseId: String?, expense: GroupExpense)
     : Task<DocumentReference> =

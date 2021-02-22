@@ -1,5 +1,6 @@
 package de.thm.ap.groupexpenses.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,6 +62,7 @@ open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelected
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onDataChanged() {
         super.onDataChanged()
 
