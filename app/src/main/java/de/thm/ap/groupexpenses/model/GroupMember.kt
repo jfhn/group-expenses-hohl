@@ -12,6 +12,5 @@ class GroupMember {
     @ServerTimestamp var joinDate: Date? = null
     var totalExpenses: Double = 0.0
     var totalPayments: Double = 0.0
-
     @Exclude var personalBalance: Double = 0.0
 }

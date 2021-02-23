@@ -104,16 +104,8 @@ class MainActivity : AppCompatActivity() {
         if (shouldStartSigningIn()) {
             startSignIn()
             return
-        }
-
-        // TODO(bug): open the group when the invitation link is clicked once
-        val appLinkData = intent.data
-        if (appLinkData != null) {
-            val groupId = appLinkData.lastPathSegment
-            intent.data = null
-            if (groupId != null) {
-                joinGroupDialog(groupId)
-            }
+        } else if (userViewModel.user.value != null) {
+            processIntent()
         }
     }
 
@@ -147,6 +139,7 @@ class MainActivity : AppCompatActivity() {
                 val response = IdpResponse.fromResultIntent(data) // TODO: @Renke
                 if (resultCode == Activity.RESULT_OK) {
                     // Successfully signed in
+                    processIntent()
                     userViewModel.user.value = Firebase.auth.currentUser
                 } else {
                     startSignIn()
@@ -158,6 +151,17 @@ class MainActivity : AppCompatActivity() {
                             ?: throw IllegalStateException("groupId must be passed from GroupFormActivity")
                     openGroupActivity(groupId)
                 }
+            }
+        }
+    }
+
+    private fun processIntent() {
+        val appLinkData = intent.data
+        if (appLinkData != null) {
+            val groupId = appLinkData.lastPathSegment
+            intent.data = null
+            if (groupId != null) {
+                joinGroupDialog(groupId)
             }
         }
     }
