@@ -138,14 +138,12 @@
     <string name="achievement_payments_100">Gönnjamin!</string>
     <string name="achievement_payments_100_desc">100 Zahlungen! Du bist ein echter Gönnjamin</string>
 
-    <string name="achievement_missed_payments_1">Einmal ist keinmal</string>
-    <string name="achievement_missed_payments_1_desc">Du hast das erste Mal einen Zahltermin verpasst</string>
-    <string name="achievement_missed_payments_3">Aller schlechten Dinge sind 3?</string>
-    <string name="achievement_missed_payments_3_desc">Denk doch mal an deine Kompagnons. Du hast bereits 3 Zahlungen versäumt</string>
-    <string name="achievement_missed_payments_5">Langsam wird\'s übel.</string>
-    <string name="achievement_missed_payments_5_desc">Checkst du deine Zahlungserinnerungen auch mal? 5 mal hast du nun schon Zahlungstermine verpasst.</string>
-    <string name="achievement_missed_payments_10">Kameradenschwein!</string>
-    <string name="achievement_missed_payments_10_desc">Du hast nun schon 10 Zahltermine verpasst. Ein Wunder, dass deine Gruppenmitglieder dich noch nicht herausgeworfen haben…</string>
-    <string name="achievement_missed_payments_25">Lebst du noch?!</string>
-    <string name="achievement_missed_payments_25_desc">Bei nun schon 25 versäumten Zahlungen machen wir uns echt Gedanken um dich…</string>
+    <string name="shamement_negative_balance_50">Positiv bleiben</string>
+    <string name="shamement_negative_balance_50_desc">Dein Kontostand für deine Gruppen war schon einmal mehr als 50€ im Minus</string>
+    <string name="shamement_negative_balance_100">100 Punkte?</string>
+    <string name="shamement_negative_balance_100_desc">Dein Kontostand für deine Gruppen war schon einmal mehr als 100€ im Minus</string>
+    <string name="shamement_negative_balance_250">Langsam wird\'s übel.</string>
+    <string name="shamement_negative_balance_250_desc">Dein Kontostand für deine Gruppen war schon einmal mehr als 250€ im Minus</string>
+    <string name="shamement_negative_balance_500">Kameradenschwein!</string>
+    <string name="shamement_negative_balance_500_desc">Dein Kontostand für deine Gruppen war schon einmal mehr als 500€ im Minus. Ein Wunder, dass deine Gruppenmitglieder dich solche Beträge überziehen lassen…</string>
 </resources>
