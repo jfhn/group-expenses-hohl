@@ -38,7 +38,7 @@
     <string name="expenses_date">Datum</string>
     <string name="currency_euro">€</string>
     <string name="interval">Intervall</string>
-    <string name="confirm_delete">Soll die Ausgabe wirklich gelöscht werden?</string>
+    <string name="confirm_delete_expense">Soll die Ausgabe wirklich gelöscht werden?</string>
     <string name="recurring">Wiederkehrend</string>
     <string name="expenses_hint">Die Kosten der Ausgabe in €</string>
     <string name="expenses_date_hint">Das Datum der Ausgabe</string>
@@ -89,6 +89,8 @@
     <string name="confirm_kick_desc1">"Bist du dir sicher, dass du "</string>
     <string name="confirm_kick_desc2">" aus dieser Gruppe entfernen möchtest?"</string>
     <string name="kicked_message">Ein Admin hat dich aus dieser Gruppe entfernt.</string>
+    <string name="delete_payment">Zahlung löschen</string>
+    <string name="confirm_delete_payment">Bist du dir sicher, dass du diese Zahlung löschen möchtest?</string>
 
 
     <!-- Stats -->
