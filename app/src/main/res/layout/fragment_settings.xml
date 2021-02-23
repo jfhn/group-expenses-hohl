@@ -27,7 +27,7 @@
             android:layout_marginEnd="8dp"
             android:textAlignment="center"
             android:textSize="20sp"
-            android:text="bloe1" />
+            tools:text="Name" />
 
         <TextView
             android:id="@+id/text_settings_user_email"
@@ -39,7 +39,7 @@
             android:layout_marginEnd="8dp"
             android:textAlignment="center"
             android:textSize="20sp"
-            android:text="bloe2" />
+            tools:text="Email" />
 
     </LinearLayout>
 
