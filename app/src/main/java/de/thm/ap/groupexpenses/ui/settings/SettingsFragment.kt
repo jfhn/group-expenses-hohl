@@ -26,7 +26,8 @@ class SettingsFragment : Fragment() {
         val root: View = binding.root
         userViewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                // TODO: show user data
+                binding.textSettingsUserName.text  = user.displayName ?: ""
+                binding.textSettingsUserEmail.text = user.email       ?: ""
             } else {
                 (requireActivity() as MainActivity).startSignIn()
             }
