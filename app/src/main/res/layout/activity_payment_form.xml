@@ -19,6 +19,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
+
         <!-- COST -->
         <TextView
             android:layout_width="wrap_content"
@@ -49,7 +50,6 @@
 
         </LinearLayout>
 
-
         <!-- DATE -->
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +69,8 @@
                 android:focusable="false"
                 android:inputType="none"
                 android:hint="@string/payment_date_hint"
-                tools:ignore="TextFields"/>
+                tools:ignore="TextFields"
+                android:autofillHints="date" />
 
             <ImageButton
                 android:id="@+id/button_select_payment_date"
@@ -87,4 +88,5 @@
             android:layout_marginTop="8dp"
             android:text="@string/button_add_payment"/>
     </LinearLayout>
+
 </LinearLayout>

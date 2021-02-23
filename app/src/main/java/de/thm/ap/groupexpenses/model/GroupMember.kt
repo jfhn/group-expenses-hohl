@@ -9,9 +9,8 @@ class GroupMember {
     @DocumentId var id: String? = null
     var userName: String? = null
     var role: String? = null
-    @ServerTimestamp var joinDate: Date? = null
+    @ServerTimestamp var joinDate: Date? = null // TODO(@Renke): unused var
     var totalExpenses: Double = 0.0
     var totalPayments: Double = 0.0
-
     @Exclude var personalBalance: Double = 0.0
 }

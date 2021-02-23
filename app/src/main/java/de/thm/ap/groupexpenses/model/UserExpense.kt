@@ -4,7 +4,7 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
-class UserExpense {
+class UserExpense { // TODO(@Renke): unused class (and vars)
     @DocumentId var id: String? = null
     var name: String? = null
     var groupId: String? = null

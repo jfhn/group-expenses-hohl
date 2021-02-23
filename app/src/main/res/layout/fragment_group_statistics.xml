@@ -115,4 +115,5 @@
             tools:listitem="@layout/item_member_stats" />
 
     </LinearLayout>
+
 </layout>

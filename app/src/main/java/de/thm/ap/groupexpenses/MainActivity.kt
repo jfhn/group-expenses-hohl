@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -29,7 +28,6 @@ import de.thm.ap.groupexpenses.worker.FirebaseWorker.joinGroup
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        const val TAG = "MainActivity"
         const val RC_SIGN_IN = 9001
         const val RC_CREATE_GROUP = 123
     }
@@ -58,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun createGroup(item: MenuItem) {
         val intent = Intent(this, GroupFormActivity::class.java)
         startActivityForResult(intent, RC_CREATE_GROUP)
@@ -105,16 +104,8 @@ class MainActivity : AppCompatActivity() {
         if (shouldStartSigningIn()) {
             startSignIn()
             return
-        }
-
-        // TODO(bug): open the group when the invitation link is clicked once
-        val appLinkData = intent.data
-        if (appLinkData != null) {
-            val groupId = appLinkData.lastPathSegment
-            intent.data = null
-            if (groupId != null) {
-                joinGroupDialog(groupId)
-            }
+        } else if (userViewModel.user.value != null) {
+            processIntent()
         }
     }
 
@@ -145,9 +136,10 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             RC_SIGN_IN -> {
                 isSigningIn = false
-                val response = IdpResponse.fromResultIntent(data)
+                val response = IdpResponse.fromResultIntent(data) // TODO(@Renke): unused val (and call?)
                 if (resultCode == Activity.RESULT_OK) {
                     // Successfully signed in
+                    processIntent()
                     userViewModel.user.value = Firebase.auth.currentUser
                 } else {
                     startSignIn()
@@ -159,6 +151,17 @@ class MainActivity : AppCompatActivity() {
                             ?: throw IllegalStateException("groupId must be passed from GroupFormActivity")
                     openGroupActivity(groupId)
                 }
+            }
+        }
+    }
+
+    private fun processIntent() {
+        val appLinkData = intent.data
+        if (appLinkData != null) {
+            val groupId = appLinkData.lastPathSegment
+            intent.data = null
+            if (groupId != null) {
+                joinGroupDialog(groupId)
             }
         }
     }

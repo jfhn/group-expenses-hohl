@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.GroupActivity
 import de.thm.ap.groupexpenses.MainActivity
 import de.thm.ap.groupexpenses.R
@@ -22,9 +19,6 @@ import de.thm.ap.groupexpenses.ui.user.UserViewModel
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.userGroupsQuery
 
 class GroupsFragment : RecyclerFragment(), GroupsAdapter.OnGroupSelectedListener {
-    companion object {
-        const val TAG = "GroupsFragment"
-    }
 
     private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentGroupsBinding

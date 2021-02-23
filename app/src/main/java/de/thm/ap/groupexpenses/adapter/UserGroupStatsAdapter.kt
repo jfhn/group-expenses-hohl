@@ -10,8 +10,8 @@ import de.thm.ap.groupexpenses.databinding.ItemGroupStatsBinding
 import de.thm.ap.groupexpenses.model.Group
 
 open class UserGroupStatsAdapter(query: Query)
-    : FirestoreAdapter<UserGroupStatsAdapter.ViewHolder>(query)
-{
+    : FirestoreAdapter<UserGroupStatsAdapter.ViewHolder>(query) {
+
     class ViewHolder(val binding: ItemGroupStatsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(snapshot: DocumentSnapshot) {
             val group: Group = snapshot.toObject()!!

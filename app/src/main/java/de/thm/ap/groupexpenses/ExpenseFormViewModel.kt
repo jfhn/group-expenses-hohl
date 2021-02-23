@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import java.util.*
 
 class ExpenseFormViewModel : ViewModel() {
+
     lateinit var groupId: String
 
     var expenseId: String? = null

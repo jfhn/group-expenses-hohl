@@ -2,9 +2,7 @@ package de.thm.ap.groupexpenses.ui.expenses
 
 import android.content.*
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +13,6 @@ import de.thm.ap.groupexpenses.*
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.adapter.ExpensesAdapter
-import de.thm.ap.groupexpenses.databinding.ActivityGroupBinding
 import de.thm.ap.groupexpenses.databinding.FragmentExpensesBinding
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.groupExpensesQuery
 import java.util.*
@@ -126,12 +123,4 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
 
         startActivity(intent)
     }
-
-    companion object {
-        private const val TAG = "ExpensesFragment"
-    }
 }
-/*
-TODO:
-- Add color config to entries (elapsed, completed, open)
- */

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class PickImageViewModel : ViewModel() {
+
     val imageUri: MutableLiveData<Uri?> = MutableLiveData()
 
     init {

@@ -1,6 +1,5 @@
 package de.thm.ap.groupexpenses.adapter
 
-import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,8 +13,7 @@ import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import java.util.*
 
 open class GroupsAdapter(query: Query, private val listener: OnGroupSelectedListener)
-    : FirestoreAdapter<GroupsAdapter.ViewHolder>(query)
-{
+    : FirestoreAdapter<GroupsAdapter.ViewHolder>(query) {
 
     interface OnGroupSelectedListener {
         fun onGroupSelected(group: DocumentSnapshot)
@@ -55,15 +53,11 @@ open class GroupsAdapter(query: Query, private val listener: OnGroupSelectedList
 
             val color = if (group.getPersonalBalance() < 0) R.color.red else R.color.black
 
-            binding.itemGroupExpenses.setTextColor(resources.getColor(color))
+            binding.itemGroupExpenses.setTextColor(resources.getColor(color, null))
 
             binding.root.setOnClickListener {
                 listener?.onGroupSelected(snapshot)
             }
         }
-    }
-
-    companion object {
-        private val FORMAT = SimpleDateFormat("EE dd.MM.yyyy", Locale.GERMANY)
     }
 }
