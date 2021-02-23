@@ -109,6 +109,9 @@ object FirebaseWorker {
     fun addPayment(groupId: String, payment: GroupPayment): Task<DocumentReference> = db
             .collection("groups/$groupId/payments").add(payment)
 
+    fun deletePayment(groupId: String, payment: GroupPayment): Task<Void> = db
+        .document("groups/$groupId/payments/${payment.id}").delete()
+
     fun getGroup(groupId: String): Task<Group> = db
             .document("groups/$groupId").get()
             .continueWith { it.result!!.toObject<Group>() }

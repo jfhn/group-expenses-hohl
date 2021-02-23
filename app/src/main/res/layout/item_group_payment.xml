@@ -25,10 +25,22 @@
             android:id="@+id/item_group_payment_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_toStartOf="@+id/item_group_payment_delete"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             tools:text="12,00 €"
             android:textSize="18sp"
             android:textColor="@color/black"/>
+
+        <ImageButton
+            android:id="@+id/item_group_payment_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/delete_payment"
+            android:background="@drawable/ic_baseline_delete_red_24"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/item_payment_date"

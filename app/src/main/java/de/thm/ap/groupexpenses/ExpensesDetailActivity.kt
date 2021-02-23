@@ -123,7 +123,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
 
                 AlertDialog.Builder(this).apply {
                     setTitle(R.string.stats)
-                    setMessage(R.string.confirm_delete)
+                    setMessage(R.string.confirm_delete_expense)
                     setNegativeButton(R.string.delete) { _, _ ->
                         FirebaseWorker
                             .removeExpense(viewModel.groupId, viewModel.expenseId)
