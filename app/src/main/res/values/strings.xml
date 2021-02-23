@@ -5,34 +5,41 @@
     <string name="fmt_latest_update" translatable="false">Zuletzt aktualisiert: %s</string>
     <string name="fmt_number_of_groups">Du bist Mitglied in %d Gruppen</string>
 
+
+    <!-- General -->
     <string name="app_name">Group Expenses</string>
     <string name="add_expense">Ausgabe hinzufügen</string>
     <string name="edit">Bearbeiten</string>
     <string name="stats">Statistik</string>
     <string name="invite">Leute einladen</string>
-    <string name="jump_to_current_date">Zum aktuellen Datum springen</string>
     <string name="settings">Einstellungen</string>
     <string name="statistics">Statistik</string>
     <string name="create_group">Gruppe erstellen</string>
     <string name="payments">Zahlungen</string>
-    <string name="personal_stats_groups">Gruppen:</string>
     <string name="sign_out">Abmelden</string>
-    <string name="single_member">1 Mitglied</string>
-    <string name="no_groups">Du bist noch in keiner Gruppe</string>
-    <string name="receipt_description">Beleg</string>
-    <string name="receipt">Beleg</string>
     <string name="delete">Löschen</string>
     <string name="cancel">Abbrechen</string>
-    <string name="confirm_delete">Soll die Ausgabe wirklich gelöscht werden?</string>
+    <string name="save">Speichern</string>
+
+
+    <!-- Group -->
+    <string name="fragment_user_groups">Gruppen</string>
+    <string name="group_form_name">Gruppenname</string>
+    <string name="group_name_not_empty">Gruppenname darf nicht leer sein</string>
+    <string name="no_groups">Du hast noch keine Gruppen. Erstelle dir eine Gruppe oder trete einer Gruppe bei!</string>
+    <string name="group_form_name_hint">Z.B. Kneipentour</string>
+    <string name="jump_to_current_date">Zum aktuellen Datum springen</string>
+    <string name="receipt_description">Beleg</string>
+    <string name="receipt">Beleg</string>
     <string name="add_receipt">Beleg hinzufügen</string>
     <string name="name">Name</string>
     <string name="expenses_name">Name</string>
     <string name="costs">Kosten</string>
     <string name="expenses_date">Datum</string>
-    <string name="recurring">Wiederkehrend</string>
-    <string name="interval">Intervall</string>
-    <string name="save">Speichern</string>
     <string name="currency_euro">€</string>
+    <string name="interval">Intervall</string>
+    <string name="confirm_delete">Soll die Ausgabe wirklich gelöscht werden?</string>
+    <string name="recurring">Wiederkehrend</string>
     <string name="expenses_hint">Die Kosten der Ausgabe in €</string>
     <string name="expenses_date_hint">Das Datum der Ausgabe</string>
     <string name="expenses_name_hint">Ausgabenname</string>
@@ -40,8 +47,6 @@
     <string name="group_no_expenses">In dieser Gruppe wurden noch keine Ausgaben getätigt.</string>
     <string name="user_no_payments">Du hast noch keine Zahlungen getätigt</string>
     <string name="group_no_payments">In dieser Gruppe wurden noch keine Zahlungen getätigt.</string>
-    <string name="group_form_name">Gruppenname</string>
-    <string name="group_name_not_empty">Gruppenname darf nicht leer sein</string>
     <string name="expense_name_missing">Ausgaben müssen einen Namen haben</string>
     <string name="expense_cost_missing">Kosten dürfen nicht leer sein</string>
     <string name="expense_cost_too_small">Kosten müssen größer als 0€ sein</string>
@@ -73,6 +78,22 @@
     <string name="personal_total_payments">Deine gesamten Einzahlungen:</string>
     <string name="personal_total_expenses">Deine gesamten Ausgaben:</string>
     <string name="no_group_memberships">Du gehörst keiner Gruppe an</string>
+    <string name="send_payment_reminder">Zahlungserinnerung versenden</string>
+    <string name="reminder_subject">Zahlungserinnerung</string>
+    <string name="reminder_text_a">Hey,\nin deiner Gruppe"</string>
+    <string name="reminder_text_b">"sind noch Zahlungen offen.</string>
+    <string name="leave_group">Gruppe verlassen</string>
+    <string name="kick_member">Mitglied entfernen</string>
+    <string name="confirm_leave_descA">Bist du dir sicher, dass du diese Gruppe verlassen möchtest?</string>
+    <string name="confirm_leave_descB">Bist du dir sicher, dass du diese Gruppe verlassen möchtest? Ohne eine Einladung kannst du ihr nicht erneut beitreten.</string>
+    <string name="confirm_kick_desc1">"Bist du dir sicher, dass du "</string>
+    <string name="confirm_kick_desc2">" aus dieser Gruppe entfernen möchtest?"</string>
+    <string name="kicked_message">Ein Admin hat dich aus dieser Gruppe entfernt.</string>
+
+
+    <!-- Stats -->
+    <string name="personal_stats_groups">Gruppen:</string>
+    <string name="single_member">1 Mitglied</string>
     <string name="total_payments">Einzahlungen gesamt:</string>
     <string name="group_number_of_members">Anzahl der Mitglieder:</string>
     <string name="group_total_balance">Gesamtbilanz:</string>
@@ -127,17 +148,4 @@
     <string name="achievement_missed_payments_10_desc">Du hast nun schon 10 Zahltermine verpasst. Ein Wunder, dass deine Gruppenmitglieder dich noch nicht herausgeworfen haben…</string>
     <string name="achievement_missed_payments_25">Lebst du noch?!</string>
     <string name="achievement_missed_payments_25_desc">Bei nun schon 25 versäumten Zahlungen machen wir uns echt Gedanken um dich…</string>
-    <string name="send_payment_reminder">Zahlungserinnerung versenden</string>
-    <string name="reminder_subject">Zahlungserinnerung</string>
-    <string name="reminder_text_a">Hey,\nin deiner Gruppe"</string>
-    <string name="reminder_text_b">"sind noch Zahlungen offen.</string>
-    <string name="leave_group">Gruppe verlassen</string>
-    <string name="kick_member">Mitglied entfernen</string>
-    <string name="confirm_leave_descA">Bist du dir sicher, dass du diese Gruppe verlassen möchtest?</string>
-    <string name="confirm_leave_descB">Bist du dir sicher, dass du diese Gruppe verlassen möchtest? Ohne eine Einladung kannst du ihr nicht erneut beitreten.</string>
-    <string name="confirm_kick_desc1">"Bist du dir sicher, dass du "</string>
-    <string name="confirm_kick_desc2">" aus dieser Gruppe entfernen möchtest?"</string>
-    <string name="kicked_message">Ein Admin hat dich aus dieser Gruppe entfernt.</string>
-    <string name="fragment_user_groups">Gruppen</string>
-    <string name="group_form_name_hint">Z.B. Kneipentour</string>
 </resources>

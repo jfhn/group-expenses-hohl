@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             RC_SIGN_IN -> {
                 isSigningIn = false
-                val response = IdpResponse.fromResultIntent(data) // TODO
+                val response = IdpResponse.fromResultIntent(data) // TODO: @Renke
                 if (resultCode == Activity.RESULT_OK) {
                     // Successfully signed in
                     userViewModel.user.value = Firebase.auth.currentUser
