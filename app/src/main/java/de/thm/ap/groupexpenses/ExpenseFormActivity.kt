@@ -37,15 +37,22 @@ class ExpenseFormActivity : AppCompatActivity() {
         viewModel.expenseId = intent.extras?.getString(KEY_EXPENSE_ID)
 
         if (viewModel.expenseId != null) {
-            getExpense(viewModel.groupId, viewModel.expenseId!!).addOnSuccessListener {
-                val expense: GroupExpense = it
-
+            getExpense(viewModel.groupId, viewModel.expenseId!!).addOnSuccessListener { expense ->
                 binding.expenseName.setText(expense.name)
                 binding.expenseValue.setText(String.format(
                         Locale.ENGLISH,
                         "%.2f",
                         expense.cost
                 ))
+                binding.expenseRecurring.isChecked = expense.isRecurring
+
+                if (expense.isRecurring) {
+                    val recurring = transformRecurringInterval(expense.recurringInterval)
+
+                    binding.expenseIntervalUnit.value  = recurring.first
+                    binding.expenseIntervalValue.value = recurring.second
+                }
+
                 viewModel.date.value = expense.date!!
             }
         }
