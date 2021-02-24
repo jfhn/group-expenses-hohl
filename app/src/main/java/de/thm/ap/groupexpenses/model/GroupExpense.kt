@@ -1,6 +1,7 @@
 package de.thm.ap.groupexpenses.model
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
@@ -63,6 +64,7 @@ class GroupExpense {
      */
     var userName: String? = null
 
+    @Exclude
     fun getRecurringText(): String {
         val pair     = transformRecurringInterval(this.recurringInterval)
         val value    = pair.second
