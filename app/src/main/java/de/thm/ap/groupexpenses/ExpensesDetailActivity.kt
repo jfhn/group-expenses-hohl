@@ -3,6 +3,7 @@ package de.thm.ap.groupexpenses
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -78,9 +79,26 @@ class ExpensesDetailActivity : AppCompatActivity() {
     }
 
     private fun pickImage() {
-        val intent = Intent(this, PickImageActivity::class.java)
-        intent.putExtra(KEY_EXPENSE_ID, viewModel.expenseId)
-        startActivity(intent)
+        AlertDialog.Builder(this).apply {
+            setTitle("Kamera oder Galerie öffnen?")
+            setPositiveButton("Kamera")  { _, _ -> startActivity(pickImageWithCamera())  }
+            setNegativeButton("Galerie") { _, _ -> startActivity(pickImageWithGallery()) }
+            show()
+        }
+    }
+
+    private fun pickImageWithCamera(): Intent {
+        return Intent(this, PickImageActivity::class.java).apply {
+            putExtra(KEY_EXPENSE_ID, viewModel.expenseId)
+            putExtra(KEY_PICK_WITH_CAMERA, "true")
+        }
+    }
+
+    private fun pickImageWithGallery(): Intent {
+        return Intent(this, PickImageActivity::class.java).apply {
+            putExtra(KEY_EXPENSE_ID, viewModel.expenseId)
+            putExtra(KEY_PICK_WITH_CAMERA, "false")
+        }
     }
 
     private fun loadReceiptImage() {
@@ -166,5 +184,9 @@ class ExpensesDetailActivity : AppCompatActivity() {
         return getExpense(viewModel.groupId, viewModel.expenseId).addOnSuccessListener {
             viewModel.expense.value = it
         }
+    }
+
+    companion object {
+        const val KEY_PICK_WITH_CAMERA = "key_pick_with_camera"
     }
 }
