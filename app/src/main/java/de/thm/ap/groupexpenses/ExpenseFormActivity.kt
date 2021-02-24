@@ -12,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpenseFormBinding
 import de.thm.ap.groupexpenses.model.GroupExpense
+import de.thm.ap.groupexpenses.model.GroupExpense.Companion.transformRecurringInterval
 import de.thm.ap.groupexpenses.util.DateUtil.dateFromValues
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.util.DateUtil.getYearMonthDay
@@ -149,9 +150,9 @@ class ExpenseFormActivity : AppCompatActivity() {
             userName        = Firebase.auth.currentUser!!.displayName
 
             if (isRecurring) {
-                val intervalType : Int = binding.expenseIntervalUnit.value shl 29 // shl = shift left
+                val intervalType : Int = binding.expenseIntervalUnit.value
                 val intervalValue: Int = binding.expenseIntervalValue.value
-                recurringInterval = intervalType or intervalValue
+                recurringInterval = transformRecurringInterval(intervalType, intervalValue)
             }
         }
 

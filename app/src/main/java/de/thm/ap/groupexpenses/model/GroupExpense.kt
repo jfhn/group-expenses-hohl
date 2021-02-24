@@ -62,4 +62,31 @@ class GroupExpense {
      * name of the user, who made the expense
      */
     var userName: String? = null
+
+    fun getRecurringText(): String {
+        val pair     = transformRecurringInterval(this.recurringInterval)
+        val value    = pair.second
+        val interval = when (pair.first) {
+            0    -> "Tag${  if (value != 1) "e" else ""}"
+            1    -> "Woche${if (value != 1) "n" else ""}"
+            2    -> "Monat${if (value != 1) "e" else ""}"
+            3    -> "Jahr${ if (value != 1) "e" else ""}"
+            else -> "???"
+        }
+        return "$value $interval"
+    }
+
+    companion object {
+
+        fun transformRecurringInterval(intervalType: Int, intervalValue: Int): Int {
+            return (intervalType shl 29) or (intervalValue)
+        }
+
+        fun transformRecurringInterval(recurringInterval: Int): Pair<Int, Int> {
+            val intervalType  = recurringInterval shr 29
+            val intervalValue = recurringInterval and 0x1FFFFFFF
+
+            return Pair(intervalType, intervalValue)
+        }
+    }
 }

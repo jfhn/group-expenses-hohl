@@ -50,6 +50,14 @@ class ExpensesDetailActivity : AppCompatActivity() {
                     expense.cost
                 )
                 binding.user.text = expense.userName
+                binding.recurringSection.visibility =
+                    if (expense.isRecurring) {
+                        binding.recurring.text = expense.getRecurringText()
+                        View.VISIBLE
+                    } else {
+                        View.GONE
+                    }
+
                 title = expense.name
             }
         }
