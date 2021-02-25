@@ -53,6 +53,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.95"
                 android:inputType="numberDecimal"
+                android:maxLength="9"
                 android:hint="@string/expenses_hint"
                 android:importantForAutofill="no" />
 
