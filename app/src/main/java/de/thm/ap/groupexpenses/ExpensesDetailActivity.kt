@@ -2,6 +2,7 @@ package de.thm.ap.groupexpenses
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,13 +10,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Task
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpensesDetailBinding
-import de.thm.ap.groupexpenses.model.GroupExpense
 import de.thm.ap.groupexpenses.model.ExpensesDetailViewModel
+import de.thm.ap.groupexpenses.model.GroupExpense
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getExpense
@@ -78,9 +81,69 @@ class ExpensesDetailActivity : AppCompatActivity() {
     }
 
     private fun pickImage() {
-        val intent = Intent(this, PickImageActivity::class.java)
-        intent.putExtra(KEY_EXPENSE_ID, viewModel.expenseId)
-        startActivity(intent)
+        AlertDialog.Builder(this).apply {
+            setTitle("Kamera oder Galerie öffnen?")
+            setPositiveButton("Kamera")  { _, _ -> pickImageIntentCheckPermissionCamera() }
+            setNegativeButton("Galerie") { _, _ -> startActivity(pickImageWithGallery())  }
+            show()
+        }
+    }
+
+    private fun pickImageWithCamera(): Intent {
+        return Intent(this, PickImageActivity::class.java).apply {
+            putExtra(KEY_EXPENSE_ID, viewModel.expenseId)
+            putExtra(KEY_PICK_WITH_CAMERA, "true")
+        }
+    }
+
+    private fun pickImageWithGallery(): Intent {
+        return Intent(this, PickImageActivity::class.java).apply {
+            putExtra(KEY_EXPENSE_ID, viewModel.expenseId)
+            putExtra(KEY_PICK_WITH_CAMERA, "false")
+        }
+    }
+
+    private fun pickImageIntentCheckPermissionCamera() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissionForCamera()
+        } else {
+            startActivity(pickImageWithCamera())
+        }
+    }
+
+    private fun requestPermissionForCamera() {
+        ActivityCompat.requestPermissions(
+            this,
+            listOf(
+                android.Manifest.permission.CAMERA,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ).toTypedArray(), 0)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (grantResults.isNotEmpty()) {
+            if (grantResults.all { grantResult -> grantResult == PackageManager.PERMISSION_GRANTED }) {
+                startActivity(pickImageWithCamera())
+            } else {
+                Toast.makeText(this, "Berechtigungen fehlen", Toast.LENGTH_LONG).show()
+            }
+        }
+        else {
+            Toast.makeText(this, "Keine neuen Berechtigungen verteilt", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun loadReceiptImage() {
@@ -166,5 +229,9 @@ class ExpensesDetailActivity : AppCompatActivity() {
         return getExpense(viewModel.groupId, viewModel.expenseId).addOnSuccessListener {
             viewModel.expense.value = it
         }
+    }
+
+    companion object {
+        const val KEY_PICK_WITH_CAMERA = "key_pick_with_camera"
     }
 }
