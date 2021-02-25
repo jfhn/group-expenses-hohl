@@ -2,6 +2,7 @@ package de.thm.ap.groupexpenses
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
@@ -10,6 +11,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Task
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
@@ -81,8 +84,8 @@ class ExpensesDetailActivity : AppCompatActivity() {
     private fun pickImage() {
         AlertDialog.Builder(this).apply {
             setTitle("Kamera oder Galerie öffnen?")
-            setPositiveButton("Kamera")  { _, _ -> startActivity(pickImageWithCamera())  }
-            setNegativeButton("Galerie") { _, _ -> startActivity(pickImageWithGallery()) }
+            setPositiveButton("Kamera")  { _, _ -> pickImageIntentCheckPermissionCamera() }
+            setNegativeButton("Galerie") { _, _ -> startActivity(pickImageWithGallery())  }
             show()
         }
     }
@@ -98,6 +101,55 @@ class ExpensesDetailActivity : AppCompatActivity() {
         return Intent(this, PickImageActivity::class.java).apply {
             putExtra(KEY_EXPENSE_ID, viewModel.expenseId)
             putExtra(KEY_PICK_WITH_CAMERA, "false")
+        }
+    }
+
+    private fun pickImageIntentCheckPermissionCamera() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissionForCamera()
+        } else {
+            startActivity(pickImageWithCamera())
+        }
+    }
+
+    private fun requestPermissionForCamera() {
+        ActivityCompat.requestPermissions(
+            this,
+            Array<String>(2) {
+                android.Manifest.permission.CAMERA
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            }, 0)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (grantResults.isNotEmpty()) {
+            if (grantResults.all { grantResult -> grantResult == PackageManager.PERMISSION_GRANTED }) {
+                startActivity(pickImageWithCamera())
+            } else {
+                Toast.makeText(this, "Berechtigungen fehlen", Toast.LENGTH_LONG).show()
+            }
+        }
+        else {
+            Toast.makeText(this, "Keine neuen Berechtigungen verteilt", Toast.LENGTH_LONG).show()
         }
     }
 
