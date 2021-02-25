@@ -25,7 +25,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:width="250dp"
                 android:text="@string/personal_total_expenses"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,8 +32,9 @@
 
             <TextView
                 android:id="@+id/personal_total_expenses"
-                android:layout_width="74dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="150dp"
                 android:textAlignment="textEnd"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:width="250dp"
                 android:text="@string/personal_total_payments"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,8 +59,9 @@
 
             <TextView
                 android:id="@+id/personal_total_payments"
-                android:layout_width="74dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="150dp"
                 android:textAlignment="textEnd"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +79,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:width="250dp"
                 android:text="@string/total_group_expenses"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,8 +86,9 @@
 
             <TextView
                 android:id="@+id/personal_total_group_expenses"
-                android:layout_width="74dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="150dp"
                 android:textAlignment="textEnd"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +105,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:width="250dp"
                 android:text="@string/total_group_payments"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -113,8 +112,9 @@
 
             <TextView
                 android:id="@+id/personal_total_group_payments"
-                android:layout_width="74dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="150dp"
                 android:textAlignment="textEnd"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
