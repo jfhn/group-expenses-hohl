@@ -20,13 +20,8 @@ import java.util.*
 open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelectedListener)
     : FirestoreAdapter<ExpensesAdapter.ViewHolder>(query) {
 
-    private var dividerHolder: ViewHolder? = null
-        set(value) {
-            field = value
-            dividerPosition = value?.adapterPosition ?: -1
-        }
-
-    var dividerPosition: Int = -1
+    var dividerPosition: Int? = null
+        get() = field ?: itemCount - 1
         private set
 
     interface OnExpenseSelectedListener {
@@ -45,19 +40,21 @@ open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelected
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val snapshot: DocumentSnapshot = getSnapshot(position)
-        val expense:  GroupExpense          = snapshot.toObject()!!
+        val expense:  GroupExpense     = snapshot.toObject()!!
         val today:    Date             = Calendar.getInstance().time.toDateOnly()
 
         holder.bind(snapshot, listener)
 
-        if (this.dividerHolder == null && // no other expense found yet
+        if (this.dividerPosition == null && // no other expense found yet
             expense.date!!.toDateOnly() >= today // is today (or later)
         ) {
-            this.dividerHolder = holder
+            this.dividerPosition = holder.adapterPosition
+        }
 
+        if (this.dividerPosition == holder.adapterPosition) {
             holder.binding.timelineDivider.visibility = View.VISIBLE
             holder.binding.currentDate.text           = today.format()
-        } else if (this.dividerHolder != holder) {
+        } else {
             holder.binding.timelineDivider.visibility = View.GONE
         }
     }
@@ -66,7 +63,7 @@ open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelected
     override fun onDataChanged() {
         super.onDataChanged()
 
-        this.dividerHolder = null
+        this.dividerPosition = null
 
         this.notifyDataSetChanged()
 

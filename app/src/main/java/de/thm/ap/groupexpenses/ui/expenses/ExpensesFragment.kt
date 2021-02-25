@@ -68,9 +68,12 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_jump_to_current_date -> {
-                val pos = adapter.dividerPosition
+                if (adapter.itemCount != 0) {
+                    val pos = adapter.dividerPosition!!
 
-                binding.expensesRecyclerView.smoothScrollToPosition(pos)
+                    binding.expensesRecyclerView.smoothScrollToPosition(pos)
+                }
+
                 true
             }
 
