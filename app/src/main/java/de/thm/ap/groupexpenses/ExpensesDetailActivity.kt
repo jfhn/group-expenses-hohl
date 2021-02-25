@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -18,8 +17,8 @@ import com.google.android.gms.tasks.Task
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpensesDetailBinding
-import de.thm.ap.groupexpenses.model.GroupExpense
 import de.thm.ap.groupexpenses.model.ExpensesDetailViewModel
+import de.thm.ap.groupexpenses.model.GroupExpense
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getExpense
@@ -108,13 +107,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
@@ -128,10 +121,10 @@ class ExpensesDetailActivity : AppCompatActivity() {
     private fun requestPermissionForCamera() {
         ActivityCompat.requestPermissions(
             this,
-            Array<String>(2) {
-                android.Manifest.permission.CAMERA
+            listOf(
+                android.Manifest.permission.CAMERA,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
-            }, 0)
+            ).toTypedArray(), 0)
     }
 
     override fun onRequestPermissionsResult(
