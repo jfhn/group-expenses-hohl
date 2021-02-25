@@ -24,6 +24,7 @@ class PickImageActivity : AppCompatActivity() {
     private val viewModel: PickImageViewModel by viewModels()
 
     private var pickImageWithCam: Boolean = false
+    private var tmpImageUri     : Uri?    = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,15 +90,23 @@ class PickImageActivity : AppCompatActivity() {
 
         when (requestCode) {
             RC_PICK_IMAGE -> {
-                if (resultCode == RESULT_OK && !pickImageWithCam) {
-                    val uri: Uri? = data?.data
-                    viewModel.imageUri.value = uri
+                if (resultCode == RESULT_OK) {
+                    if (pickImageWithCam) {
+                        viewModel.imageUri.value = tmpImageUri
+                    } else {
+                        val uri: Uri? = data?.data
+                        viewModel.imageUri.value = uri
+                    }
                 }
             }
             RC_PICK_IMAGE_ON_START -> {
-                if (resultCode == RESULT_OK && !pickImageWithCam) {
-                    val uri: Uri? = data?.data
-                    viewModel.imageUri.value = uri
+                if (resultCode == RESULT_OK) {
+                    if (pickImageWithCam) {
+                        viewModel.imageUri.value = tmpImageUri
+                    } else {
+                        val uri: Uri? = data?.data
+                        viewModel.imageUri.value = uri
+                    }
                 } else if (resultCode == RESULT_CANCELED) {
                     finish()
                 }
@@ -121,7 +130,7 @@ class PickImageActivity : AppCompatActivity() {
                 return
             }
 
-            viewModel.imageUri.value = photoUri
+            tmpImageUri = photoUri
             startActivityForResult(intent, requestCode)
         } else {
             val intent = Intent(Intent.ACTION_GET_CONTENT).setType("image/*")
