@@ -18,7 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            app:cardCornerRadius="0dp"
+            android:layout_margin="5dp"
+            app:cardElevation="10dp"
+            app:cardCornerRadius="10dp"
             app:cardBackgroundColor="@{achievement.isShamement ? @color/shamements_card_background : @color/achievements_card_background}"
             app:contentPadding="15dp">
 
