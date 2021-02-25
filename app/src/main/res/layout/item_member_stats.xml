@@ -38,14 +38,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:width="250dp"
                     android:text="@string/expenses"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:layout_width="74dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxWidth="250dp"
                     android:textAlignment="textEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -60,14 +60,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:width="250dp"
                     android:text="@string/group_member_stats_payments"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:layout_width="74dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxWidth="250dp"
                     android:textAlignment="textEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -83,14 +83,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:width="250dp"
                     android:text="@string/balance"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:layout_width="74dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxWidth="250dp"
                     android:textAlignment="textEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
