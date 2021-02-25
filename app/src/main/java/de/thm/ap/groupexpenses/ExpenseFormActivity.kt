@@ -12,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpenseFormBinding
 import de.thm.ap.groupexpenses.model.GroupExpense
+import de.thm.ap.groupexpenses.model.GroupExpense.Companion.transformRecurringInterval
 import de.thm.ap.groupexpenses.util.DateUtil.dateFromValues
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.util.DateUtil.getYearMonthDay
@@ -36,15 +37,22 @@ class ExpenseFormActivity : AppCompatActivity() {
         viewModel.expenseId = intent.extras?.getString(KEY_EXPENSE_ID)
 
         if (viewModel.expenseId != null) {
-            getExpense(viewModel.groupId, viewModel.expenseId!!).addOnSuccessListener {
-                val expense: GroupExpense = it
-
+            getExpense(viewModel.groupId, viewModel.expenseId!!).addOnSuccessListener { expense ->
                 binding.expenseName.setText(expense.name)
                 binding.expenseValue.setText(String.format(
                         Locale.ENGLISH,
                         "%.2f",
                         expense.cost
                 ))
+                binding.expenseRecurring.isChecked = expense.isRecurring
+
+                if (expense.isRecurring) {
+                    val recurring = transformRecurringInterval(expense.recurringInterval)
+
+                    binding.expenseIntervalUnit.value  = recurring.first
+                    binding.expenseIntervalValue.value = recurring.second
+                }
+
                 viewModel.date.value = expense.date!!
             }
         }
@@ -149,9 +157,9 @@ class ExpenseFormActivity : AppCompatActivity() {
             userName        = Firebase.auth.currentUser!!.displayName
 
             if (isRecurring) {
-                val intervalType : Int = binding.expenseIntervalUnit.value shl 29 // shl = shift left
+                val intervalType : Int = binding.expenseIntervalUnit.value
                 val intervalValue: Int = binding.expenseIntervalValue.value
-                recurringInterval = intervalType or intervalValue
+                recurringInterval = transformRecurringInterval(intervalType, intervalValue)
             }
         }
 
