@@ -43,7 +43,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
 
         viewModel.expense.observe(this) { expense ->
             if (expense != null) {
-                binding.date.text = expense.date!!.formatGerman()
+                binding.date.text = expense.date!!.formatGerman(asAbsoluteDate = true)
                 binding.cost.text = String.format(
                     Locale.GERMANY,
                     getString(R.string.fmt_double_EUR),
