@@ -65,9 +65,7 @@ class ExpenseFormActivity : AppCompatActivity() {
             showIntervalControls(isChecked)
         }
 
-        binding.buttonSelectExpenseDate.setOnClickListener {
-            viewModel.date.value = Date()
-        }
+        binding.buttonSelectExpenseDate.setOnClickListener { showDatePickerDialog() }
 
         binding.expenseDate.setOnClickListener { showDatePickerDialog() }
 
