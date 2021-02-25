@@ -26,7 +26,6 @@ class PickImageActivity : AppCompatActivity() {
     private val viewModel: PickImageViewModel by viewModels()
 
     private var pickImageWithCam: Boolean = false
-    private lateinit var tempPickImageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,29 +85,17 @@ class PickImageActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        Log.w(TAG, "onActivityResult called")
-
         when (requestCode) {
             RC_PICK_IMAGE -> {
-                if (resultCode == RESULT_OK) {
-                    Log.w(TAG, "pickImageWithCam = $pickImageWithCam")
-                    if (pickImageWithCam) {
-                        Log.w(TAG, "viewModel.imageUri.value.path = ${viewModel.imageUri.value!!.path}")
-                    } else {
-                        val uri: Uri? = data?.data
-                        viewModel.imageUri.value = uri
-                    }
+                if (resultCode == RESULT_OK && !pickImageWithCam) {
+                    val uri: Uri? = data?.data
+                    viewModel.imageUri.value = uri
                 }
             }
             RC_PICK_IMAGE_ON_START -> {
-                if (resultCode == RESULT_OK) {
-                    Log.w(TAG, "pickImageWithCam = $pickImageWithCam")
-                    if (pickImageWithCam) {
-                        Log.w(TAG, "viewModel.imageUri.value.path = ${viewModel.imageUri.value!!.path}")
-                    } else {
-                        val uri: Uri? = data?.data
-                        viewModel.imageUri.value = uri
-                    }
+                if (resultCode == RESULT_OK && !pickImageWithCam) {
+                    val uri: Uri? = data?.data
+                    viewModel.imageUri.value = uri
                 } else if (resultCode == RESULT_CANCELED) {
                     finish()
                 }
@@ -116,59 +103,28 @@ class PickImageActivity : AppCompatActivity() {
         }
     }
 
-    // /data/data/de.thm.ap.groupexpenses/files/images/pickImageTempFile.jpg
-    // /data/user/0/de.thm.ap.groupexpenses/files/images/pickImageTempFile.jpg
     private fun pickImageIntent(requestCode: Int) {
         if (pickImageWithCam) {
-            val photo  = File(getFileStreamPath("images"), "pickImageTempFile.jpg")
-            // val dir   = getDir("images", Context.MODE_PRIVATE)
-            // Log.w(TAG, "path = ${filesDir.path}")
-            // val photo = File("/data/data/de.thm.ap.groupexpenses/files/images/pickImageTempFile.jpg")
-            // Log.w(TAG, "photo.toString() = ${photo.toString()}")
-
-            Log.w(TAG, File("/data/data/de.thm.ap.groupexpenses/files/images").path)
-
-            val state = Environment.getExternalStorageState()
-            Log.w(TAG, "state = $state")
-
-            var filesDir: File? = null
-
-            if (Environment.MEDIA_MOUNTED == state) {
-                filesDir = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TMP_FILE_NAME)
-                Log.w(TAG, "filesDir = $filesDir")
-            }
-
-            Log.w(TAG, Environment.getExternalStorageState())
-            // val photo  = File(Environment.getExternalStorageState(), TMP_FILE_NAME)
-            Log.w(TAG, "photo.path = ${photo.path}")
-            val photoUri = FileProvider.getUriForFile(this, "de.thm.ap.groupexpenses.provider", photo)
-            // val photoUri = Uri.fromFile(photo)
-            Log.w(TAG, "photoUri = $photoUri")
+            val photo = File(externalCacheDir, TMP_FILE_NAME)
+            val photoUri = FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.provider", photo)
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
                 putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             }
 
-            /*
             if (intent.resolveActivity(packageManager) == null) {
                 // error
                 Log.w(TAG, "Could not resolve activity")
                 finish()
                 return
             }
-             */
 
-            tempPickImageUri = photoUri
-            viewModel.imageUri.value = tempPickImageUri
+            viewModel.imageUri.value = photoUri
             startActivityForResult(intent, requestCode)
-            Log.w(TAG, "viewModel.imageUri.value.path = ${viewModel.imageUri.value!!.path}")
         } else {
             val intent = Intent(Intent.ACTION_GET_CONTENT).setType("image/*")
 
-            if (intent.resolveActivity(packageManager) == null) {
-                // error
-                return
-            }
+            // optional TODO: resolve activity, but it does not work so easily
 
             startActivityForResult(intent, requestCode)
         }
