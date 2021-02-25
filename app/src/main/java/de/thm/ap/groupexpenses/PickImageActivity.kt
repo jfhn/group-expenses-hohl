@@ -72,6 +72,10 @@ class PickImageActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
             R.id.action_pick_image -> {
                 pickImageIntent(RC_PICK_IMAGE)
                 true
