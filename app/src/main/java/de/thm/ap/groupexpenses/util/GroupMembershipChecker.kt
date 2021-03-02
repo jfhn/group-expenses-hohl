@@ -7,6 +7,13 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.model.GroupMember
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.groupMembersQuery
 
+/**
+ * This class is responsible to return from the group activity if the current user was
+ * kicked by the group admin.
+ *
+ * @param groupId  the document id for the group in the firebase firestore database
+ * @param onKicked the function object that gets invoked when the client was kicked
+ */
 class GroupMembershipChecker(private val groupId: String,
                              private val onKicked: () -> Unit) : EventListener<QuerySnapshot> {
 
