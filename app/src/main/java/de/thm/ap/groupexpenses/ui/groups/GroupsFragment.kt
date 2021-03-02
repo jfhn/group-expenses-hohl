@@ -19,6 +19,9 @@ import de.thm.ap.groupexpenses.ui.RecyclerFragment
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.userGroupsQuery
 
+/**
+ * The groups fragment, used to display the groups of a user in the main activity.
+ */
 class GroupsFragment : RecyclerFragment(), GroupsAdapter.OnGroupSelectedListener {
 
     private val userViewModel: UserViewModel by activityViewModels()
