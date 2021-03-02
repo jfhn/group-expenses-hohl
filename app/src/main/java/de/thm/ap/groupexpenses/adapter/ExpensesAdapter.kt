@@ -20,9 +20,14 @@ import java.util.*
 open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelectedListener)
     : FirestoreAdapter<ExpensesAdapter.ViewHolder>(query) {
 
-    var dividerPosition: Int? = null
-        get() = field ?: itemCount - 1
-        private set
+    private var dividerPosition: Int? = null
+
+    /**
+     * @return The divider position of the current date's entry.
+     */
+    fun getDividerPosition(): Int {
+        return dividerPosition ?: itemCount - 1
+    }
 
     interface OnExpenseSelectedListener {
         fun onExpenseSelected(expense: DocumentSnapshot)
@@ -66,10 +71,6 @@ open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelected
         this.dividerPosition = null
 
         this.notifyDataSetChanged()
-
-        if (this.dividerPosition == -1) {
-            this.dividerPosition = itemCount - 1
-        }
     }
 
     class ViewHolder(val binding: ItemTimelineBinding,

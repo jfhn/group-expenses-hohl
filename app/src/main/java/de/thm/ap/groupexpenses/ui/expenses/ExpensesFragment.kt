@@ -69,7 +69,7 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
         return when (item.itemId) {
             R.id.action_jump_to_current_date -> {
                 if (adapter.itemCount != 0) {
-                    val pos = adapter.dividerPosition!!
+                    val pos = adapter.getDividerPosition()
 
                     binding.expensesRecyclerView.smoothScrollToPosition(pos)
                 }
