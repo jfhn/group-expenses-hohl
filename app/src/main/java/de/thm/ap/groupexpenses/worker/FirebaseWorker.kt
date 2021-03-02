@@ -19,30 +19,29 @@ import de.thm.ap.groupexpenses.model.GroupPayment
 import java.io.ByteArrayOutputStream
 
 object FirebaseWorker {
-    private val db = Firebase.firestore
 
     const val ROLE_MEMBER = "member"
 
-    fun userGroupsQuery(uid: String): Query = db
+    fun userGroupsQuery(uid: String): Query = Firebase.firestore
             .collection("users/$uid/groups")
             .orderBy("latestUpdate", Query.Direction.DESCENDING)
 
-    fun userGroupsStatsQuery(uid: String): Query = db
+    fun userGroupsStatsQuery(uid: String): Query = Firebase.firestore
             .collection("users/$uid/groups")
             .orderBy("name", Query.Direction.ASCENDING)
 
-    fun userPaymentsQuery(uid: String): Query = db
+    fun userPaymentsQuery(uid: String): Query = Firebase.firestore
             .collection("users/$uid/payments")
             .orderBy("date", Query.Direction.DESCENDING)
 
-    fun groupMembersQuery(groupId: String): Query = db
+    fun groupMembersQuery(groupId: String): Query = Firebase.firestore
             .collection("groups/$groupId/members")
 
-    fun groupPaymentsQuery(groupId: String): Query = db
+    fun groupPaymentsQuery(groupId: String): Query = Firebase.firestore
             .collection("groups/$groupId/payments")
             .orderBy("date", Query.Direction.DESCENDING)
 
-    fun groupExpensesQuery(groupId: String): Query = db
+    fun groupExpensesQuery(groupId: String): Query = Firebase.firestore
             .collection("groups/$groupId/expenses")
             .orderBy("date", Query.Direction.ASCENDING)
 
@@ -90,33 +89,33 @@ object FirebaseWorker {
             task.result?.data as String // groupId
         }
 
-    fun getExpense(groupId: String, expenseId: String): Task<GroupExpense> = db
+    fun getExpense(groupId: String, expenseId: String): Task<GroupExpense> = Firebase.firestore
             .document("groups/$groupId/expenses/$expenseId").get()
             .continueWith { it.result!!.toObject<GroupExpense>() }
 
-    fun removeExpense(groupId: String, expenseId: String): Task<Void> = db
+    fun removeExpense(groupId: String, expenseId: String): Task<Void> = Firebase.firestore
             .document("groups/$groupId/expenses/$expenseId").delete()
 
     fun setExpense(groupId: String, expenseId: String?, expense: GroupExpense)
     : Task<DocumentReference> =
         if (expenseId != null) {
-            val expenseRef = db.document("groups/$groupId/expenses/$expenseId")
+            val expenseRef = Firebase.firestore.document("groups/$groupId/expenses/$expenseId")
             expenseRef.set(expense).continueWith { expenseRef }
         } else {
-            db.collection("groups/$groupId/expenses").add(expense)
+            Firebase.firestore.collection("groups/$groupId/expenses").add(expense)
         }
 
-    fun addPayment(groupId: String, payment: GroupPayment): Task<DocumentReference> = db
+    fun addPayment(groupId: String, payment: GroupPayment): Task<DocumentReference> = Firebase.firestore
             .collection("groups/$groupId/payments").add(payment)
 
-    fun deletePayment(groupId: String, payment: GroupPayment): Task<Void> = db
+    fun deletePayment(groupId: String, payment: GroupPayment): Task<Void> = Firebase.firestore
         .document("groups/$groupId/payments/${payment.id}").delete()
 
-    fun getGroup(groupId: String): Task<Group> = db
+    fun getGroup(groupId: String): Task<Group> = Firebase.firestore
             .document("groups/$groupId").get()
             .continueWith { it.result!!.toObject<Group>() }
 
-    fun getGroupMember(groupId: String, memberId: String): Task<DocumentSnapshot> = db
+    fun getGroupMember(groupId: String, memberId: String): Task<DocumentSnapshot> = Firebase.firestore
             .document("groups/$groupId/members/$memberId").get()
 }
 
