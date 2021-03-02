@@ -17,6 +17,9 @@ import de.thm.ap.groupexpenses.databinding.FragmentExpensesBinding
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.groupExpensesQuery
 import java.util.*
 
+/**
+ * The expenses fragment, used to display the group expenses timeline in the group activity.
+ */
 class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
 
     private val groupViewModel: GroupViewModel by activityViewModels()
@@ -40,6 +43,7 @@ class ExpensesFragment : Fragment(), ExpensesAdapter.OnExpenseSelectedListener {
 
         initRecyclerView()
 
+        // Bind the FAB for adding payments
         binding.addExpenseButton.setOnClickListener {
             val intent = Intent(context, ExpenseFormActivity::class.java).apply {
                 putExtra(KEY_GROUP_ID, groupViewModel.groupId)

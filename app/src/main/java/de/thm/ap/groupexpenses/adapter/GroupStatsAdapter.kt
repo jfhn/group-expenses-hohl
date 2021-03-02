@@ -10,6 +10,15 @@ import de.thm.ap.groupexpenses.databinding.ItemMemberStatsBinding
 import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.model.GroupMember
 
+/**
+ * The group stats adapter, containing the group statistics data for the provided group.
+ * Data changes in the backend will be reflected in real time.
+ *
+ * @param query The (data) query for the firestore adapter
+ * @param group The current group to display the statistics for
+ *
+ * @see FirestoreAdapter
+ */
 open class GroupStatsAdapter(query: Query, var group: Group)
     : FirestoreAdapter<GroupStatsAdapter.ViewHolder>(query) {
 
