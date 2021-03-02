@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="55dp"
-    tools:context="ui.groups.GroupsFragment">
+    android:layout_marginBottom="55dp" >
+    <!-- tools:context="ui.groups.GroupsFragment" -->
 
     <ProgressBar
         android:id="@+id/groups_progress_bar"
@@ -16,7 +16,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/groups_empty_view"
@@ -33,12 +33,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/groups_tutorial_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Erstelle eine Gruppe!"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/groups_tutorial_arrow" />
+
+    <ImageView
+        android:id="@+id/groups_tutorial_arrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_group_tutorial_arrow_48"
+        app:layout_constraintBottom_toBottomOf="parent" />
     
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_groups"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_group"
+        tools:itemCount="4"
         android:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
