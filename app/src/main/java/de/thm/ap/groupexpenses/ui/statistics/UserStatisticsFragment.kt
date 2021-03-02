@@ -22,6 +22,9 @@ import de.thm.ap.groupexpenses.model.UserData
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.userGroupsStatsQuery
 
+/**
+ * The user statistics fragment, used to display the user's statistics in the main activity.
+ */
 class UserStatisticsFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
     private val userStatisticsViewModel: UserStatisticsViewModel by viewModels()
