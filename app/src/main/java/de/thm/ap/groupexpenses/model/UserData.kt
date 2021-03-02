@@ -9,7 +9,7 @@ import com.google.firebase.firestore.DocumentId
  */
 class UserData {
     /**
-     * The user id in the firebase firestore database.
+     * The document id for the user in the firebase firestore database.
      */
     @DocumentId var id: String? = null
 
