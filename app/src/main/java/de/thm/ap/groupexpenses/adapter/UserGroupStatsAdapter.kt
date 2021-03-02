@@ -9,6 +9,14 @@ import com.google.firebase.firestore.ktx.toObject
 import de.thm.ap.groupexpenses.databinding.ItemGroupStatsBinding
 import de.thm.ap.groupexpenses.model.Group
 
+/**
+ * The user group stats adapter contains the group statistics data for all groups the user is in.
+ * Data changes in the backend will be reflected in real time.
+ *
+ * @param query The (data) query for the firestore adapter
+ *
+ * @see FirestoreAdapter
+ */
 open class UserGroupStatsAdapter(query: Query)
     : FirestoreAdapter<UserGroupStatsAdapter.ViewHolder>(query) {
 

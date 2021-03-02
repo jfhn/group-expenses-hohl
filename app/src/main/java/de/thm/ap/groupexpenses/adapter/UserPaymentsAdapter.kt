@@ -12,6 +12,14 @@ import de.thm.ap.groupexpenses.databinding.ItemUserPaymentBinding
 import de.thm.ap.groupexpenses.model.UserPayment
 import java.util.*
 
+/**
+ * The user payments adapter contains all payments the user has made in its groups.
+ * Data changes in the backend will be reflected in real time.
+ *
+ * @param query The (data) query for the firestore adapter
+ *
+ * @see FirestoreAdapter
+ */
 open class UserPaymentsAdapter(query: Query)
     : FirestoreAdapter<UserPaymentsAdapter.ViewHolder>(query) {
 
