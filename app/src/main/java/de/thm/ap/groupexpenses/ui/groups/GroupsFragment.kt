@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.DocumentSnapshot
@@ -42,11 +43,15 @@ class GroupsFragment : RecyclerFragment(), GroupsAdapter.OnGroupSelectedListener
                 adapter = object : GroupsAdapter(query, this@GroupsFragment) {
                     override fun onDataChanged() {
                         if (itemCount == 0) {
-                            binding.recyclerGroups.visibility  = View.GONE
-                            binding.groupsEmptyView.visibility = View.VISIBLE
+                            binding.recyclerGroups.visibility      = View.GONE
+                            binding.groupsEmptyView.visibility     = View.VISIBLE
+                            binding.groupsTutorialArrow.visibility = View.VISIBLE
+                            binding.groupsTutorialText.visibility  = View.VISIBLE
                         } else {
-                            binding.recyclerGroups.visibility  = View.VISIBLE
-                            binding.groupsEmptyView.visibility = View.GONE
+                            binding.recyclerGroups.visibility      = View.VISIBLE
+                            binding.groupsEmptyView.visibility     = View.GONE
+                            binding.groupsTutorialArrow.visibility = View.GONE
+                            binding.groupsTutorialText.visibility  = View.GONE
                         }
                     }
                 }
