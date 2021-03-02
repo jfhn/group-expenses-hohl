@@ -14,8 +14,12 @@ import com.google.firebase.ktx.Firebase
 import de.thm.ap.groupexpenses.adapter.AchievementsAdapter
 import de.thm.ap.groupexpenses.databinding.FragmentAchievementsBinding
 import de.thm.ap.groupexpenses.model.Achievement
+import de.thm.ap.groupexpenses.model.Achievement.Companion.getAchievements
 import de.thm.ap.groupexpenses.model.UserData
 
+/**
+ * The achievements fragment used to display the user's achievements.
+ */
 class AchievementsFragment : Fragment() {
 
     private val viewModel: AchievementsViewModel by viewModels()
@@ -34,7 +38,7 @@ class AchievementsFragment : Fragment() {
         }
 
         viewModel.userData.observe(viewLifecycleOwner) { userData ->
-            val achievements = Achievement.getAchievements(userData)
+            val achievements = getAchievements(userData)
 
             val adapter = AchievementsAdapter(achievements)
 
