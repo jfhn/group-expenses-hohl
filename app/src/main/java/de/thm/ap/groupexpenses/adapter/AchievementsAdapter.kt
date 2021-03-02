@@ -6,6 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import de.thm.ap.groupexpenses.databinding.ItemAchievementBinding
 import de.thm.ap.groupexpenses.model.Achievement
 
+/**
+ * The achievements adapter, containing the achievements data to be displayed.
+ *
+ * @param achievements the achievements to be displayed.
+ */
 class AchievementsAdapter(private val achievements: List<Achievement>)
     : RecyclerView.Adapter<AchievementsAdapter.AchievementsViewHolder>() {
 
