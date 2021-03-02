@@ -26,6 +26,18 @@ import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroup
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroupMember
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.joinGroup
 
+/**
+ * This activity is the main activity. It contains the following fragments:
+ * - GroupsFragment
+ * - UserPaymentsFragment
+ * - UserStatisticsFragment
+ * - SettingsFragment
+ *
+ * @see de.thm.ap.groupexpenses.ui.groups.GroupsFragment
+ * @see de.thm.ap.groupexpenses.ui.payments.UserPaymentsFragment
+ * @see de.thm.ap.groupexpenses.ui.statistics.UserStatisticsFragment
+ * @see de.thm.ap.groupexpenses.ui.settings.SettingsFragment
+ */
 class MainActivity : AppCompatActivity() {
     companion object {
         const val RC_SIGN_IN = 9001

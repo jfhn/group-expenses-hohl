@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import de.thm.ap.groupexpenses.model.GroupExpense
 
 /**
- * This class contains the UI related data for expense detail activity.
+ * This class contains the UI related data for the expense detail activity.
  *
  * @param app the current application state.
  *

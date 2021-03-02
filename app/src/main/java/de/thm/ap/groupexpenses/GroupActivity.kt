@@ -36,6 +36,8 @@ import de.thm.ap.groupexpenses.util.GroupMembershipChecker
  *
  * @see ExpensesFragment
  * @see GroupMembersFragment
+ * @see GroupPaymentsFragment
+ * @see GroupStatisticsFragment
  */
 class GroupActivity : AppCompatActivity() {
 

@@ -9,6 +9,9 @@ import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityGroupFormBinding
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
 
+/**
+ * This activity is used to create groups.
+ */
 class GroupFormActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGroupFormBinding
 

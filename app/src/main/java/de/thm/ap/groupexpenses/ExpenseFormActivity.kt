@@ -20,6 +20,9 @@ import de.thm.ap.groupexpenses.worker.FirebaseWorker.getExpense
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.setExpense
 import java.util.*
 
+/**
+ * This activity is used to create expenses.
+ */
 class ExpenseFormActivity : AppCompatActivity() {
     private val viewModel: ExpenseFormViewModel by viewModels()
     private lateinit var binding: ActivityExpenseFormBinding

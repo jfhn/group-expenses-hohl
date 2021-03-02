@@ -16,6 +16,9 @@ import de.thm.ap.groupexpenses.util.DateUtil.getYearMonthDay
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
 import java.util.*
 
+/**
+ * This activity is used to create payments.
+ */
 class PaymentFormActivity : AppCompatActivity() {
 
     private val viewModel: PaymentFormViewModel by viewModels()
@@ -43,7 +46,6 @@ class PaymentFormActivity : AppCompatActivity() {
         }
     }
 
-    // TODO(refactor): pull out
     private fun showDatePickerDialog() {
         val (year, month, day) = viewModel.date.value!!.getYearMonthDay()
 
