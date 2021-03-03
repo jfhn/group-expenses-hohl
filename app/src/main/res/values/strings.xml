@@ -39,6 +39,7 @@
     <string name="currency_euro">€</string>
     <string name="interval">Intervall</string>
     <string name="confirm_delete_expense">Soll die Ausgabe wirklich gelöscht werden?</string>
+    <string name="delete_expense">Ausgabe löschen</string>
     <string name="recurring">Wiederkehrend</string>
     <string name="expenses_hint">Die Kosten der Ausgabe in €</string>
     <string name="expenses_date_hint">Das Datum der Ausgabe</string>
