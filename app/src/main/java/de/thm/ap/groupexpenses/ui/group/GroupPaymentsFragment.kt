@@ -21,6 +21,9 @@ import de.thm.ap.groupexpenses.ui.RecyclerFragment
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.groupPaymentsQuery
 
+/**
+ * The group payments fragment, used to display the group's payments in the group activity.
+ */
 class GroupPaymentsFragment : RecyclerFragment() {
     private lateinit var binding: FragmentGroupPaymentsBinding
     private val groupViewModel: GroupViewModel by activityViewModels()
@@ -33,6 +36,7 @@ class GroupPaymentsFragment : RecyclerFragment() {
         binding = FragmentGroupPaymentsBinding.inflate(inflater, container, false)
         initRecyclerView()
 
+        // Bind the FAB for adding payments
         binding.addPaymentButton.setOnClickListener {
             startActivity(Intent(context, PaymentFormActivity::class.java).apply {
                 putExtra(KEY_GROUP_ID, groupViewModel.groupId)

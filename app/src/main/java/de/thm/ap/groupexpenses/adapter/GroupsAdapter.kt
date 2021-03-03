@@ -12,6 +12,16 @@ import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import java.util.*
 
+/**
+ * The groups adapter, used for displaying the groups of the user.
+ * Data changes in the backend will be reflected in real time.
+ *
+ * @param query    The (data) query for the firestore adapter
+ * @param listener The on expense selected listener to process the selection of an element
+ *                 of the groups list.
+ *
+ * @see FirestoreAdapter
+ */
 open class GroupsAdapter(query: Query, private val listener: OnGroupSelectedListener)
     : FirestoreAdapter<GroupsAdapter.ViewHolder>(query) {
 
@@ -28,7 +38,7 @@ open class GroupsAdapter(query: Query, private val listener: OnGroupSelectedList
     }
 
     class ViewHolder(val binding: ItemGroupBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(snapshot: DocumentSnapshot, listener: OnGroupSelectedListener?) {
+        fun bind(snapshot: DocumentSnapshot, listener: OnGroupSelectedListener) {
             val group: Group = snapshot.toObject() ?: return
             val resources = binding.root.resources
 
@@ -51,12 +61,13 @@ open class GroupsAdapter(query: Query, private val listener: OnGroupSelectedList
                     group.latestUpdate?.formatGerman()
             )
 
+            // Add a color to the group's expenses balance to reflect positive or negative balances
             val color = if (group.getPersonalBalance() < 0) R.color.red else R.color.black
 
             binding.itemGroupExpenses.setTextColor(resources.getColor(color, null))
 
             binding.root.setOnClickListener {
-                listener?.onGroupSelected(snapshot)
+                listener.onGroupSelected(snapshot)
             }
         }
     }

@@ -27,6 +27,18 @@ import de.thm.ap.groupexpenses.ui.group.GroupPaymentsFragment
 import de.thm.ap.groupexpenses.ui.group.GroupStatisticsFragment
 import de.thm.ap.groupexpenses.util.GroupMembershipChecker
 
+/**
+ * The group activity, containing four fragments for displaying a single group's data:
+ * - ExpensesFragment
+ * - GroupMembersFragment
+ * - GroupPaymentsFragment
+ * - GroupStatisticsFragment
+ *
+ * @see ExpensesFragment
+ * @see GroupMembersFragment
+ * @see GroupPaymentsFragment
+ * @see GroupStatisticsFragment
+ */
 class GroupActivity : AppCompatActivity() {
 
     private val viewModel: GroupViewModel by viewModels()

@@ -4,6 +4,15 @@ import android.content.res.Resources
 import de.thm.ap.groupexpenses.R
 import kotlin.math.absoluteValue
 
+/**
+ * This enum contains all available achievements and shamements.
+ *
+ * @param isShamement        Describes whether the achievement is a shamement.
+ * @param fulfillment        The criteria to check if the achievement is reached. This data should
+ *                           be saved in the achievementProgress map of the UserData class.
+ * @param displayName        The name / title of the achievement.
+ * @param displayDescription The description of the achievement.
+ */
 @Suppress("unused") // used in companion object: getAchievements()
 enum class Achievement(val isShamement: Boolean,
                        private val fulfillment: (UserData) -> Boolean,
@@ -30,10 +39,19 @@ enum class Achievement(val isShamement: Boolean,
     NEGATIVE_BALANCE250(true, {getNegativeBalance(it) > 250}, R.string.shamement_negative_balance_250, R.string.shamement_negative_balance_250_desc),
     NEGATIVE_BALANCE500(true, {getNegativeBalance(it) > 500}, R.string.shamement_negative_balance_500, R.string.shamement_negative_balance_500_desc);
 
+    /**
+     * @return The name of the achievement to display.
+     */
     fun getName(resources: Resources): String = resources.getString(this.displayName)
 
+    /**
+     * @return The description of the achievement to display.
+     */
     fun getDescription(resources: Resources): String = resources.getString(this.displayDescription)
 
+    /**
+     * @return The type of the achievement to display.
+     */
     fun getType(resources: Resources): String = resources.getString(if (this.isShamement) SHAMEMENT else ACHIEVEMENT)
 
     companion object {
@@ -50,13 +68,24 @@ enum class Achievement(val isShamement: Boolean,
         private fun getNegativeBalance(userData: UserData): Int =
             userData.achievementProgress["maxNegativeBalance"]?.absoluteValue ?: 0
 
+        /**
+         * @return A list of all reached achievements.
+         */
         fun getAchievements(userData: UserData): List<Achievement> = values().filter {
             it.fulfillment.invoke(userData)
         }.reversed()
 
+        /**
+         * @param achievements A list of achievements and shamements.
+         * @return The number of achievements in the provided list.
+         */
         fun getAchievementCount(achievements: List<Achievement>): Int =
                 achievements.size - getShamementCount(achievements)
 
+        /**
+         * @param achievements A list of achievements and shamements.
+         * @return The number of shamements in the provided list.
+         */
         fun getShamementCount(achievements: List<Achievement>): Int =
                 achievements.count { it.isShamement }
     }

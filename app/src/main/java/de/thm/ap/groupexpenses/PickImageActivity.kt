@@ -18,6 +18,9 @@ import de.thm.ap.groupexpenses.worker.FirebaseWorker
 import de.thm.ap.groupexpenses.ExpensesDetailActivity.Companion.KEY_PICK_WITH_CAMERA
 import java.io.File
 
+/**
+ * This activity is used to pick and crop receipts.
+ */
 class PickImageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPickImageBinding

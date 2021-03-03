@@ -11,6 +11,9 @@ import de.thm.ap.groupexpenses.databinding.FragmentGroupStatisticsBinding
 import de.thm.ap.groupexpenses.model.Group
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.groupMembersQuery
 
+/**
+ * The group statistics fragment, used to display the group's statistics in the group activity.
+ */
 class GroupStatisticsFragment : Fragment() {
     private lateinit var binding: FragmentGroupStatisticsBinding
     private val groupViewModel: GroupViewModel by activityViewModels()

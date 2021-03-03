@@ -18,6 +18,17 @@ import de.thm.ap.groupexpenses.model.GroupPayment
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
 import java.util.*
 
+/**
+ * The group payments adapter, containing the group payments data for the provided group.
+ * Data changes in the backend will be reflected in real time.
+ *
+ * @param query   The (data) query for the firestore adapter
+ * @param isAdmin TRUE, if the current user is an admin of that group; FALSE otherwise
+ * @param context The containing context
+ * @param groupId The id of the group, the adapter is used for
+ *
+ * @see FirestoreAdapter
+ */
 open class GroupPaymentsAdapter(query: Query,
                                 private val isAdmin: Boolean,
                                 private val context: Context,
@@ -47,6 +58,7 @@ open class GroupPaymentsAdapter(query: Query,
 
             binding.itemGroupPaymentDelete.visibility =
                 if (isAdmin || groupPayment.userId == Firebase.auth.currentUser?.uid) {
+                    // Allow admins and the payment owner to delete a created payment
                     binding.itemGroupPaymentDelete.setOnClickListener {
                         AlertDialog.Builder(context).apply {
                             setTitle(R.string.delete_payment)

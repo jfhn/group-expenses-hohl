@@ -10,6 +10,9 @@ import de.thm.ap.groupexpenses.MainActivity
 import de.thm.ap.groupexpenses.databinding.FragmentSettingsBinding
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
 
+/**
+ * The settings fragment, used to display the user name and the user email in the main activity.
+ */
 class SettingsFragment : Fragment() {
 
     private val userViewModel: UserViewModel by activityViewModels()

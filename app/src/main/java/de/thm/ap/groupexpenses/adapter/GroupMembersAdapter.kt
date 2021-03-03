@@ -16,6 +16,17 @@ import de.thm.ap.groupexpenses.databinding.ItemGroupMemberBinding
 import de.thm.ap.groupexpenses.model.GroupMember
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
 
+/**
+ * The group members adapter, containing the group member data for the provided group.
+ * Data changes in the backend will be reflected in real time.
+ *
+ * @param query    The (data) query for the firestore adapter
+ * @param isAdmin  TRUE, if the current user is an admin of that group; FALSE otherwise
+ * @param groupId  The id of the group, the adapter is used for
+ * @param activity The containing activity
+ *
+ * @see FirestoreAdapter
+ */
 open class GroupMembersAdapter(query: Query,
                                private val isAdmin: Boolean,
                                private val groupId: String,
@@ -36,6 +47,7 @@ open class GroupMembersAdapter(query: Query,
         fun bind(snapshot: DocumentSnapshot) {
             val groupMember: GroupMember = snapshot.toObject() ?: return
 
+            // Display user name and role
             binding.itemGroupMemberName.text = groupMember.userName
             binding.itemGroupMemberRole.text = when (groupMember.role) {
                 "admin"  -> binding.root.resources.getString(R.string.admin)
@@ -47,6 +59,8 @@ open class GroupMembersAdapter(query: Query,
             val canLeave     = !isAdmin || isLastMember
 
             if (Firebase.auth.currentUser!!.uid == groupMember.id && canLeave) {
+                /* Display the "leave group" button for the current user. The user can't leave,
+                 * if he is an admin and there are still other members in the group. */
                 binding.itemGroupMemberKick.visibility  = View.GONE
                 binding.itemGroupMemberLeave.visibility = View.VISIBLE
 
@@ -65,26 +79,26 @@ open class GroupMembersAdapter(query: Query,
                         show()
                     }
                 }
-            } else if (groupMember.role != "admin") {
+            } else if (isAdmin && groupMember.role != "admin") {
+                /* Display a "kick member" button if the user is an admin and
+                 * the current group member is not. */
                 binding.itemGroupMemberLeave.visibility = View.GONE
+                binding.itemGroupMemberKick.visibility  = View.VISIBLE
 
-                binding.itemGroupMemberKick.visibility = if (isAdmin) {
-                    binding.itemGroupMemberKick.setOnClickListener {
-                        AlertDialog.Builder(activity).apply {
-                            setTitle(R.string.kick_member)
-                            val message = context.getString(R.string.confirm_kick_desc1) + groupMember.userName + context.getString(R.string.confirm_kick_desc2)
-                            setMessage(message)
-                            setNeutralButton(R.string.cancel, null)
-                            setNegativeButton(R.string.kick_member) { _, _ ->
-                                FirebaseWorker.kickMemberFromGroup(groupId, groupMember.id!!)
-                            }
-                            show()
+                binding.itemGroupMemberKick.setOnClickListener {
+                    AlertDialog.Builder(activity).apply {
+                        setTitle(R.string.kick_member)
+                        val message = context.getString(R.string.confirm_kick_desc1) + groupMember.userName + context.getString(R.string.confirm_kick_desc2)
+                        setMessage(message)
+                        setNeutralButton(R.string.cancel, null)
+                        setNegativeButton(R.string.kick_member) { _, _ ->
+                            FirebaseWorker.kickMemberFromGroup(groupId, groupMember.id!!)
                         }
+                        show()
                     }
-
-                    View.VISIBLE
-                } else View.GONE
+                }
             } else {
+                // Hide both buttons if none of the above applies
                 binding.itemGroupMemberLeave.visibility = View.GONE
                 binding.itemGroupMemberKick.visibility  = View.GONE
             }

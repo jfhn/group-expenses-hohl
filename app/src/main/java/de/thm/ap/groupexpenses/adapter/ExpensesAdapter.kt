@@ -17,6 +17,16 @@ import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.util.DateUtil.toDateOnly
 import java.util.*
 
+/**
+ * The group expenses adapter, containing the group's expenses data to be displayed in a timeline.
+ * Data changes in the backend will be reflected in real time.
+ *
+ * @param query    The (data) query for the firestore adapter
+ * @param listener The on expense selected listener to process the selection of an element
+ *                 of the group expenses timeline.
+ *
+ * @see FirestoreAdapter
+ */
 open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelectedListener)
     : FirestoreAdapter<ExpensesAdapter.ViewHolder>(query) {
 
@@ -92,6 +102,7 @@ open class ExpensesAdapter(query: Query, private val listener: OnExpenseSelected
             )
             binding.textTimelineDate.text = expense.date!!.formatGerman()
 
+            // Forward an on click listener to the provided on expense selected listener
             binding.expenseCard.setOnClickListener {
                 listener.onExpenseSelected(snapshot)
             }

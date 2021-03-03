@@ -14,6 +14,9 @@ import de.thm.ap.groupexpenses.ui.RecyclerFragment
 import de.thm.ap.groupexpenses.ui.user.UserViewModel
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.userPaymentsQuery
 
+/**
+ * The user payments fragment, used to display the user's payments in the main activity.
+ */
 class UserPaymentsFragment : RecyclerFragment() {
 
     private val userViewModel: UserViewModel by activityViewModels()

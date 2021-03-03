@@ -17,13 +17,16 @@ import com.google.android.gms.tasks.Task
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_GROUP_ID
 import de.thm.ap.groupexpenses.databinding.ActivityExpensesDetailBinding
-import de.thm.ap.groupexpenses.model.ExpensesDetailViewModel
 import de.thm.ap.groupexpenses.model.GroupExpense
 import de.thm.ap.groupexpenses.util.DateUtil.formatGerman
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getExpense
 import java.util.*
 
+/**
+ * This activity is used to give information about a specific expense.
+ * The group id and the expense id are provided by the intent extras.
+ */
 class ExpensesDetailActivity : AppCompatActivity() {
 
     private val viewModel: ExpensesDetailViewModel by viewModels()
@@ -37,7 +40,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel.groupId = intent.extras?.getString(KEY_GROUP_ID)
-            ?: throw IllegalArgumentException("must pass extra: $KEY_EXPENSE_ID")
+            ?: throw IllegalArgumentException("must pass extra: $KEY_GROUP_ID")
 
         viewModel.expenseId = intent.extras?.getString(KEY_EXPENSE_ID)
             ?: throw IllegalArgumentException("must pass extra: $KEY_EXPENSE_ID")

@@ -18,6 +18,9 @@ import de.thm.ap.groupexpenses.ui.RecyclerFragment
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.getGroupMember
 import de.thm.ap.groupexpenses.worker.FirebaseWorker.groupMembersQuery
 
+/**
+ * The group members fragment, used to display the group's members in the group activity.
+ */
 class GroupMembersFragment : RecyclerFragment() {
     private lateinit var binding: FragmentGroupMembersBinding
     private val groupViewModel: GroupViewModel by activityViewModels()
