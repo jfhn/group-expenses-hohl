@@ -196,7 +196,7 @@ class ExpensesDetailActivity : AppCompatActivity() {
                 val ctx = applicationContext
 
                 AlertDialog.Builder(this).apply {
-                    setTitle(R.string.stats)
+                    setTitle(R.string.delete_expense)
                     setMessage(R.string.confirm_delete_expense)
                     setNegativeButton(R.string.delete) { _, _ ->
                         FirebaseWorker
