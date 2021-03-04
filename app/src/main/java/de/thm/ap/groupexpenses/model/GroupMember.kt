@@ -2,8 +2,6 @@ package de.thm.ap.groupexpenses.model
 
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
-import com.google.firebase.firestore.ServerTimestamp
-import java.util.*
 
 /**
  * This class represents the document of a group member in the firestore database.
@@ -25,8 +23,6 @@ class GroupMember {
      * The role of the user.
      */
     var role: String? = null
-
-    @ServerTimestamp var joinDate: Date? = null // TODO(@Renke): unused var
 
     /**
      * The sum of all expenses that the user has made in groups.
