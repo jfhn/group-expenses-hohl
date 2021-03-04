@@ -5,17 +5,16 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import de.thm.ap.groupexpenses.ExpensesDetailActivity.Companion.KEY_PICK_WITH_CAMERA
 import de.thm.ap.groupexpenses.GroupActivity.Companion.KEY_EXPENSE_ID
 import de.thm.ap.groupexpenses.databinding.ActivityPickImageBinding
 import de.thm.ap.groupexpenses.worker.FirebaseWorker
-import de.thm.ap.groupexpenses.ExpensesDetailActivity.Companion.KEY_PICK_WITH_CAMERA
 import java.io.File
 
 /**
@@ -126,19 +125,21 @@ class PickImageActivity : AppCompatActivity() {
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             }
 
+            /*
+            // we wanted to implement an error check for the intent,
+            // but that lead to issues for some newer android versions
             if (intent.resolveActivity(packageManager) == null) {
                 // error
-                Log.w(TAG, "Could not resolve activity")
+                Log.e(TAG, "Could not resolve activity")
                 finish()
                 return
             }
+            */
 
             tmpImageUri = photoUri
             startActivityForResult(intent, requestCode)
         } else {
             val intent = Intent(Intent.ACTION_GET_CONTENT).setType("image/*")
-
-            // optional TODO: resolve activity, but it does not work so easily
 
             startActivityForResult(intent, requestCode)
         }
